@@ -137,11 +137,9 @@ socket.api_v1(({menu, tourney}) => {
         }
 
         // 双边分数
-        // const leftScore = tourney.manager.gameplay.score.left;
-        // const rightScore = tourney.manager.gameplay.score.right;
-        // 随机一个100w以内的数字作为双边分数作为测试
-        const leftScore = Math.floor(Math.random() * 6000000);
-        const rightScore = Math.floor(Math.random() * 0);
+        const leftScore = tourney.manager.gameplay.score.left;
+        const rightScore = tourney.manager.gameplay.score.right;
+
 
         if (leftScore !== cache.leftScore || rightScore !== cache.rightScore) {
             cache.leftScore = leftScore;
