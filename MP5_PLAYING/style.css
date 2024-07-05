@@ -1,0 +1,724 @@
+@font-face {
+    font-family: "Resource-Han-Rounded-CN-Regular";
+    src: url('../COMMON/font/ResourceHanRoundedCN-Regular.ttf');
+}
+
+@font-face {
+    font-family: "TorusNotched-Regular";
+    src: url('../COMMON/font/TorusNotched-Regular.ttf');
+}
+
+@font-face {
+    font-family: "YouSheBiaoTiHei";
+    src: url('../COMMON/font/YouSheBiaoTiHei-2.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+.container {
+    position: absolute;
+    width: 2560px;
+    height: calc(1440px + 250px);
+}
+
+#match-round-container {
+    position: absolute;
+    top: 36px;
+    left: 1194px;
+    width: 171px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+}
+
+#match-round {
+    font-family: "Resource-Han-Rounded-CN-Regular";
+    font-size: 23px;
+    line-height: 48px;
+}
+
+#carousel {
+    position: absolute;
+    overflow: hidden; /* 超出隐藏 */
+    right: 22px;
+    top: 22px;
+    width: 420px;
+    height: 76px;
+    border-radius: 34px;
+}
+
+#carousel img {
+    position: absolute;
+    left: -9px;
+    top: -9px;
+    width: 440px;
+    height: 96px;
+}
+
+#carousel > ul,
+#carousel > ul > li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.slide { /* 每个幻灯片样式 */
+    position: absolute;
+    width: 100%;
+    opacity: 0; /* 初始不透明度为0 */
+    transition: opacity 1s ease-in-out; /* 淡入淡出过渡效果 */
+}
+
+.slide.active { /* 当前显示幻灯片的样式 */
+    opacity: 1; /* 显示 */
+}
+
+
+#playing-bg {
+    position: absolute;
+}
+
+#logo {
+    position: absolute;
+    width: 317px;
+    height: 114px;
+}
+
+
+#team-a-container {
+    position: absolute;
+    top: 1086px;
+    height: 158px;
+    width: 1280px;
+}
+
+#team-a-name-container {
+    position: absolute;
+    width: 640px;
+    height: 83px;
+    background-color: #824242;
+    border-radius: 0px 0px 20px 0px;
+
+}
+
+#team-a-avatar {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    width: 79px;
+    height: 53px;
+}
+
+#team-a-name {
+    font-family: "YouSheBiaoTiHei";
+    font-size: 42px;
+    position: absolute;
+    left: 111px;
+    top: 15px;
+    color: #ffffff;
+    width: 525px;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#team-a-star-container {
+    position: absolute;
+    left: 6px;
+    top: 107px;
+    display: flex;
+    gap: 8px;
+}
+
+.team-a-star {
+    width: 50px;
+    height: 50px;
+    background-color: #824242;
+    border-radius: 10px;
+}
+
+.team-a-star-slot {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: solid 5px #824242;
+    box-sizing: border-box;
+}
+
+#team-a-score-bar {
+    position: absolute;
+    right: 17px;
+    top: 22px;
+    width: 600px;
+    height: 60px;
+    background-color: #824242;
+    border-radius: 30px;
+    display: none;
+}
+
+#team-a-score {
+    position: absolute;
+    right: 40px;
+    top: 90px;
+    text-align: right;
+    font-size: 75px;
+    color: #ffffff;
+    font-family: 'TorusNotched-Regular';
+}
+
+
+#team-b-container {
+    position: absolute;
+    top: 1086px;
+    right: 0;
+    height: 158px;
+    width: 1280px;
+}
+
+#team-b-name-container {
+    position: absolute;
+    width: 640px;
+    height: 83px;
+    right: 0;
+    background-color: #415a8a;
+    border-radius: 0px 0px 0px 20px;
+
+}
+
+#team-b-star-container {
+    position: absolute;
+    right: 6px;
+    top: 107px;
+    display: flex;
+    gap: 8px;
+}
+
+
+.team-b-star {
+    width: 50px;
+    height: 50px;
+    background-color: #415a8a;
+    border-radius: 10px;
+}
+
+.team-b-star-slot {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: solid 5px #415a8a;
+    box-sizing: border-box;
+}
+
+#team-b-avatar {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 79px;
+    height: 53px;
+}
+
+#team-b-name {
+    font-family: "YouSheBiaoTiHei";
+    font-size: 42px;
+    position: absolute;
+    right: 111px;
+    top: 15px;
+    color: #ffffff;
+    width: 525px;
+    /*右对齐*/
+    text-align: right;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#team-b-score-bar {
+    position: absolute;
+    left: 17px;
+    top: 22px;
+    width: 600px;
+    height: 60px;
+    background-color: #415a8a;
+    border-radius: 30px;
+    display: none;
+}
+
+#team-b-score {
+    position: absolute;
+    left: 40px;
+    top: 90px;
+    text-align: right;
+    font-size: 75px;
+    color: #ffffff;
+    font-family: 'TorusNotched-Regular';
+}
+
+
+#magic-name-container {
+    position: absolute;
+    width: 570px;
+    height: 114px;
+    left: 23px;
+    top: 1270px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+#magic-name {
+    font-family: "YouSheBiaoTiHei";
+    font-size: 59px;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+#magic-note-container {
+    position: absolute;
+    left: 489px;
+    top: 277px;
+    width: 1582px;
+    height: 655px;
+    background-color: #2d2b28;
+    border-radius: 70px;
+    display: none;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+#magic-label {
+    font-family: "YouSheBiaoTiHei";
+    font-size: 133px;
+    color: #ffffff;
+    /*居中*/
+    text-align: center;
+}
+
+#magic-note-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#magic-note {
+    font-family: "YouSheBiaoTiHei";
+    font-size: 75px;
+    width: 998px;
+    color: #ffffff;
+    text-align: center;
+}
+#magic-full-note-container{
+    background-color: #2d2b28;
+    opacity: 0.76;
+    width: 2560px;
+    height: 32px;
+    position: absolute;
+    bottom: 250px;
+}
+
+#magic-full-note {
+    position: absolute;
+    bottom: 6px;
+    width: 2560px;
+    height: 21px;
+    font-size: 21px;
+    color: #ffffff;
+}
+
+
+/* 闪烁动画 */
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    /* 开始和中间阶段，元素完全可见 */
+    25%, 75% {
+        opacity: 0;
+    }
+    /* 中间过渡阶段，元素变为不可见 */
+}
+
+/* 初始状态 */
+.animated {
+    opacity: 0; /* 默认不显示 */
+    animation: blink 1s linear 3; /* 动画持续1秒，线性变化，重复3次 */
+    animation-fill-mode: both; /* 确保动画在开始前和结束后保持最后一帧的样式 */
+}
+
+/* 动画结束后，保持可见 */
+.animated.shown {
+    animation: none; /* 移除闪烁动画 */
+    opacity: 1; /* 保持完全可见 */
+}
+
+/* 淡出过渡 */
+.animated.fade-out {
+    transition: opacity 0.5s ease; /* 透明度过渡0.5秒，效果平滑 */
+    opacity: 0; /* 淡出至完全透明 */
+}
+
+
+.rolling-girl {
+    padding-left: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    animation: 40s wordsLoop linear infinite normal;
+}
+
+@keyframes wordsLoop {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+#chat {
+    position: absolute;
+    width: 1160px;
+    height: 273px;
+    top: 1121px;
+    left: 700px;
+    background-color: #383532;
+    border-radius: 27px;
+    border: solid 6px #33302f;
+    box-sizing: border-box;
+    display: none;
+}
+
+#chat-overlay {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 143px;
+    height: 36px;
+    background-color: #33302f;
+    border-radius: 21px 0px 21px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+#chat-label {
+    font-size: 18px;
+    color: #ffffff;
+    /*垂直居中*/
+    line-height: 36px;
+}
+
+#chat-content-container {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 1140px;
+    height: 253px;
+}
+
+#chat-content {
+    font-size: 24px;
+    line-height: 34px;
+    color: #ffffff;
+}
+
+#chat-bg {
+    position: absolute;
+    width: 1260px;
+    height: 273px;
+}
+
+
+#map-info-container {
+    position: absolute;
+    left: 697px;
+    top: 1270px;
+    width: 1167px;
+    height: 119px;
+    border-radius: 42px;
+}
+
+.picked-by-team-a{
+    border-color: #824242;
+    border-width: 8px;
+    border-style: solid;
+}
+.picked-by-team-b{
+    border-color: #415a8a;
+    border-width: 8px;
+    border-style: solid;
+}
+
+.team-a-map-mod-container {
+    width: 109px;
+    height: 39px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    /*水平垂直居中*/
+    justify-content: center;
+    align-content: center;
+
+    /*用#824242填充这个div*/
+    background-color: #824242;
+    border-radius: 34px 0px 34px 0px;
+    z-index: 2;
+}
+
+.team-a-map-mod {
+    width: 58px;
+    height: 24px;
+    font-family: TorusNotched-Regular;
+    font-size: 29px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+.team-b-map-mod-container {
+    width: 109px;
+    height: 39px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    /*水平垂直居中*/
+    justify-content: center;
+    align-content: center;
+
+    /*用#415a8a填充这个div*/
+    background-color: #415a8a;
+    border-radius: 34px 0px 34px 0px;
+    z-index: 2;
+}
+
+.team-b-map-mod {
+    width: 58px;
+    height: 24px;
+    font-family: TorusNotched-Regular;
+    font-size: 29px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+
+
+
+#map-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保持图片的宽高比并填充容器 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+    border-radius: 34px;
+    filter: brightness(60%);
+}
+
+
+#map-title {
+    position: absolute;
+    width: 842px;
+    font-family: Resource-Han-Rounded-CN-Regular;
+    font-size: 33px;
+    color: #ffffff;
+    left: 160px;
+    top: 15px;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+    /* 水平居中 */
+    text-align: center;
+}
+
+#map-data-container {
+    position: absolute;
+    top: 71px;
+    left: 78px;
+    width: 1010px;
+    text-align: center;
+}
+
+.map-data-text {
+    color: #efca1b;
+    font-size: 28px;
+    font-family: Resource-Han-Rounded-CN-Regular;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+.map-data-label {
+    color: #ffffff;
+    font-size: 28px;
+    font-family: Resource-Han-Rounded-CN-Regular;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+.control-panel {
+    background: #363636;
+    width: 2560px;
+    height: 250px;
+    position: absolute;
+    top: 1440px;
+}
+
+.panel-title {
+    font-family: 'TorusNotched-Regular';
+    font-size: 30px;
+    color: #FFFFFF;
+    position: absolute;
+
+    top: 3px;
+    left: 10px;
+
+}
+
+.panel-buttons {
+    position: relative;
+}
+
+.panel-label {
+    font-family: 'TorusNotched-Regular';
+    font-size: 25px;
+    color: #FFFFFF;
+}
+
+.button-inactive {
+    background-color: #1d536e;
+    border-radius: 8px;
+    width: 100px;
+    height: 48px;
+    font-family: 'TorusNotched-Regular';
+    font-size: 20px;
+    color: #808080;
+    border: none;
+}
+
+.button-active {
+    background-color: #44aadd;
+    border-radius: 8px;
+    width: 100px;
+    height: 48px;
+    font-family: 'TorusNotched-Regular';
+    font-size: 20px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.button-active:hover {
+    background-color: #64cafd;
+}
+
+.button-inactive:hover {
+    background-color: #2b617c;
+}
+
+.round-control {
+    position: absolute;
+    width: 480px;
+    top: 40px;
+}
+
+.magic-control {
+    position: absolute;
+    left: 500px;
+    top: 40px;
+    width: 600px;
+}
+
+.magic-data-control {
+    position: absolute;
+    left: 1140px;
+    top: 40px;
+    /*暂时不做魔法具体参数 由解说控制 如果第二轮需求高再加回来*/
+    display: none;
+}
+
+.round-control-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+#magic-control-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+#magic-c-container {
+    display: none;
+}
+
+#magic-c-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+
+}
+
+#magic-d-container {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    display: none;
+}
+
+.team-a-player-list,
+.team-b-player-list {
+    display: flex;
+    gap: 20px;
+}
+
+#magic-e-container {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    display: none;
+}
+
+#magic-g-container {
+    display: none;
+}
+
+#magic-g-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+#magic-j-container {
+    display: none;
+}
+
+#magic-j-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.magic-confirm-control {
+    position: absolute;
+    right: 50px;
+    top: 70px;
+}
+
+.magic-confirm-control button {
+    width: 200px;
+    height: 100px;
+    /*暂时不做魔法具体参数 由解说控制 如果第二轮需求高再加回来*/
+    display: none;
+}

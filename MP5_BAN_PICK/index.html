@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ban Pick Interface</title>
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <img id="ban-pick-bg" src="../COMMON/img/ban_pick_bg.png">
+
+    <div id="team-a">
+        <img id="team-a-avatar">
+        <span id="team-a-name"></span>
+        <div id="team-a-player-list">
+
+        </div>
+    </div>
+
+    <div id="team-b">
+
+        <img id="team-b-avatar">
+        <span id="team-b-name"></span>
+
+        <div id="team-b-player-list">
+
+        </div>
+
+    </div>
+
+
+    <span id="operation-hint">当前操作：无</span>
+
+    <div id="operation-container">
+
+        <div id="team-a-operation">
+
+
+        </div>
+
+        <div id="team-b-operation">
+
+        </div>
+    </div>
+
+    <div class="control-panel">
+        <span class="panel-title">Control Panel</span>
+        <div class="panel-buttons">
+
+            <div class="round-control">
+                <div class="panel-label"><span>1. 选择图池轮次</span></div>
+                <div class="panel-label"><span id="current-match">当前轮次：</span></div>
+                <button id="button-match-previous" class="button-active">上一轮</button>
+                <button id="button-match-next" class="button-active">下一轮</button>
+                <div class="panel-label"><span>选择完成后锁定图池</span></div>
+                <button id="lock" class="button-active">锁定</button>
+            </div>
+
+            <div class="ban-pick-control">
+                <div class="panel-label"><span>2. 选择当前Ban / Pick方</span></div>
+
+                <button id="button-a-ban" class="button-inactive">红色Ban</button>
+                <button id="button-b-ban" class="button-inactive">蓝色Ban</button>
+                <button id="button-a-pick" class="button-inactive">红色Pick</button>
+                <button id="button-b-pick" class="button-inactive">蓝色Pick</button>
+
+            </div>
+
+
+            <div class="map-pool-control">
+                <div class="panel-label"><span>3.选择要操作的谱面</span></div>
+
+                <div id="map-pool-mod-container">
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>

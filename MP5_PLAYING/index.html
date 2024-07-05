@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Playing Interface</title>
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <img id="playing-bg" src="../COMMON/img/playing_bg.png">
+    <div id="match-round-container">
+        <span id="match-round"></span>
+    </div>
+
+
+    <img id="logo" src="../COMMON/img/logo.png">
+
+    <div id="carousel">
+        <ul id="carousel-ul">
+            <li class="slide active">
+                <img src="carousel_img/1.png">
+            </li>
+            <li class="slide">
+                <img src="carousel_img/2.png">
+            </li>
+            <li class="slide">
+                <img src="carousel_img/3.png">
+            </li>
+            <li class="slide">
+                <img src="carousel_img/4.png">
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="team-a-container">
+        <div id="team-a-name-container">
+            <img id="team-a-avatar">
+            <span id=team-a-name></span>
+        </div>
+
+        <div id="team-a-star-container">
+
+        </div>
+
+        <div id="team-a-score-bar"></div>
+        <span id="team-a-score"></span>
+    </div>
+
+    <div id="team-b-container">
+        <div id="team-b-name-container">
+            <img id="team-b-avatar">
+            <span id=team-b-name></span>
+        </div>
+
+        <div id="team-b-star-container">
+
+        </div>
+
+        <div id="team-b-score-bar"></div>
+        <span id="team-b-score"></span>
+    </div>
+
+    <div id="chat">
+        <div id="chat-overlay">
+            <span id="chat-label">Player Chat</span>
+        </div>
+        <div id="chat-content-container">
+            <span id="chat-content">
+
+            </span>
+
+        </div>
+    </div>
+
+    <div id="magic-name-container">
+        <span id="magic-name"></span>
+    </div>
+
+    <div id="magic-note-container">
+        <span id="magic-label">特殊场地效果触发！</span>
+        <div id="magic-note-wrapper">
+            <span id="magic-note"></span>
+        </div>
+
+    </div>
+
+    <div id="map-info-container" class="picked-by-red">
+        <img id="map-cover">
+
+        <span id="map-title"></span>
+        <div id="map-data-container">
+            <span class="map-data-label">CS&nbsp;</span><span id="map-cs" class="map-data-text"></span>
+            <span class="map-data-label">AR&nbsp;</span><span id="map-ar" class="map-data-text"></span>
+            <span class="map-data-label">OD&nbsp;</span><span id="map-od" class="map-data-text"></span>
+            <span class="map-data-label">HP&nbsp;</span><span id="map-hp" class="map-data-text"></span>
+            <span class="map-data-label">BPM&nbsp;</span><span id="map-bpm" class="map-data-text"></span>
+            <span class="map-data-label">LENGTH&nbsp;</span><span id="map-length" class="map-data-text"></span>
+            <span class="map-data-label">STAR&nbsp;</span><span id="map-star" class="map-data-text"></span>
+        </div>
+        <div id="map-mod-container"><span id="map-mod"></span></div>
+
+    </div>
+    <div id="magic-full-note-container">
+        <span id="magic-full-note" class="rolling-girl"></span>
+    </div>
+
+    <div class="control-panel">
+        <span class="panel-title">Control Panel</span>
+        <div class="panel-buttons">
+
+            <div class="round-control">
+                <div class="panel-label"><span>1. 选择上方显示的比赛阶段</span></div>
+
+                <div class="round-control-buttons">
+
+                    <button id="button-match-qf" class="button-inactive">1/4决赛</button>
+
+                    <button id="button-match-sf" class="button-inactive">半决赛</button>
+                    <button id="button-match-f" class="button-inactive">决赛</button>
+
+                    <button id="button-match-gf" class="button-inactive">总决赛</button>
+
+                    <button id="button-match-winner" class="button-inactive">胜者组</button>
+                    <button id="button-match-loser" class="button-inactive">败者组</button>
+
+                </div>
+
+            </div>
+
+            <div class="magic-control">
+                <div class="panel-label"><span>2. 选择当前场地魔法，右键取消</span></div>
+                <div id="magic-control-buttons">
+
+                    <button id="A" class="button-inactive">A</button>
+                    <button id="B" class="button-inactive">B</button>
+                    <button id="C" class="button-inactive">C</button>
+                    <button id="D" class="button-inactive">D</button>
+                    <button id="E" class="button-inactive">E</button>
+
+                    <button id="F" class="button-inactive">F</button>
+                    <button id="G" class="button-inactive">G</button>
+                    <button id="H" class="button-inactive">H</button>
+                    <button id="I" class="button-inactive">I</button>
+                    <button id="J" class="button-inactive">J</button>
+                </div>
+
+            </div>
+
+
+            <div class="magic-data-control">
+                <div class="panel-label"><span>3.选择魔法所需数据</span></div>
+
+                <div id="magic-c-container">
+                    <div id="magic-c-buttons">
+                        <button id="magic-c-1" class="button-inactive">1v1</button>
+                        <button id="magic-c-2" class="button-inactive">2v2</button>
+                        <button id="magic-c-3" class="button-inactive">3v3</button>
+                        <button id="magic-c-4" class="button-inactive">4v4</button>
+                    </div>
+                    <div id="magic-d-data-note" class="panel-label"><span>请点击 非选图方为本场指定的对阵规模</span>
+                    </div>
+                </div>
+                <div id="magic-d-container">
+                    <div class="team-a-player-list">
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">My Angel Bronya</button>
+                    </div>
+                    <div class="team-b-player-list">
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                    </div>
+                    <div id="magic-d-data-note" class="panel-label">
+                        <span>请点击 双方互相公开指名【不得出场】的 1 名选手</span></div>
+                </div>
+                <div id="magic-e-container">
+                    <div class="team-a-player-list">
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">My Angel Bronya</button>
+                    </div>
+                    <div class="team-b-player-list">
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                        <button id="1234" class="button-inactive">Hinanawi Momoko</button>
+                    </div>
+                    <div id="magic-e-data-note" class="panel-label">
+                        <span>请点击 双方互相公开指名【分数翻倍】的 2 名选手</span></div>
+                </div>
+                <div id="magic-g-container">
+                    <div id="magic-g-buttons">
+                        <button id="magic-g-hd" class="button-inactive">HD</button>
+                        <button id="magic-g-hr" class="button-inactive">HR</button>
+                        <button id="magic-g-ez" class="button-inactive">EZ</button>
+                    </div>
+
+                    <div id="magic-g-data-note" class="panel-label"><span>请点击 非选图方为这张图指定的mod组合</span>
+                    </div>
+                </div>
+                <div id="magic-j-container">
+                    <div id="magic-j-buttons">
+                        <button id="magic-j-pick" class="button-inactive">立即选图</button>
+                        <button id="magic-j-not-pick" class="button-inactive">不立即选图</button>
+                    </div>
+
+                    <div id="magic-j-data-note" class="panel-label"><span>请点击 选图方是否立即选择被诅咒的图</span>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="magic-confirm-control">
+                <button id="button-confirm" class="button-active">确认魔法效果</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

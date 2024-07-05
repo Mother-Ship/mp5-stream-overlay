@@ -1,0 +1,115 @@
+@font-face {
+    font-family: "Resource-Han-Rounded-CN-Regular";
+    src: url('../COMMON/font/ResourceHanRoundedCN-Regular.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+.container {
+    position: absolute;
+    width: 2560px;
+    height: 1440px;
+}
+
+#showcase-bg {
+    position: absolute;
+}
+
+#carousel {
+    position: absolute;
+    overflow: hidden; /* 超出隐藏 */
+    left: 32px;
+    top: 1295px;
+    width: 624px;
+    height: 119px;
+    border-radius: 34px;
+}
+
+#carousel img {
+    position: absolute;
+    left: -9px;
+    top: -9px;
+}
+#carousel > ul,
+#carousel > ul > li{
+    padding: 0;
+    margin: 0;
+    list-style:none;
+}
+
+.slide { /* 每个幻灯片样式 */
+    position: absolute;
+    width: 100%;
+    opacity: 0; /* 初始不透明度为0 */
+    transition: opacity 1s ease-in-out; /* 淡入淡出过渡效果 */
+}
+
+.slide.active { /* 当前显示幻灯片的样式 */
+    opacity: 1; /* 显示 */
+}
+
+
+.map-info-container {
+    position: absolute;
+    left: 697px;
+    top: 1294px;
+    width: 1167px;
+    height: 119px;
+
+}
+
+#map-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保持图片的宽高比并填充容器 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+    border-radius: 34px;
+    filter: brightness(60%);
+}
+
+
+#map-title {
+    position: absolute;
+    width: 842px;
+    font-family: Resource-Han-Rounded-CN-Regular;
+    font-size: 33px;
+    color: #ffffff;
+    left: 160px;
+    top: 15px;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+    /* 水平居中 */
+    text-align: center;
+}
+
+#map-data-container {
+    position: absolute;
+    top: 71px;
+    left: 78px;
+    width: 1010px;
+    display: none;
+    text-align: center;
+}
+
+.map-data-text {
+    color: #efca1b;
+    font-size: 28px;
+    font-family: Resource-Han-Rounded-CN-Regular;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+.map-data-label {
+    color: #ffffff;
+    font-size: 28px;
+    font-family: Resource-Han-Rounded-CN-Regular;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
