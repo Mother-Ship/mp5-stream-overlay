@@ -43,7 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 let scoreUpdateTimer = setTimeout(() => {
     console.log('隐藏分数条、歌曲信息，展示聊天框')
-    document.getElementById('chat').style.display = 'block';
+    document.getElementById('chat').classList.remove('fade-out');
+    document.getElementById('chat').style.opacity = "1";
+    document.getElementById('chat').classList.add('fade-in');
+
     document.getElementById('map-info-container').style.display = 'none';
     document.getElementById('team-a-score-bar').style.display = 'none';
     document.getElementById('team-b-score-bar').style.display = 'none';
@@ -161,16 +164,24 @@ socket.api_v1(({menu, tourney}) => {
 
 
             // 隐藏聊天框，显示计分板
-            document.getElementById('chat').style.display = 'none';
-            document.getElementById('map-info-container').style.display = 'block';
-            document.getElementById('team-a-score-bar').style.display = 'block';
-            document.getElementById('team-b-score-bar').style.display = 'block';
+            document.getElementById('chat').classList.remove('fade-in');
+            document.getElementById('chat').classList.add('fade-out');
+            document.getElementById('chat').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('map-info-container').style.display = 'block';
+                document.getElementById('team-a-score-bar').style.display = 'block';
+                document.getElementById('team-b-score-bar').style.display = 'block';
+
+            },500)
 
             // 重置计时器的执行时间
             clearTimeout(scoreUpdateTimer);
             scoreUpdateTimer = setTimeout(() => {
                 console.log('隐藏分数条、歌曲信息，展示聊天框')
-                document.getElementById('chat').style.display = 'block';
+                document.getElementById('chat').classList.remove('fade-out');
+                document.getElementById('chat').style.opacity = "1";
+                document.getElementById('chat').classList.add('fade-in');
+
                 document.getElementById('map-info-container').style.display = 'none';
                 document.getElementById('team-a-score-bar').style.display = 'none';
                 document.getElementById('team-b-score-bar').style.display = 'none';
@@ -333,7 +344,7 @@ document.getElementById("button-match-loser").addEventListener("click", () => {
         matchRound.innerText = matchRound.innerText.replace("胜者组", "败者组");
     }
 });
-let stopBlinkTimer;
+
 let hideTimer;
 // 找到id为magic-control-buttons下面的所有buttons 添加点击事件
 document.querySelectorAll("#magic-control-buttons button").forEach(button => {
@@ -354,20 +365,14 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
 
                 // 给magic-note-container加animated类 1秒后加shown类
                 let operation = document.getElementById("magic-note-container");
-                operation.classList.remove('shown');
-                operation.classList.add('animated');
+
                 operation.style.display = "flex";
 
-                clearTimeout(stopBlinkTimer);
                 clearTimeout(hideTimer);
-                stopBlinkTimer = setTimeout(function () {
-                    operation.classList.add('shown');
-                }, 1000);
 
                 hideTimer = setTimeout(function () {
-                    operation.classList.remove('shown');
-                    operation.style.display = "none";
-                }, 3000);
+                    operation.classList.add('fade-out');
+                }, 4000);
             }
         )
     });

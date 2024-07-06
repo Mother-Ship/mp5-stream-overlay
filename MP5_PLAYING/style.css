@@ -282,7 +282,7 @@ body {
 }
 
 #magic-note-container {
-    position: absolute;
+    position: relative;
     left: 489px;
     top: 277px;
     width: 1582px;
@@ -293,6 +293,25 @@ body {
     justify-content: center;
     align-content: center;
     flex-direction: column;
+
+    overflow: hidden;
+}
+
+#magic-note-container :after {
+    content: '';
+    position: absolute;
+    left: -120%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    transform: skewx(-25deg);
+    animation: slideInAndOut 1s 2; /* 动画名称、持续时间和循环次数 */
+}
+
+@keyframes slideInAndOut {
+    0% { left: -120%; }
+    100% { left: 120%; }
 }
 
 #magic-label {
@@ -315,7 +334,8 @@ body {
     color: #ffffff;
     text-align: center;
 }
-#magic-full-note-container{
+
+#magic-full-note-container {
     background-color: #2d2b28;
     opacity: 0.76;
     width: 2560px;
@@ -333,34 +353,10 @@ body {
     color: #ffffff;
 }
 
-
-/* 闪烁动画 */
-@keyframes blink {
-    0%, 50% {
-        opacity: 1;
-    }
-    /* 开始和中间阶段，元素完全可见 */
-    25%, 75% {
-        opacity: 0;
-    }
-    /* 中间过渡阶段，元素变为不可见 */
+.fade-in {
+    transition: opacity 0.5s ease; /* 透明度过渡0.5秒，效果平滑 */
 }
-
-/* 初始状态 */
-.animated {
-    opacity: 0; /* 默认不显示 */
-    animation: blink 1s linear 3; /* 动画持续1秒，线性变化，重复3次 */
-    animation-fill-mode: both; /* 确保动画在开始前和结束后保持最后一帧的样式 */
-}
-
-/* 动画结束后，保持可见 */
-.animated.shown {
-    animation: none; /* 移除闪烁动画 */
-    opacity: 1; /* 保持完全可见 */
-}
-
-/* 淡出过渡 */
-.animated.fade-out {
+.fade-out {
     transition: opacity 0.5s ease; /* 透明度过渡0.5秒，效果平滑 */
     opacity: 0; /* 淡出至完全透明 */
 }
@@ -393,7 +389,7 @@ body {
     border-radius: 27px;
     border: solid 6px #33302f;
     box-sizing: border-box;
-    display: none;
+    opacity: 0;
 }
 
 #chat-overlay {
@@ -445,12 +441,13 @@ body {
     border-radius: 42px;
 }
 
-.picked-by-team-a{
+.picked-by-team-a {
     border-color: #824242;
     border-width: 8px;
     border-style: solid;
 }
-.picked-by-team-b{
+
+.picked-by-team-b {
     border-color: #415a8a;
     border-width: 8px;
     border-style: solid;
@@ -483,6 +480,7 @@ body {
     letter-spacing: 0px;
     color: #ffffff;
 }
+
 .team-b-map-mod-container {
     width: 109px;
     height: 39px;
@@ -510,8 +508,6 @@ body {
     letter-spacing: 0px;
     color: #ffffff;
 }
-
-
 
 
 #map-cover {
