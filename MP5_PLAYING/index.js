@@ -136,7 +136,8 @@ socket.api_v1(({menu, tourney}) => {
                 return `${item.time}&nbsp;${item.name}&nbsp;${item.messageBody}<br>`
             }).join('');
             document.getElementById("chat-content").innerHTML = chatHtml;
-
+            var element = document.getElementById("chat-content-container");
+            element.scrollTop = element.scrollHeight;
         }
 
         // 双边分数
@@ -153,17 +154,18 @@ socket.api_v1(({menu, tourney}) => {
             var losingBar = leftScore <= rightScore ? "team-a-score-bar" : "team-b-score-bar";
 
             var diff = Math.max(leftScore, rightScore) - Math.min(leftScore, rightScore);
-            var animationWidth = Math.min(1, Math.pow(diff / 1500000, 0.5) / 2) * 600;
+            var animationWidth = Math.min(1, Math.pow(diff / 1500000, 0.5) / 2) * 500 + 100;
 
-            document.getElementById(losingBar).style.width = 0 + "px";
+            document.getElementById(losingBar).style.width = 100 + "px";
             document.getElementById(winningBar).style.width = animationWidth + "px";
 
             // 分数文字
             document.getElementById("team-a-score").innerText = leftScore.toLocaleString();
             document.getElementById("team-b-score").innerText = rightScore.toLocaleString();
+            document.getElementById("team-a-score").style.fontSize = leftScore > rightScore ? "75px" : "50px";
+            document.getElementById("team-b-score").style.fontSize = leftScore <= rightScore ? "75px" : "50px";
 
-
-            // 隐藏聊天框，显示计分板
+            // 隐藏分数条、歌曲信息，展示聊天框
             document.getElementById('chat').classList.remove('fade-in');
             document.getElementById('chat').classList.add('fade-out');
             document.getElementById('chat').style.opacity = "0";
@@ -172,7 +174,7 @@ socket.api_v1(({menu, tourney}) => {
                 document.getElementById('team-a-score-bar').style.display = 'block';
                 document.getElementById('team-b-score-bar').style.display = 'block';
 
-            },500)
+            }, 500)
 
             // 重置计时器的执行时间
             clearTimeout(scoreUpdateTimer);
@@ -381,7 +383,11 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
     button.addEventListener("contextmenu", (event) => {
         document.getElementById("magic-name").innerText = ""
         document.getElementById("magic-full-note").innerText = ""
-        document.getElementById("magic-note-container").style.display = "none";
+        let operation = document.getElementById("magic-note-container");
+        operation.classList.add('fade-out');
+        operation.classList.remove('fade-in');
+        operation.classList.remove('blink');
+        operation.style.opacity = "0";
     });
 });
 
