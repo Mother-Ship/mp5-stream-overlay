@@ -22,10 +22,11 @@ body {
 #team-a {
     position: absolute;
     top: 56px;
-    left: 39px;
-    width: 451px;
+    left: 38px;
+    width: 452px;
     height: 1328px;
     border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #team-a-avatar {
@@ -106,10 +107,11 @@ body {
 #team-b {
     position: absolute;
     top: 56px;
-    right: 63px;
+    right: 53px;
     width: 451px;
     height: 1328px;
     border-radius: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #team-b-avatar {
@@ -216,6 +218,19 @@ body {
     border-width: 5px;
     z-index: 1;
 }
+/*遮罩无法覆盖到边框上，因此调节边框颜色*/
+.team-a-ban{
+    border-color: #552a2a;
+}
+.team-a-ban .team-a-map-mod-container{
+    background-color: #552a2a;
+}
+.team-a-pick{
+    border-color: #824242;
+}
+.team-a-pick .team-a-map-mod-container{
+    background-color: #824242;
+}
 /* 闪烁动画 */
 @keyframes blink {
     0%, 50% { opacity: 1; } /* 开始和中间阶段，元素完全可见 */
@@ -265,7 +280,7 @@ body {
 
     border-radius: 35px;
     background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色 */
-    z-index: 3;
+    z-index: 2;
 }
 
 .team-a-pick span {
@@ -296,7 +311,6 @@ body {
     align-content: center;
 
     /*用#824242填充这个div*/
-    background-color: #824242;
     border-radius: 0px 30px 0px 30px;
     z-index: 2;
 }
@@ -365,7 +379,19 @@ body {
 }
 
 
-
+/*遮罩无法覆盖到边框上，因此调节边框颜色*/
+.team-b-ban{
+    border-color: #283754;
+}
+.team-b-ban .team-b-map-mod-container{
+    background-color: #283754;
+}
+.team-b-pick{
+    border-color: #415a8a;
+}
+.team-b-pick .team-b-map-mod-container{
+    background-color: #415a8a;
+}
 
 .team-b-pick::before {
     content: "";
@@ -390,7 +416,7 @@ body {
 
     border-radius: 35px;
     background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色 */
-    z-index: 3;
+    z-index: 2;
 }
 
 .team-b-pick span {

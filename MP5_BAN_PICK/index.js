@@ -104,6 +104,10 @@ document.getElementById('button-a-ban').addEventListener('click', function (e) {
     // 激活自己，熄灭其他ban pick按钮
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-a-ban');
+    //去除team-a元素的background-color
+    document.getElementById("team-a").style.backgroundColor = "transparent";
+    //给team-b元素加上background-color
+    document.getElementById("team-b").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     // 修改operation-hint的内容
     document.getElementById("operation-hint").innerHTML = "当前操作：红方禁用"
     // 准备好全局变量，类似于{ "team": "Red", "type": "Pick", "beatmapID": 2194138 }，只不过没有beatmapId
@@ -116,6 +120,10 @@ document.getElementById('button-a-pick').addEventListener('click', function (e) 
     // 激活自己，熄灭其他ban pick按钮
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-a-pick');
+    //去除team-a元素的background-color
+    document.getElementById("team-a").style.backgroundColor = "transparent";
+    //给team-b元素加上background-color
+    document.getElementById("team-b").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     // 修改operation-hint的内容
     document.getElementById("operation-hint").innerHTML = "当前操作：红方选图"
     currentOperation = {
@@ -128,6 +136,10 @@ document.getElementById('button-b-ban').addEventListener('click', function (e) {
     // 激活自己，熄灭其他ban pick按钮
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-b-ban');
+    //去除team-b元素的background-color
+    document.getElementById("team-b").style.backgroundColor = "transparent";
+    //给team-a元素加上background-color
+    document.getElementById("team-a").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     // 修改operation-hint的内容
     document.getElementById("operation-hint").innerHTML = "当前操作：蓝方禁用"
     currentOperation = {
@@ -139,6 +151,10 @@ document.getElementById('button-b-pick').addEventListener('click', function (e) 
     // 激活自己，熄灭其他ban pick按钮
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-b-pick');
+    //去除team-b元素的background-color
+    document.getElementById("team-b").style.backgroundColor = "transparent";
+    //给team-a元素加上background-color
+    document.getElementById("team-a").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     // 修改operation-hint的内容
     document.getElementById("operation-hint").innerHTML = "当前操作：蓝方选图"
     currentOperation = {
