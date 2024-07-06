@@ -363,15 +363,17 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
                 document.getElementById("magic-full-note").innerText = magic.fullNote;
 
 
-                // 给magic-note-container加animated类 1秒后加shown类
                 let operation = document.getElementById("magic-note-container");
-
-                operation.style.display = "flex";
+                operation.classList.add('fade-in');
+                operation.classList.add('blink');
+                operation.style.opacity = "0.99";
 
                 clearTimeout(hideTimer);
-
                 hideTimer = setTimeout(function () {
                     operation.classList.add('fade-out');
+                    operation.classList.remove('fade-in');
+                    operation.classList.remove('blink');
+                    operation.style.opacity = "0";
                 }, 4000);
             }
         )
