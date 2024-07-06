@@ -203,9 +203,11 @@ function restoreBeatmapSelection() {
                         operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
                     }
                     const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
-                    operation.innerHTML = `                        
-                        <img class="${classPrefix}-map-cover"
-                             src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
+                    operation.innerHTML = `  
+                        <div class="${classPrefix}-map-cover-border">                      
+                            <img class="${classPrefix}-map-cover"
+                                 src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
+                        </div>
                         <div class="${classPrefix}-map-mod-container">
                             <span class="${classPrefix}-map-mod">${mods.modName}${mods.index}</span>
                         </div>
@@ -246,8 +248,10 @@ function appendOperation(beatmap, mods) {
             operation.classList.add("team-a-ban");
         }
         operation.innerHTML = `
-            <img class="team-a-map-cover"
-                 src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
+            <div class="team-a-map-cover-border">
+                <img class="team-a-map-cover"
+                    src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
+            </div>
             <div class="team-a-map-mod-container">
                 <span class="team-a-map-mod">${mods.modName}${mods.index}</span>
             </div>
@@ -275,14 +279,17 @@ function appendOperation(beatmap, mods) {
             operation.classList.add("team-b-ban");
         }
         operation.innerHTML = `
-             <img class="team-b-map-cover"
-                  src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
-             <div class="team-b-map-mod-container">
-                 <span class="team-b-map-mod">${mods.modName}${mods.index}</span>
-             </div>
-      
-             <span class="team-b-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
-             <span class="team-b-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
+            <div class="team-b-map-cover-border">
+                  <img class="team-b-map-cover"
+                              src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
+            </div>
+            
+            <div class="team-b-map-mod-container">
+                <span class="team-b-map-mod">${mods.modName}${mods.index}</span>
+            </div>
+
+            <span class="team-b-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
+            <span class="team-b-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
             `
         operationContainer.appendChild(operation);
 

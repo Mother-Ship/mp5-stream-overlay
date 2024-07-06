@@ -42,6 +42,9 @@ body {
     --player-avatar-size: 101px;
     --team-avatar-width: 101px;
     --team-avatar-height: 68px;
+
+    --team-a-color: #824242;
+    --team-b-color: #415a8a;
 }
 
 /* 容器和基本布局 */
@@ -67,17 +70,18 @@ body {
 #team-a-avatar, #team-b-avatar {
     position: absolute;
     width: var(--team-avatar-width);
-    height: var( --team-avatar-height);
+    height: var(--team-avatar-height);
 }
+
 #team-a-avatar {
     left: 28px;
     top: 27px;
 }
+
 #team-b-avatar {
     right: 28px;
     top: 27px;
 }
-
 
 
 #team-a-name, #team-b-name {
@@ -89,7 +93,8 @@ body {
     /* 避免英文队名被判定为单词导致不换行 */
     word-break: break-all;
 }
-#team-a-name{
+
+#team-a-name {
     left: 28px;
     top: 115px;
     text-align: left; /* 默认左对齐 */
@@ -102,8 +107,6 @@ body {
 }
 
 
-
-
 #team-a-player-list, #team-b-player-list {
     display: flex;
     flex-direction: column;
@@ -112,15 +115,16 @@ body {
     height: 1000px;
     position: absolute;
 }
+
 #team-a-player-list {
     left: 28px;
     top: 280px;
 }
+
 #team-b-player-list {
     right: 28px;
     top: 280px;
 }
-
 
 
 .team-a-player, .team-b-player {
@@ -161,51 +165,16 @@ body {
 }
 
 
-
-#operation-container {
-    position: absolute;
-    width: 1419px;
-    height: 1101px;
-    left: 570px;
-    top: 264px
-}
-
-#team-a-operation {
-    position: absolute;
-    top: 53px;
-    left: 41px;
-    width: 601px;
-    height: 1000px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-
-#team-b-operation {
-    position: absolute;
-    top: 53px;
-    right: 41px;
-    width: 601px;
-    height: 1000px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.team-a-ban,
-.team-a-pick {
-    position: relative;
-    width: 592px;
-    height: 108px;
-
-    z-index: 1;
-}
-
 /* 闪烁动画 */
 @keyframes blink {
-    0%, 50% { opacity: 1; } /* 开始和中间阶段，元素完全可见 */
-    25%, 75% { opacity: 0; } /* 中间过渡阶段，元素变为不可见 */
+    0%, 50% {
+        opacity: 1;
+    }
+    /* 开始和中间阶段，元素完全可见 */
+    25%, 75% {
+        opacity: 0;
+    }
+    /* 中间过渡阶段，元素变为不可见 */
 }
 
 /* 初始状态 */
@@ -220,6 +189,7 @@ body {
     animation: none; /* 移除闪烁动画 */
     opacity: 1; /* 保持完全可见 */
 }
+
 /* 淡出过渡 */
 .animated.fade-out {
     transition: opacity 0.5s ease; /* 透明度过渡0.5秒，效果平滑 */
@@ -227,146 +197,53 @@ body {
 }
 
 
-
-.team-a-pick::before {
-    content: "";
+#operation-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    border-radius: 35px;
-    background-color: rgba(0, 0, 0, 0.6); /* 半透明黑色 */
-    z-index: 2;
+    width: 1419px;
+    height: 1101px;
+    left: 570px;
+    top: 264px
 }
 
-.team-a-ban::before {
-    content: "";
+/*左右两个Ban选图列表*/
+#team-a-operation,
+#team-b-operation {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    border-radius: 35px;
-    background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色 */
-    z-index: 2;
-}
-
-.team-a-pick span {
-    z-index: 2;
-}
-
-.team-a-map-cover {
-    position: absolute;
-    width: 592px;
-    height: 108px;
-    border-radius: 35px;
-    object-fit: cover; /* 保持图片的宽高比并填充容器 */
-    overflow: hidden; /* 隐藏超出容器的内容 */
-
-    /*border-radius: 40px;*/
-    border-style: solid;
-    border-color: #824242;
-    border-width: 5px;
-}
-
-.team-a-map-mod-container {
-    width: 109px;
-    height: 39px;
-    position: absolute;
-    top: 74px;
+    top: 53px;
+    width: 601px;
+    height: 1000px;
     display: flex;
-    /*水平垂直居中*/
-    justify-content: center;
-    align-content: center;
-
-    /*用#824242填充这个div*/
-    background-color: #824242;
-    border-radius: 0px 30px 0px 30px;
-    z-index: 2;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.team-a-map-mod {
-    width: 58px;
-    height: 24px;
-    font-family: TorusNotched-Regular;
-    font-size: 29px;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: #ffffff;
+#team-a-operation {
+    left: 41px;
 }
 
-.team-a-map-title {
-    position: absolute;
-    width: 560px;
-    right: 27px;
-    top: 25px;
-    font-family: TorusNotched-Regular;
-    font-size: 33px;
-    color: #ffffff;
-    text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-    /*右对齐*/
-    text-align: right;
-    /* 防止文本换行 */
-    white-space: nowrap;
-    /* 隐藏超出容器的内容 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+#team-b-operation {
+    right: 41px;
 }
 
-.team-a-map-artist {
-    position: absolute;
-    width: 560px;
-    right: 27px;
-    top: 65px;
-    font-family: TorusNotched-Regular;
-    font-size: 21px;
-    color: #ffffff;
-    text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-
-    /*右对齐*/
-    text-align: right;
-    /* 防止文本换行 */
-    white-space: nowrap;
-    /* 隐藏超出容器的内容 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+/*单个Ban选图*/
+.team-a-ban,
+.team-b-ban {
+    position: relative;
+    width: 602px;
+    height: 118px;
+    border-radius: 35px;
 }
 
-.team-b-ban,
+.team-a-pick,
 .team-b-pick {
     position: relative;
-    width: 592px;
-    height: 108px;
-
-    border-radius: 40px;
-    border-style: solid;
-    border-color: #415a8a;
-    border-width: 5px;
-    z-index: 1;
-}
-
-
-
-
-.team-b-pick::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
+    width: 602px;
+    height: 118px;
     border-radius: 35px;
-    background-color: rgba(0, 0, 0, 0.6); /* 半透明黑色 */
-    z-index: 2;
 }
 
+
+.team-a-ban::before,
 .team-b-ban::before {
     content: "";
     position: absolute;
@@ -377,39 +254,74 @@ body {
 
     border-radius: 35px;
     background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色 */
-    z-index: 2;
+    z-index: 1;
 }
 
-.team-b-pick span {
-    z-index: 2;
+.map-border {
+    filter: brightness(0.2);
 }
 
+.team-a-map-cover,
 .team-b-map-cover {
     position: absolute;
     width: 592px;
     height: 108px;
-    border-radius: 35px;
+    border-radius: 30px;
     object-fit: cover; /* 保持图片的宽高比并填充容器 */
     overflow: hidden; /* 隐藏超出容器的内容 */
 }
 
+
+.team-a-map-cover-border,
+.team-b-map-cover-border{
+    width: 592px;
+    height: 108px;
+    border-style: solid;
+    border-radius: 35px;
+    border-width: 5px;
+}
+
+.team-a-map-cover-border {
+    border-color: var(--team-a-color);
+}
+.team-b-map-cover-border {
+    border-color: var(--team-b-color);
+}
+
+.team-a-map-cover,
+.team-b-map-cover {
+    filter: brightness(0.7);
+}
+
+
+.team-a-map-mod-container,
 .team-b-map-mod-container {
     width: 109px;
     height: 39px;
     position: absolute;
-    top: 74px;
-    right: 0;
+    bottom: 0;
     display: flex;
     /*水平垂直居中*/
     justify-content: center;
     align-content: center;
 
-    /*用#415a8a填充这个div*/
-    background-color: #415a8a;
-    border-radius: 30px 0px 30px 0px;
-    z-index: 2;
 }
 
+.team-a-map-mod-container {
+    /*用#824242填充这个div*/
+    background-color: var(--team-a-color);
+    border-radius: 0px 35px 0px 35px;
+}
+
+.team-b-map-mod-container {
+    right: 0;
+
+    background-color: var(--team-b-color);
+    border-radius: 35px 0px 35px 0px;
+}
+
+
+.team-a-map-mod,
 .team-b-map-mod {
     width: 58px;
     height: 24px;
@@ -421,43 +333,57 @@ body {
     color: #ffffff;
 }
 
-.team-b-map-title {
+
+/* 标题、艺术家相关样式 */
+.team-a-map-title,
+.team-b-map-title,
+.team-a-map-artist,
+.team-b-map-artist {
     position: absolute;
+    font-family: TorusNotched-Regular;
+    color: #ffffff;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-a-map-title,
+.team-b-map-title {
+    font-size: 33px;
+}
+
+.team-a-map-artist,
+.team-b-map-artist {
+    font-size: 21px;
+}
+
+
+.team-a-map-title,
+.team-a-map-artist {
+    width: 560px;
+    right: 27px;
+    top: 25px;
+    text-align: right;
+}
+
+.team-a-map-artist {
+    top: 65px;
+}
+
+.team-b-map-title,
+.team-b-map-artist {
     width: 560px;
     left: 27px;
     top: 25px;
-    font-family: TorusNotched-Regular;
-    font-size: 33px;
-    color: #ffffff;
-    text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-
-    /* 防止文本换行 */
-    white-space: nowrap;
-    /* 隐藏超出容器的内容 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-
 }
 
 .team-b-map-artist {
-    position: absolute;
-    width: 560px;
-    left: 27px;
     top: 65px;
-    font-family: TorusNotched-Regular;
-    font-size: 21px;
-    color: #ffffff;
-    text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-
-    /* 防止文本换行 */
-    white-space: nowrap;
-    /* 隐藏超出容器的内容 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-
 }
 
 
+/*以下为控制面板样式*/
 .control-panel {
     background: #363636;
     width: 2560px;
@@ -581,6 +507,7 @@ body {
 .map-pool-button-nm {
     border: 3px solid var(--border-color-nm);
 }
+
 .map-pool-button-nm:hover {
     background-color: var(--border-color-nm);
 }
@@ -588,6 +515,7 @@ body {
 .map-pool-button-hd {
     border: 3px solid var(--border-color-hd);
 }
+
 .map-pool-button-hd:hover {
     background-color: var(--border-color-hd);
 }
@@ -595,6 +523,7 @@ body {
 .map-pool-button-hr {
     border: 3px solid var(--border-color-hr);
 }
+
 .map-pool-button-hr:hover {
     background-color: var(--border-color-hr);
 }
@@ -603,6 +532,7 @@ body {
 .map-pool-button-dt {
     border: 3px solid var(--border-color-dt);
 }
+
 .map-pool-button-dt:hover {
     background-color: var(--border-color-dt);
 }
@@ -611,32 +541,35 @@ body {
 .map-pool-button-fm {
     border: 3px solid var(--border-color-fm);
 }
+
 .map-pool-button-fm:hover {
-     background-color: var(--border-color-fm);
+    background-color: var(--border-color-fm);
 }
 
 
 .map-pool-button-tb {
     border: 3px solid var(--border-color-tb);
 }
+
 .map-pool-button-tb:hover {
     background-color: var(--border-color-tb);
 }
 
-.map-pool-button-a-pick{
+.map-pool-button-a-pick {
     background-color: #ff3057;
     /*background: linear-gradient(#363636, #ff3057);*/
 }
-.map-pool-button-b-pick{
+
+.map-pool-button-b-pick {
     background-color: #64cafd;
 }
 
-.map-pool-button-a-ban{
+.map-pool-button-a-ban {
     background-color: #ff3057;
     filter: brightness(0.5);
 }
 
-.map-pool-button-b-ban{
+.map-pool-button-b-ban {
     background-color: #64cafd;
     filter: brightness(0.5);
 }
