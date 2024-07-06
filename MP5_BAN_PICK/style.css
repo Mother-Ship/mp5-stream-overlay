@@ -19,77 +19,6 @@ body {
     height: calc(1440px + 250px);
 }
 
-#team-a {
-    position: absolute;
-    top: 56px;
-    left: 38px;
-    width: 452px;
-    height: 1328px;
-    border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-#team-a-avatar {
-    position: absolute;
-    left: 28px;
-    top: 27px;
-    width: 101px;
-    height: 68px;
-}
-
-#team-a-name {
-    position: absolute;
-    left: 28px;
-    top: 115px;
-    width: 400px;
-    font-family: Resource-Han-Rounded-CN-Regular;
-    font-size: 50px;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: #ffffff;
-    /* 避免英文队名被判定为单词导致不换行 */
-    word-break: break-all;
-}
-
-#team-a-player-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: absolute;
-    left: 28px;
-    top: 280px;
-    width: 400px;
-    height: 1000px;
-}
-
-.team-a-player {
-
-    position: relative;
-    height: 101px;
-    width: 400px;
-
-
-}
-
-.team-a-player-avatar {
-    position: absolute;
-    width: 101px;
-    height: 101px;
-    border-radius: 10px;
-}
-
-.team-a-player-name {
-    font-family: TorusNotched-Regular;
-    position: absolute;
-    left: 120px;
-    top: 30px;
-    width: 400px;
-    height: 39px;
-    font-size: 35px;
-    color: #ffffff;
-}
-
 #operation-hint {
     position: absolute;
     top: 123px;
@@ -104,76 +33,134 @@ body {
     color: #ffffff;
 }
 
-#team-b {
+:root {
+    --primary-color: rgba(0, 0, 0, 0.5);
+    --text-color: #ffffff;
+    --font-family-han: 'Resource-Han-Rounded-CN-Regular', sans-serif;
+    --font-family-torus: 'TorusNotched-Regular', sans-serif;
+    --gap: 20px;
+    --player-avatar-size: 101px;
+    --team-avatar-width: 101px;
+    --team-avatar-height: 68px;
+}
+
+/* 容器和基本布局 */
+#team-a, #team-b {
     position: absolute;
-    top: 56px;
-    right: 53px;
-    width: 451px;
+    width: 450px;
     height: 1328px;
     border-radius: 40px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--primary-color);
 }
 
-#team-b-avatar {
+#team-a {
+    top: 56px;
+    left: 38px;
+}
+
+#team-b {
+    top: 56px;
+    right: 53px;
+}
+
+/* 头像和队名 */
+#team-a-avatar, #team-b-avatar {
     position: absolute;
-    right: 14px;
+    width: var(--team-avatar-width);
+    height: var( --team-avatar-height);
+}
+#team-a-avatar {
+    left: 28px;
     top: 27px;
-    width: 101px;
-    height: 68px;
+}
+#team-b-avatar {
+    right: 28px;
+    top: 27px;
 }
 
-#team-b-name {
-    position: absolute;
-    right: 16px;
-    top: 115px;
+
+
+#team-a-name, #team-b-name {
     width: 400px;
-    font-family: Resource-Han-Rounded-CN-Regular;
+    position: absolute;
+    font-family: var(--font-family-han);
     font-size: 50px;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: #ffffff;
-    text-align: right;
+    color: var(--text-color);
     /* 避免英文队名被判定为单词导致不换行 */
     word-break: break-all;
 }
-
-#team-b-player-list {
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    gap: 20px;
-    right: 16px;
-    top: 280px;
-    width: 400px;
-    height: 1000px;
+#team-a-name{
+    left: 28px;
+    top: 115px;
+    text-align: left; /* 默认左对齐 */
 }
 
-.team-b-player {
+#team-b-name {
+    right: 28px;
+    top: 115px;
+    text-align: right; /* 右对齐 */
+}
+
+
+
+
+#team-a-player-list, #team-b-player-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    width: 400px;
+    height: 1000px;
+    position: absolute;
+}
+#team-a-player-list {
+    left: 28px;
+    top: 280px;
+}
+#team-b-player-list {
+    right: 28px;
+    top: 280px;
+}
+
+
+
+.team-a-player, .team-b-player {
     position: relative;
     height: 101px;
     width: 400px;
 }
 
-.team-b-player-avatar {
+.team-a-player-avatar, .team-b-player-avatar {
     position: absolute;
-    width: 101px;
-    height: 101px;
+    width: var(--player-avatar-size);
+    height: var(--player-avatar-size);
     border-radius: 10px;
+}
+
+.team-b-player-avatar {
     right: 0;
 }
 
-.team-b-player-name {
-    font-family: TorusNotched-Regular;
+.team-a-player-name, .team-b-player-name {
+    font-family: var(--font-family-torus);
+    font-size: 35px;
+    color: var(--text-color);
     position: absolute;
+    width: 300px;
+    height: 39px;
+}
+
+.team-a-player-name {
+    left: 120px;
+    top: 30px;
+}
+
+.team-b-player-name {
     right: 120px;
     top: 30px;
-    width: 400px;
-    height: 39px;
-    font-size: 35px;
-    color: #ffffff;
     text-align: right;
 }
+
+
 
 #operation-container {
     position: absolute;
@@ -212,25 +199,9 @@ body {
     width: 592px;
     height: 108px;
 
-    border-radius: 40px;
-    border-style: solid;
-    border-color: #824242;
-    border-width: 5px;
     z-index: 1;
 }
-/*遮罩无法覆盖到边框上，因此调节边框颜色*/
-.team-a-ban{
-    border-color: #552a2a;
-}
-.team-a-ban .team-a-map-mod-container{
-    background-color: #552a2a;
-}
-.team-a-pick{
-    border-color: #824242;
-}
-.team-a-pick .team-a-map-mod-container{
-    background-color: #824242;
-}
+
 /* 闪烁动画 */
 @keyframes blink {
     0%, 50% { opacity: 1; } /* 开始和中间阶段，元素完全可见 */
@@ -291,13 +262,14 @@ body {
     position: absolute;
     width: 592px;
     height: 108px;
-    /*left: 5px;*/
-    /*top: 5px;*/
     border-radius: 35px;
     object-fit: cover; /* 保持图片的宽高比并填充容器 */
     overflow: hidden; /* 隐藏超出容器的内容 */
 
-
+    /*border-radius: 40px;*/
+    border-style: solid;
+    border-color: #824242;
+    border-width: 5px;
 }
 
 .team-a-map-mod-container {
@@ -311,6 +283,7 @@ body {
     align-content: center;
 
     /*用#824242填充这个div*/
+    background-color: #824242;
     border-radius: 0px 30px 0px 30px;
     z-index: 2;
 }
@@ -379,19 +352,7 @@ body {
 }
 
 
-/*遮罩无法覆盖到边框上，因此调节边框颜色*/
-.team-b-ban{
-    border-color: #283754;
-}
-.team-b-ban .team-b-map-mod-container{
-    background-color: #283754;
-}
-.team-b-pick{
-    border-color: #415a8a;
-}
-.team-b-pick .team-b-map-mod-container{
-    background-color: #415a8a;
-}
+
 
 .team-b-pick::before {
     content: "";
@@ -427,13 +388,9 @@ body {
     position: absolute;
     width: 592px;
     height: 108px;
-    /*left: 5px;*/
-    /*top: 5px;*/
     border-radius: 35px;
     object-fit: cover; /* 保持图片的宽高比并填充容器 */
     overflow: hidden; /* 隐藏超出容器的内容 */
-    /*filter: blur(3px);*/
-
 }
 
 .team-b-map-mod-container {
