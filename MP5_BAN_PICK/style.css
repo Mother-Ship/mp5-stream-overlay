@@ -50,7 +50,7 @@ body {
 /* 容器和基本布局 */
 #team-a, #team-b {
     position: absolute;
-    width: 450px;
+    width: 451px;
     height: 1328px;
     border-radius: 40px;
     background-color: var(--primary-color);
@@ -58,7 +58,7 @@ body {
 
 #team-a {
     top: 56px;
-    left: 38px;
+    left: 39px;
 }
 
 #team-b {
