@@ -167,11 +167,11 @@ body {
 
 /* 闪烁动画 */
 @keyframes blink {
-    0%, 50% {
+    0%, 100% {
         opacity: 1;
     }
     /* 开始和中间阶段，元素完全可见 */
-    25%, 75% {
+    50% {
         opacity: 0;
     }
     /* 中间过渡阶段，元素变为不可见 */
@@ -180,7 +180,7 @@ body {
 /* 初始状态 */
 .animated {
     opacity: 0; /* 默认不显示 */
-    animation: blink 1s linear 3; /* 动画持续1秒，线性变化，重复3次 */
+    animation: blink 0.7s linear 2; /* 动画持续1秒，线性变化，重复2次 */
     animation-fill-mode: both; /* 确保动画在开始前和结束后保持最后一帧的样式 */
 }
 
@@ -268,7 +268,7 @@ body {
 }
 
 .team-a-map-cover-border,
-.team-b-map-cover-border{
+.team-b-map-cover-border {
     width: 602px;
     height: 118px;
     border-style: solid;
@@ -280,6 +280,7 @@ body {
 .team-a-map-cover-border {
     border-color: var(--team-a-color);
 }
+
 .team-b-map-cover-border {
     border-color: var(--team-b-color);
 }

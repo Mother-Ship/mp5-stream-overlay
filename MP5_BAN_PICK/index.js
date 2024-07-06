@@ -195,7 +195,6 @@ function restoreBeatmapSelection() {
                     let operationContainer = team === TEAM_RED ? teamAContainer : teamBContainer;
                     let operation = document.createElement("div");
                     operation.id = beatmap.ID;
-                    operation.classList.add("animated");
                     if (type === "Pick") {
                         operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
                     }
