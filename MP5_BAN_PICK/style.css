@@ -257,10 +257,6 @@ body {
     z-index: 1;
 }
 
-.map-border {
-    filter: brightness(0.2);
-}
-
 .team-a-map-cover,
 .team-b-map-cover {
     position: absolute;
@@ -271,14 +267,14 @@ body {
     overflow: hidden; /* 隐藏超出容器的内容 */
 }
 
-
 .team-a-map-cover-border,
 .team-b-map-cover-border{
-    width: 592px;
-    height: 108px;
+    width: 602px;
+    height: 118px;
     border-style: solid;
     border-radius: 35px;
     border-width: 5px;
+    box-sizing: border-box;
 }
 
 .team-a-map-cover-border {
