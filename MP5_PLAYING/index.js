@@ -169,12 +169,20 @@ socket.api_v1(({ menu, tourney }) => {
         const chat = tourney.manager.chat;
         if (chat.length !== cache.chat.length) {
             cache.chat = chat;
-            console.log(chat)
-            // 根据chat内容生成HTML
             const chatHtml = chat.map(item => {
-                return `${item.time}&nbsp;${item.name}&nbsp;${item.messageBody}<br>`
+                switch (item.team){
+                    case 'left':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                    case 'right':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                    case 'bot':
+                    case 'unknown':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+
+                }
             }).join('');
             document.getElementById("chat-content").innerHTML = chatHtml;
+
             var element = document.getElementById("chat-content-container");
             element.scrollTop = element.scrollHeight;
         }
