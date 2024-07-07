@@ -1,10 +1,51 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
-import {getMagicByCode} from "../COMMON/lib/magic.js";
-import {getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName} from "../COMMON/lib/bracket.js";
+import { getMagicByCode } from "../COMMON/lib/magic.js";
+import { getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName } from "../COMMON/lib/bracket.js";
+import { CountUp } from '../COMMON/lib/countUp.min.js';
+import { Odometer } from '../COMMON/lib/odometer-countup.js';
 
 
 const socket = new WebSocketManager('127.0.0.1:24050');
+
+const teamAScore = new CountUp('team-a-score', 0, { duration: 0.5, useGrouping: true });
+const teamBScore = new CountUp('team-b-score', 0, { duration: 0.5, useGrouping: true });
+const mapAr = new CountUp('map-ar', 0, {
+    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+    duration: 0.5,
+    }),
+    mapOd = new CountUp('map-od', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+    }),
+    mapCs = new CountUp('map-cs', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+    }),
+    mapHp = new CountUp('map-hp', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+    }),
+    mapBpm = new CountUp('map-bpm', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+    }),
+    mapStar = new CountUp('map-star', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        suffix: '*',
+    }),
+    mapLengthMinutes = new CountUp('map-length-minutes', 0, {
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        duration: 0.5,
+        formattingFn: x => x.toString().padStart(2, "0"),
+    }),
+    mapLengthSeconds = new CountUp('map-length-seconds', 0, {
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        duration: 0.5,
+        formattingFn: x => x.toString().padStart(2, "0"),
+    });
+
 
 
 const cache = {
@@ -58,7 +99,7 @@ document.addEventListener('selectstart', function (e) {
 })
 
 
-socket.api_v1(({menu, tourney}) => {
+socket.api_v1(({ menu, tourney }) => {
 
     try {
         // 歌曲信息
@@ -82,20 +123,16 @@ socket.api_v1(({menu, tourney}) => {
             document.getElementById("map-data-container").style.display = 'block';
             document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
 
-            document.getElementById("map-ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
-            document.getElementById("map-cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
-            document.getElementById("map-od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
-            document.getElementById("map-hp").innerText = parseFloat(menu.bm.stats.HP).toFixed(1);
+            mapAr.update(parseFloat(menu.bm.stats.AR).toFixed(1));
+            mapCs.update(parseFloat(menu.bm.stats.CS).toFixed(1));
+            mapOd.update(parseFloat(menu.bm.stats.OD).toFixed(1));
+            mapHp.update(parseFloat(menu.bm.stats.HP).toFixed(1));
 
+            mapLengthMinutes.update(Math.trunc(menu.bm.time.full / 60000));
+            mapLengthSeconds.update(Math.trunc(menu.bm.time.full % 60000 / 1000));
 
-            document.getElementById("map-length").innerText =
-                //毫秒数转分：秒
-                Math.trunc(menu.bm.time.full / 60000) + ":" +
-                //毫秒数转秒， 个位数前面添0
-                Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
-
-            document.getElementById("map-bpm").innerText = menu.bm.stats.BPM.common;
-            document.getElementById("map-star").innerText = menu.bm.stats.fullSR.toFixed(2) + "*";
+            mapBpm.update(menu.bm.stats.BPM.common); 
+            mapStar.update(menu.bm.stats.fullSR.toFixed(2));
 
 
             // 获取这张图对应的操作信息
@@ -160,8 +197,8 @@ socket.api_v1(({menu, tourney}) => {
             document.getElementById(winningBar).style.width = animationWidth + "px";
 
             // 分数文字
-            document.getElementById("team-a-score").innerText = leftScore.toLocaleString();
-            document.getElementById("team-b-score").innerText = rightScore.toLocaleString();
+            teamAScore.update(leftScore);
+            teamBScore.update(rightScore);
             document.getElementById("team-a-score").style.fontSize = leftScore > rightScore ? "75px" : "50px";
             document.getElementById("team-b-score").style.fontSize = leftScore <= rightScore ? "75px" : "50px";
 
