@@ -59,8 +59,8 @@ const mapAr = new CountUp('map-ar', 0, {
 
 
 const cache = {
-    leftName: "",
-    rightName: "",
+    leftTeamName: "",
+    rightTeamName: "",
 
     leftScore: 0,
     rightScore: 0,
