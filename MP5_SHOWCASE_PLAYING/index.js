@@ -1,9 +1,10 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
 import {getModNameAndIndexById} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+import OsuParser from '../COMMON/lib/osuParser.js';
 
 const socket = new WebSocketManager('127.0.0.1:24050');
-
+const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 
 const cache = {
     md5: "",
@@ -28,26 +29,28 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('selectstart', function (e) {
     e.preventDefault();
 })
-socket.api_v1(({menu}) => {
+socket.api_v1(async ({menu}) => {
 
     try {
         var md5 = menu.bm.md5;
         if (md5 !== cache.md5) {
             cache.md5 = md5;
 
-            if (menu.bm.metadata.artistOriginal !== null && menu.bm.metadata.artistOriginal !== "") {
+            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`, menu.mods.num);
+
+            if (parsed.metadata.artistUnicode !== null && menu.bm.metadata.artistOriginal !== "") {
                 document.getElementById("map-title").innerText =
-                    menu.bm.metadata.artistOriginal
+                    parsed.metadata.artistUnicode
                     + " - "
-                    + menu.bm.metadata.titleOriginal
-                    + " [" + menu.bm.metadata.difficulty + "]";
+                    + parsed.metadata.titleUnicode
+                    + " [" + parsed.metadata.diff + "]";
 
             } else {
                 document.getElementById("map-title").innerText =
-                    menu.bm.metadata.artist
+                    parsed.metadata.artist
                     + " - "
-                    + menu.bm.metadata.title
-                    + " [" + menu.bm.metadata.difficulty + "]";
+                    + parsed.metadata.title
+                    + " [" + parsed.metadata.diff + "]";
                 ;
             }
 
@@ -58,21 +61,21 @@ socket.api_v1(({menu}) => {
             document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
 
 
-            document.getElementById("map-ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
-            document.getElementById("map-cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
-            document.getElementById("map-od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
-            document.getElementById("map-hp").innerText = parseFloat(menu.bm.stats.HP).toFixed(1);
+            document.getElementById("map-ar").innerText = parseFloat(parsed.modded.difficulty.ar).toFixed(1);
+            document.getElementById("map-cs").innerText = parseFloat(parsed.modded.difficulty.cs).toFixed(1);
+            document.getElementById("map-od").innerText = parseFloat(parsed.modded.difficulty.od).toFixed(1);
+            document.getElementById("map-hp").innerText = parseFloat(parsed.modded.difficulty.hp).toFixed(1);
 
 
             document.getElementById("map-length").innerText =
                 //毫秒数转分：秒
-                Math.trunc(menu.bm.time.full / 60000) + ":" +
+                Math.trunc(parsed.modded.beatmap.length / 60000) + ":" +
                 //毫秒数转秒， 个位数前面添0
-                Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
+                Math.trunc(parsed.modded.beatmap.length % 60000 / 1000).toString().padStart(2, "0");
 
-            document.getElementById("map-bpm").innerText = menu.bm.stats.BPM.common;
+            document.getElementById("map-bpm").innerText = parsed.modded.beatmap.bpm.mostly;
 
-            document.getElementById("map-star").innerText = menu.bm.stats.fullSR.toFixed(2) + "*";
+            document.getElementById("map-star").innerText = parsed.modded.difficulty.sr.toFixed(2) + "*";
 
 
         }
