@@ -1,9 +1,11 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
-import { getMagicByCode } from "../COMMON/lib/magic.js";
+
 import { getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName } from "../COMMON/lib/bracket.js";
 import { CountUp } from '../COMMON/lib/countUp.min.js';
 import { Odometer } from '../COMMON/lib/odometer-countup.js';
+import {clearCurrentMagic, getCurrentMagic, getMagicByCode, storeCurrentMagic} from "../COMMON/lib/magic.js";
+
 
 
 const socket = new WebSocketManager('127.0.0.1:24050');
@@ -91,7 +93,7 @@ let scoreUpdateTimer = setTimeout(() => {
     document.getElementById('map-info-container').style.display = 'none';
     document.getElementById('team-a-score-bar').style.display = 'none';
     document.getElementById('team-b-score-bar').style.display = 'none';
-}, 5000);
+}, 8000);
 
 
 document.addEventListener('selectstart', function (e) {
@@ -137,7 +139,7 @@ socket.api_v1(({ menu, tourney }) => {
 
             // 获取这张图对应的操作信息
 
-            var bid = menu.bm.id;
+            var z = menu.bm.id;
             const operation = getStoredBeatmapById(bid.toString())
             console.log(operation)
             if (operation !== null) {
@@ -224,7 +226,7 @@ socket.api_v1(({ menu, tourney }) => {
                 document.getElementById('map-info-container').style.display = 'none';
                 document.getElementById('team-a-score-bar').style.display = 'none';
                 document.getElementById('team-b-score-bar').style.display = 'none';
-            }, 5000);
+            }, 8000);
         }
 
         // 双边星星槽位
@@ -384,6 +386,24 @@ document.getElementById("button-match-loser").addEventListener("click", () => {
     }
 });
 
+let currentMagicCode = getCurrentMagic();
+
+if (currentMagicCode !== null) {
+    let magic = getMagicByCode(currentMagicCode);
+    magic.then(
+        (magic) => {
+            console.log(magic)
+            // 修改magic-name  magic-full-note 但不弹窗
+            document.getElementById("magic-name").innerText =
+                magic.code + ": " + magic.name;
+            document.getElementById("magic-full-note").innerText = magic.fullNote;
+        }
+    ).catch( (error) => {
+        console.log(error);
+    })
+    ;
+}
+
 let hideTimer;
 // 找到id为magic-control-buttons下面的所有buttons 添加点击事件
 document.querySelectorAll("#magic-control-buttons button").forEach(button => {
@@ -392,15 +412,16 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
         let magic = getMagicByCode(button.id);
         magic.then(
             (magic) => {
-                // 修改magic-name  magic-note magic-full-note
+                storeCurrentMagic(magic.code);
 
+                // 修改magic-name  magic-note magic-full-note
                 document.getElementById("magic-name").innerText =
                     magic.code + ": " + magic.name;
-                document.getElementById("magic-note").innerText =
-                    magic.name + ": " + magic.note;
-
                 document.getElementById("magic-full-note").innerText = magic.fullNote;
 
+
+                document.getElementById("magic-note").innerText =
+                    magic.name + ": " + magic.note;
 
                 let operation = document.getElementById("magic-note-container");
                 operation.classList.add('fade-in');
@@ -418,6 +439,9 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
         )
     });
     button.addEventListener("contextmenu", (event) => {
+
+        clearCurrentMagic();
+
         document.getElementById("magic-name").innerText = ""
         document.getElementById("magic-full-note").innerText = ""
         let operation = document.getElementById("magic-note-container");
