@@ -1,53 +1,61 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
 
-import { getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName } from "../COMMON/lib/bracket.js";
-import { CountUp } from '../COMMON/lib/countUp.min.js';
-import { Odometer } from '../COMMON/lib/odometer-countup.js';
+import {
+    getFullBeatmapFromBracketById,
+    getModNameAndIndexById,
+    getStoredBeatmapById,
+    getTeamFullInfoByName
+} from "../COMMON/lib/bracket.js";
+import {CountUp} from '../COMMON/lib/countUp.min.js';
+import {Odometer} from '../COMMON/lib/odometer-countup.js';
 import {clearCurrentMagic, getCurrentMagic, getMagicByCode, storeCurrentMagic} from "../COMMON/lib/magic.js";
-
 
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 
-const teamAScore = new CountUp('team-a-score', 0, { duration: 0.5, useGrouping: true });
-const teamBScore = new CountUp('team-b-score', 0, { duration: 0.5, useGrouping: true });
+const teamAScore = new CountUp('team-a-score', 0, {duration: 0.5, useGrouping: true});
+const teamBScore = new CountUp('team-b-score', 0, {duration: 0.5, useGrouping: true});
 const mapAr = new CountUp('map-ar', 0, {
-    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
-    duration: 0.5,
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        duration: 0.5,
+        decimalPlaces: 1
     }),
     mapOd = new CountUp('map-od', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
+        decimalPlaces: 1
     }),
     mapCs = new CountUp('map-cs', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
+        decimalPlaces: 1
     }),
     mapHp = new CountUp('map-hp', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
+        decimalPlaces: 1
     }),
     mapBpm = new CountUp('map-bpm', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
     }),
     mapStar = new CountUp('map-star', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
+        decimalPlaces: 2,
         suffix: '*',
     }),
     mapLengthMinutes = new CountUp('map-length-minutes', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.2, lastDigitDelay: 0}),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),
     mapLengthSeconds = new CountUp('map-length-seconds', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.2, lastDigitDelay: 0}),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     });
-
 
 
 const cache = {
@@ -100,46 +108,125 @@ document.addEventListener('selectstart', function (e) {
     e.preventDefault();
 })
 
+// thanks https://github.com/sbrstrkkdwmdr/osumodcalculator/blob/master/index.js
+function odDT(od) {
+    var range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
+    return parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2));
+}
 
-socket.api_v1(({ menu, tourney }) => {
+function arDT(ar) {
+    var ms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
+    var newAR;
+    if (ms < 300) {
+        newAR = 11;
+    } else if (ms < 1200) {
+        newAR = Math.round((11 - (ms - 300) / 150) * 100) / 100;
+    } else {
+        newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
+    }
+    return newAR;
+}
+
+async function starDT(bid) {
+    let star = 0;
+    try {
+
+        const response =  await fetch('http://k3.mothership.top:8080/proxy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "bid": bid,
+                "refresh": false,
+                "userScore": {
+                    "combo": 1,
+                    "mode": 0,
+                    "mods": 64,
+                   "count300": 1,
+                }
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                star = parseFloat(data.beatmapInfo.stars);
+
+            })
+        if (response.ok) {
+            star = await response.text();
+        } else {
+            console.error('Network response was not ok.');
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+    return star;
+}
+
+socket.api_v1(({menu, tourney}) => {
 
     try {
         // 歌曲信息
-        var md5 = menu.bm.md5;
-        if (md5 !== cache.md5) {
-            cache.md5 = md5;
-            if (menu.bm.metadata.artistOriginal !== null && menu.bm.metadata.artistOriginal !== "") {
-                document.getElementById("map-title").innerText =
-                    menu.bm.metadata.artistOriginal
-                    + " - "
-                    + menu.bm.metadata.titleOriginal
-                    + " [" + menu.bm.metadata.difficulty + "]";
-            } else {
-                document.getElementById("map-title").innerText =
-                    menu.bm.metadata.artist
-                    + " - "
-                    + menu.bm.metadata.title
-                    + " [" + menu.bm.metadata.difficulty + "]";
-            }
+        var bid = menu.bm.id;
+        if (bid !== cache.bid) {
+            cache.bid = bid;
+            console.log(bid)
+            // 目前假设双方开打时，图池已经全部上传到官网，没有离线图
+            var mapBracket = getFullBeatmapFromBracketById(parseInt(bid));
+            mapBracket.then(
+                (map) => {
+                    console.log(map)
+                    if (map.BeatmapInfo.Metadata.title_unicode !== null && map.BeatmapInfo.Metadata.title_unicode !== "") {
+                        document.getElementById("map-title").innerText =
+                            map.BeatmapInfo.Metadata.title_unicode
+                            + " - "
+                            + map.BeatmapInfo.Metadata.artist_unicode;
+                    } else {
+                        document.getElementById("map-title").innerText = map.BeatmapInfo.Metadata.Title + " - " + map.BeatmapInfo.Metadata.Artist;
+                    }
 
-            document.getElementById("map-data-container").style.display = 'block';
-            document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+                    document.getElementById("map-data-container").style.display = 'block';
 
-            mapAr.update(parseFloat(menu.bm.stats.AR).toFixed(1));
-            mapCs.update(parseFloat(menu.bm.stats.CS).toFixed(1));
-            mapOd.update(parseFloat(menu.bm.stats.OD).toFixed(1));
-            mapHp.update(parseFloat(menu.bm.stats.HP).toFixed(1));
+                    document.getElementById("map-cover").src = map.BeatmapInfo.Covers["cover@2x"];
 
-            mapLengthMinutes.update(Math.trunc(menu.bm.time.full / 60000));
-            mapLengthSeconds.update(Math.trunc(menu.bm.time.full % 60000 / 1000));
-
-            mapBpm.update(menu.bm.stats.BPM.common); 
-            mapStar.update(menu.bm.stats.fullSR.toFixed(2));
+                    let mapLength = map.BeatmapInfo.Length;
+                    let ar = map.BeatmapInfo.Difficulty.ApproachRate;
+                    let od = map.BeatmapInfo.Difficulty.OverallDifficulty;
+                    let bpm = map.BeatmapInfo.BPM
+                    let star = map.BeatmapInfo.StarRating
 
 
-            // 获取这张图对应的操作信息
+                    if (map.Mods === "DT") {
+                        mapLength = mapLength / 1.5;
+                        od = odDT(od);
+                        ar = arDT(ar);
+                        bpm = bpm * 1.5;
+                        starDT(bid).then(
+                            (starResult) => {
+                                mapStar.update(starResult.toFixed(2));
+                            }
+                        )
+                    }else {
+                        mapStar.update(star.toFixed(2));
+                    }
 
-            var bid = menu.bm.id;
+                    mapAr.update(parseFloat(ar).toFixed(1));
+                    mapCs.update(parseFloat(map.BeatmapInfo.Difficulty.CircleSize).toFixed(1));
+                    mapOd.update(parseFloat(od).toFixed(1));
+                    mapHp.update(parseFloat(map.BeatmapInfo.Difficulty.DrainRate).toFixed(1));
+
+                    mapLengthMinutes.update(Math.trunc(mapLength / 60000));
+                    mapLengthSeconds.update(Math.trunc(mapLength % 60000 / 1000));
+
+                    mapBpm.update(bpm);
+
+
+                }
+            )
+
+
+            // 获取这张图对应的Ban Pick方以及Mod索引
             const operation = getStoredBeatmapById(bid.toString())
             console.log(operation)
             if (operation !== null) {
@@ -170,7 +257,7 @@ socket.api_v1(({ menu, tourney }) => {
         if (chat.length !== cache.chat.length) {
             cache.chat = chat;
             const chatHtml = chat.map(item => {
-                switch (item.team){
+                switch (item.team) {
                     case 'left':
                         return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
                     case 'right':
@@ -183,14 +270,13 @@ socket.api_v1(({ menu, tourney }) => {
             }).join('');
             document.getElementById("chat-content").innerHTML = chatHtml;
 
-            var element = document.getElementById("chat-content-container");
+            var element = document.getElementById("chat-content");
             element.scrollTop = element.scrollHeight;
         }
 
         // 双边分数
         const leftScore = tourney.manager.gameplay.score.left;
         const rightScore = tourney.manager.gameplay.score.right;
-
 
         if (leftScore !== cache.leftScore || rightScore !== cache.rightScore) {
             cache.leftScore = leftScore;
@@ -406,7 +492,7 @@ if (currentMagicCode !== null) {
                 magic.code + ": " + magic.name;
             document.getElementById("magic-full-note").innerText = magic.fullNote;
         }
-    ).catch( (error) => {
+    ).catch((error) => {
         console.log(error);
     })
     ;

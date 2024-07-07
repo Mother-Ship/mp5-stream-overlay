@@ -160,6 +160,7 @@ body {
     background-color: #824242;
     border-radius: 30px;
     display: none;
+    transition: width 0.5s;
 }
 
 #team-a-score {
@@ -249,6 +250,7 @@ body {
     background-color: #415a8a;
     border-radius: 30px;
     display: none;
+    transition: width 0.5s;
 }
 
 #team-b-score {
