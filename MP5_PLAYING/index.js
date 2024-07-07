@@ -139,7 +139,7 @@ socket.api_v1(({ menu, tourney }) => {
 
             // 获取这张图对应的操作信息
 
-            var z = menu.bm.id;
+            var bid = menu.bm.id;
             const operation = getStoredBeatmapById(bid.toString())
             console.log(operation)
             if (operation !== null) {

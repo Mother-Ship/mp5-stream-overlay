@@ -472,10 +472,10 @@ body {
 #map-info-container {
     position: absolute;
     left: 697px;
-    top: 1270px;
+    top: 1262px;
     width: 1167px;
-    height: 119px;
-    border-radius: 42px;
+    height: 114px;
+    border-radius: 30px;
 }
 
 .picked-by-team-a {
@@ -503,7 +503,7 @@ body {
 
     /*用#824242填充这个div*/
     background-color: #824242;
-    border-radius: 34px 0px 34px 0px;
+    border-radius: 21px 0px 21px 0px;
     z-index: 2;
 }
 
@@ -531,7 +531,7 @@ body {
 
     /*用#415a8a填充这个div*/
     background-color: #415a8a;
-    border-radius: 34px 0px 34px 0px;
+    border-radius: 21px 0px 21px 0px;
     z-index: 2;
 }
 
@@ -553,7 +553,7 @@ body {
     height: 100%;
     object-fit: cover; /* 保持图片的宽高比并填充容器 */
     overflow: hidden; /* 隐藏超出容器的内容 */
-    border-radius: 34px;
+    border-radius: 22px;
     filter: brightness(60%);
 }
 
