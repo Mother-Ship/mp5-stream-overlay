@@ -339,11 +339,10 @@ class OsuParser {
         };
 
         let bpmList = {},
-            lastBegin = begin, lastBPM = -1;
+            lastBegin = 0, lastBPM = -1;
 
         for (let i of timings) {
             if (i[1] > '0') {
-                if(Number(i[0]) < begin) continue;
                 if (lastBPM && lastBPM > 0) {
                     if (!bpmList[lastBPM]) bpmList[lastBPM] = 0;
                     bpmList[lastBPM] += Number(i[0]) - lastBegin;
