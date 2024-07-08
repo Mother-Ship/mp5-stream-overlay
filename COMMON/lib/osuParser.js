@@ -1,6 +1,5 @@
 import { __wbg_init, calculate_sr } from './rosu-pp/rosu_pp.js';
 
-const DEBUG = false;
 class OsuParser {
     constructor(wasmPath) {
         __wbg_init(wasmPath).then(() => {
@@ -8,6 +7,7 @@ class OsuParser {
         });
     }
 
+    DEBUG = true;
     wasmReady = false;
 
     async parse(addr, mods=0) {
@@ -183,7 +183,7 @@ class OsuParser {
     keyValReg = /^([a-zA-Z0-9]+)[ ]*:[ ]*(.+)$/;
     sectionReg = /^\[([0-9A-Za-z]+)\]$/;
 
-    toBeatmap(content, mods = 0) {
+    toBeatmap(content) {
         let bm = {
             difficulty: {
                 ar: Number(content.ApproachRate) || -1,
@@ -213,15 +213,24 @@ class OsuParser {
                 bg: this.getBGPath(content) || { path: '', xoffset: 0, yoffset: 0 },
             },
             original: content.original,
+            index: -1,
+            mod: 'Unknown',
         }
 
-        bm.modded = {
+        if (this.DEBUG)
+            console.log(`[osuFileParser] Parsed Beamap:\n${JSON.stringify(bm)}`);
+
+        return bm;
+    };
+
+    getModded (bm, mods = 0) {
+        let modded = {
             difficulty: {
                 ar: this.calcModdedAr(mods, 0, bm.difficulty.ar),
                 od: this.calcModdedOd(mods, 0, bm.difficulty.od),
                 cs: this.calcModdedCs(mods, 0, bm.difficulty.cs),
                 hp: this.calcModdedHp(mods, 0, bm.difficulty.hp),
-                sr: this.getSR(content.original, mods),
+                sr: this.getSR(bm.original, mods),
             },
             metadata: bm.metadata,
             beatmap: {
@@ -236,13 +245,16 @@ class OsuParser {
                 bg: bm.beatmap.bg,
                 mode: bm.beatmap.mode,
             },
+            original: bm.original,
+            index: bm.index,
+            mod: bm.mod,
         }
 
-        if (DEBUG)
-            console.log(`[osuFileParser] Parsed Beamap:\n${JSON.stringify(bm)}`);
+        if (this.DEBUG)
+            console.log(`[osuFileParser] Beatmap with mod ${mods}:\n${JSON.stringify(bm)}`);
 
-        return bm;
-    };
+        return modded;
+    }
 
     parseFile(content) {
         let tmp = {
@@ -353,7 +365,7 @@ class OsuParser {
 
     getTotalTime(content) {
         let first = Number(content.objs[0][2]) || 0, last = Number(content.objs[content.objs.length - 1][2]);
-        if (DEBUG) console.log(`[osuFileParser] hit objects begin at ${first}, end at ${last}, total time ${last - first}`);
+        if (this.DEBUG) console.log(`[osuFileParser] hit objects begin at ${first}, end at ${last}, total time ${last - first}`);
         return last - first;
     };
 
@@ -364,7 +376,7 @@ class OsuParser {
                 breakLength += Number(line[2]) - Number(line[1]);
             }
         }
-        if (DEBUG) console.log(`[osuFileParser] total break time length: ${breakLength}`)
+        if (this.DEBUG) console.log(`[osuFileParser] total break time length: ${breakLength}`)
 
         return this.getTotalTime(content) - breakLength;
     };

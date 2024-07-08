@@ -1,0 +1,25 @@
+[
+    {
+        "criterion": "谱面标题, 是 romanized 那个",
+        "values": {
+            "mod": "FM",
+            "index": "2"
+        }
+    },
+    {
+        "criterion": "Toushin Gengi",
+        "values": {
+            "mod": "DT",
+            "index": "9",
+            "metadata": {
+                "artistUnicode": "这些东西可以强制修改",
+                "artist": "test artist",
+                "titleUnicode": "这是一张定制图",
+                "title": "123",
+                "diff": "难度名",
+                "creator": "麻婆"
+            }
+        }
+    }
+]
+

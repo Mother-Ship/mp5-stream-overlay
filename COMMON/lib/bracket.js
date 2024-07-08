@@ -65,10 +65,15 @@ export function getModNameAndIndexById(bid) {
                 index: index // 序号通常从1开始计数
             };
         } else {
-            throw new Error(`Beatmap with ID ${bid} not found.`);
+            // throw new Error(`Beatmap with ID ${bid} not found.`);
+            return {
+                modName: "??",
+                index: 0,
+            } 
         }
     });
 }
+
 export function getFullBeatmapFromBracketById(bid) {
     return fetchBracketData().then(data => {
         for (const round of data.Rounds) {
@@ -153,4 +158,17 @@ export function deleteBeatmapSelectionById(beatmapID) {
 
     // 更新localStorage
     localStorage.setItem(key, JSON.stringify(Array.from(beatmapSelections.entries())));
+}
+
+const modEnum = {
+    'NM': 0,
+    'HD': 8,
+    'HR': 16,
+    'DT': 64,
+    'FM': 0,
+    'TB': 0,
+}
+export function getModEnumFromModString(mod) {
+    mod = mod || 'NM'; // 默认显示原始数据
+    return modEnum[mod.toUpperCase()] || 0;
 }
