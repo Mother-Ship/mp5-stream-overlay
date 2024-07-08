@@ -1,19 +1,59 @@
 // connecting to websocket
 import {getModNameAndIndexById} from '../COMMON/lib/bracket.js';
 import WebSocketManager from "../COMMON/lib/socket.js";
+import { CountUp } from '../COMMON/lib/countUp.min.js';
+import { Odometer } from '../COMMON/lib/odometer-countup.js';
+import OsuParser from '../COMMON/lib/osuParser.js';
+
 
 const socket = new WebSocketManager('127.0.0.1:24050');
+const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 
 const cache = {
     md5: "",
 };
+
+const mapAr = new CountUp('map-ar', 0, {
+    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+    duration: 0.5,
+    decimalPlaces: 1,
+    }),
+    mapOd = new CountUp('map-od', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 1,
+    }),
+    mapCs = new CountUp('map-cs', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 1,
+    }),
+    mapHp = new CountUp('map-hp', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 1,
+    }),
+    mapBpm = new CountUp('map-bpm', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+    }),
+    mapLengthMinutes = new CountUp('map-length-minutes', 0, {
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        duration: 0.5,
+        formattingFn: x => x.toString().padStart(2, "0"),
+    }),
+    mapLengthSeconds = new CountUp('map-length-seconds', 0, {
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        duration: 0.5,
+        formattingFn: x => x.toString().padStart(2, "0"),
+    });
 
 
 document.addEventListener('selectstart', function (e) {
     e.preventDefault();
 })
 
-socket.api_v1(({menu}) => {
+socket.api_v1( async ({menu}) => {
 
     try {
 
@@ -21,33 +61,31 @@ socket.api_v1(({menu}) => {
         if (md5 !== cache.md5) {
             cache.md5 = md5;
 
-            if (menu.bm.metadata.artistOriginal !== null && menu.bm.metadata.artistOriginal !== "") {
-                document.getElementById("map-title").innerText = menu.bm.metadata.artistOriginal + " - " + menu.bm.metadata.titleOriginal;
+            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`, menu.mods.num);
+
+            if (parsed.metadata.artistUnicode !== null && parsed.metadata.artistUnicode !== "") {
+                document.getElementById("map-title").innerText = parsed.metadata.artistUnicode + " - " + parsed.metadata.titleUnicode;
             } else {
-                document.getElementById("map-title").innerText = menu.bm.metadata.artist + " - " + menu.bm.metadata.title;
+                document.getElementById("map-title").innerText = parsed.metadata.artist + " - " + parsed.metadata.title;
 
             }
             document.getElementById("map-diff").innerText =
-                "[" + menu.bm.metadata.difficulty + "]"
-                + " By " + menu.bm.metadata.mapper;
+                "[" + parsed.metadata.diff + "]"
+                + " By " + parsed.metadata.creator;
 
             document.getElementById("map-data-container").style.display = 'flex';
             document.getElementById("map-bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
 
 
-            document.getElementById("map-ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
-            document.getElementById("map-cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
-            document.getElementById("map-od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
-            document.getElementById("map-hp").innerText = parseFloat(menu.bm.stats.HP).toFixed(1);
+            mapAr.update(parseFloat(parsed.modded.difficulty.ar).toFixed(1));
+            mapCs.update(parseFloat(parsed.modded.difficulty.cs).toFixed(1));
+            mapOd.update(parseFloat(parsed.modded.difficulty.od).toFixed(1));
+            mapHp.update(parseFloat(parsed.modded.difficulty.hp).toFixed(1));
 
+            mapLengthMinutes.update(Math.trunc(parsed.modded.beatmap.length / 60000));
+            mapLengthSeconds.update(Math.trunc(parsed.modded.beatmap.length % 60000 / 1000));
 
-            document.getElementById("map-length").innerText =
-                //毫秒数转分：秒
-                Math.trunc(menu.bm.time.full / 60000) + ":" +
-                    //毫秒数转秒， 个位数前面添0
-                    Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
-
-            document.getElementById("map-bpm").innerText = menu.bm.stats.BPM.common;
+            mapBpm.update(parsed.modded.beatmap.bpm.mostly); 
 
 
             // 由于Showcase时 部分定制离线图还未上传，因此在这里打个表做硬编码
