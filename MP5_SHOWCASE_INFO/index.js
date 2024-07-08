@@ -61,13 +61,14 @@ socket.api_v1( async ({menu}) => {
 
             let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
 
-            const modNameAndIndex = await getModNameAndIndexById(parsed.beatmap.bid);
+            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
             parsed.mod = modNameAndIndex.modName;
+            parsed.index = modNameAndIndex.index;
             mock.updateProperties(parsed);
             modNameAndIndex.modName = parsed.mod;
             modNameAndIndex.index = parsed.index;
 
-            let mods = getModEnumFromModString(parsed.mod) || parsed.mod;
+            let mods = getModEnumFromModString(parsed.mod);
             parsed.modded = p.getModded(parsed, mods);
 
             if (parsed.modded.metadata.artistUnicode !== null && parsed.modded.metadata.artistUnicode !== "") {

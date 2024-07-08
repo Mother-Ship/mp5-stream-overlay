@@ -120,13 +120,14 @@ socket.api_v1(async ({ menu, tourney }) => {
 
             let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
 
-            const modNameAndIndex = await getModNameAndIndexById(parsed.beatmap.bid);
+            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
             parsed.mod = modNameAndIndex.modName;
+            parsed.index = modNameAndIndex.index;
             mock.updateProperties(parsed); // 虽然这时候图应该已经上传了并且出现在 bracket 里, 但考虑可能直播员没更新所以还是再检查一次
             modNameAndIndex.modName = parsed.mod;
             modNameAndIndex.index = parsed.index;
 
-            let mods = getModEnumFromModString(parsed.mod) || parsed.mod;
+            let mods = getModEnumFromModString(parsed.mod);
             parsed.modded = p.getModded(parsed, mods);
             
 
