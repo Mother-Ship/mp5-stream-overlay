@@ -206,7 +206,7 @@ class OsuParser {
             },
             beatmap: {
                 mode: content.Mode,
-                bpm: this.getBPM(content.timings) || { min: -1, max: -1, mostly: -1 },
+                bpm: this.getBPM(content.timings, Number(content.objs[0][2]), Number(content.objs[content.objs.length - 1][2])) || { min: -1, max: -1, mostly: -1 },
                 length: this.getTotalTime(content) || -1,
                 drain: this.getDrainTime(content) || -1,
                 mods: 0,
@@ -331,7 +331,7 @@ class OsuParser {
         this.state = this.states.indexOf(section.toLowerCase());
     };
 
-    getBPM(timings) {
+    getBPM(timings, begin, end) {
         let bpm = {
             min: 2e9,
             max: -1,
@@ -339,11 +339,12 @@ class OsuParser {
         };
 
         let bpmList = {},
-            lastBegin = 0, lastBPM = -1;
+            lastBegin = begin, lastBPM = -1;
 
         for (let i of timings) {
             if (i[1] > '0') {
-                if (lastBPM) {
+                if(Number(i[0]) < begin) continue;
+                if (lastBPM && lastBPM > 0) {
                     if (!bpmList[lastBPM]) bpmList[lastBPM] = 0;
                     bpmList[lastBPM] += Number(i[0]) - lastBegin;
                 }
@@ -353,11 +354,18 @@ class OsuParser {
                 lastBegin = Number(i[0]);
             }
         }
+        if (lastBPM && lastBPM > 0) {
+            if (!bpmList[lastBPM]) bpmList[lastBPM] = 0;
+            bpmList[lastBPM] += end - lastBegin;
+        }
         if (bpm.min == 2e9) bpm.min = -1;
         if (bpm.max === bpm.min) {
             bpm.mostly = bpm.max;
         }
         else {
+            if (this.DEBUG) {
+                console.log(`bpm list: ${JSON.stringify(bpmList)}`);
+            }
             bpm.mostly = Number(Object.keys(bpmList).reduce((a, b) => bpmList[a] > bpmList[b] ? a : b));
         }
         return bpm;
