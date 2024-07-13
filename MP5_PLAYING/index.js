@@ -1,15 +1,19 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
 
-import { getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName } from "../COMMON/lib/bracket.js";
+import { getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName, getModEnumFromModString } from "../COMMON/lib/bracket.js";
 import { CountUp } from '../COMMON/lib/countUp.min.js';
 import { Odometer } from '../COMMON/lib/odometer-countup.js';
 import { clearCurrentMagic, getCurrentMagic, getMagicByCode, storeCurrentMagic } from "../COMMON/lib/magic.js";
 import OsuParser from '../COMMON/lib/osuParser.js';
+import MapMock from '../COMMON/lib/mock.js';
 
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
+const mock = new MapMock();
+
+await mock.init();
 
 const teamAScore = new CountUp('team-a-score', 0, { duration: 0.5, useGrouping: true });
 const teamBScore = new CountUp('team-b-score', 0, { duration: 0.5, useGrouping: true });
@@ -113,20 +117,32 @@ socket.api_v1(async ({ menu, tourney }) => {
         var md5 = menu.bm.md5;
         if (md5 !== cache.md5) {
             cache.md5 = md5;
-            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`, menu.mods.num);
 
-            if (parsed.metadata.artistUnicode !== null && parsed.metadata.artistUnicode !== "") {
+            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
+
+            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
+            parsed.mod = modNameAndIndex.modName;
+            parsed.index = modNameAndIndex.index;
+            mock.updateProperties(parsed); // 虽然这时候图应该已经上传了并且出现在 bracket 里, 但考虑可能直播员没更新所以还是再检查一次
+            modNameAndIndex.modName = parsed.mod;
+            modNameAndIndex.index = parsed.index;
+
+            let mods = getModEnumFromModString(parsed.mod);
+            parsed.modded = p.getModded(parsed, mods);
+            
+
+            if (parsed.modded.metadata.artistUnicode !== null && parsed.modded.metadata.artistUnicode !== "") {
                 document.getElementById("map-title").innerText =
-                    parsed.metadata.artistUnicode
+                    parsed.modded.metadata.artistUnicode
                     + " - "
-                    + parsed.metadata.titleUnicode
-                    + " [" + parsed.metadata.diff + "]";
+                    + parsed.modded.metadata.titleUnicode
+                    + " [" + parsed.modded.metadata.diff + "]";
             } else {
                 document.getElementById("map-title").innerText =
-                    parsed.metadata.artist
+                    parsed.modded.metadata.artist
                     + " - "
-                    + parsed.metadata.title
-                    + " [" + parsed.metadata.diff + "]";
+                    + parsed.modded.metadata.title
+                    + " [" + parsed.modded.metadata.diff + "]";
             }
 
             document.getElementById("map-data-container").style.display = 'block';
@@ -150,12 +166,7 @@ socket.api_v1(async ({ menu, tourney }) => {
         console.log(operation)
         if (operation !== null) {
             if (operation.type === "Pick") {
-                var mod = getModNameAndIndexById(bid);
-                mod.then(
-                    (mod) => {
-                        document.getElementById("map-mod").innerText = mod.modName + mod.index;
-                    }
-                )
+                document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
 
                 if (operation.team === "Red") {
                     document.getElementById("map-info-container").classList.add("picked-by-team-a")

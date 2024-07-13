@@ -1,15 +1,56 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
-import {getModNameAndIndexById} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+import { getModNameAndIndexById, getModEnumFromModString } from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+import { CountUp } from '../COMMON/lib/countUp.min.js';
+import { Odometer } from '../COMMON/lib/odometer-countup.js';
 import OsuParser from '../COMMON/lib/osuParser.js';
+import MapMock from '../COMMON/lib/mock.js';
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
+const mock = new MapMock();
+
+await mock.init();
 
 const cache = {
     md5: "",
 };
 
+const mapAr = new CountUp('map-ar', 0, {
+    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+    duration: 0.5,
+    decimalPlaces: 1,
+    }),
+    mapOd = new CountUp('map-od', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 1,
+    }),
+    mapCs = new CountUp('map-cs', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 1,
+    }),
+    mapHp = new CountUp('map-hp', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 1,
+    }),
+    mapBpm = new CountUp('map-bpm', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+    }),
+    mapStar = new CountUp('map-star', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 2,
+        suffix: '*',
+    }),
+    mapLength = new CountUp('map-length', 0, {
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        duration: 0.5,
+        formattingFn: (x) => `${Math.trunc(x / 60000).toString().padStart(2, '0')}:${Math.trunc(x % 60000 / 1000).toString().padStart(2, '0')}`,
+    });
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -35,22 +76,33 @@ socket.api_v1(async ({menu}) => {
         var md5 = menu.bm.md5;
         if (md5 !== cache.md5) {
             cache.md5 = md5;
+            cache.mods = menu.mods.str;
 
-            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`, menu.mods.num);
+            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
 
-            if (parsed.metadata.artistUnicode !== null && menu.bm.metadata.artistOriginal !== "") {
+            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
+            parsed.mod = modNameAndIndex.modName;
+            parsed.index = modNameAndIndex.index;
+            mock.updateProperties(parsed);
+            modNameAndIndex.modName = parsed.mod;
+            modNameAndIndex.index = parsed.index;
+
+            let mods = getModEnumFromModString(parsed.mod);
+            parsed.modded = p.getModded(parsed, mods);
+
+            if (parsed.modded.metadata.artistUnicode !== null && menu.bm.metadata.artistOriginal !== "") {
                 document.getElementById("map-title").innerText =
-                    parsed.metadata.artistUnicode
+                    parsed.modded.metadata.artistUnicode
                     + " - "
-                    + parsed.metadata.titleUnicode
-                    + " [" + parsed.metadata.diff + "]";
+                    + parsed.modded.metadata.titleUnicode
+                    + " [" + parsed.modded.metadata.diff + "]";
 
             } else {
                 document.getElementById("map-title").innerText =
-                    parsed.metadata.artist
+                    parsed.modded.metadata.artist
                     + " - "
-                    + parsed.metadata.title
-                    + " [" + parsed.metadata.diff + "]";
+                    + parsed.modded.metadata.title
+                    + " [" + parsed.modded.metadata.diff + "]";
                 ;
             }
 
@@ -61,23 +113,14 @@ socket.api_v1(async ({menu}) => {
             document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
 
 
-            document.getElementById("map-ar").innerText = parseFloat(parsed.modded.difficulty.ar).toFixed(1);
-            document.getElementById("map-cs").innerText = parseFloat(parsed.modded.difficulty.cs).toFixed(1);
-            document.getElementById("map-od").innerText = parseFloat(parsed.modded.difficulty.od).toFixed(1);
-            document.getElementById("map-hp").innerText = parseFloat(parsed.modded.difficulty.hp).toFixed(1);
+            mapAr.update(parseFloat(parsed.modded.difficulty.ar).toFixed(1));
+            mapCs.update(parseFloat(parsed.modded.difficulty.cs).toFixed(1));
+            mapOd.update(parseFloat(parsed.modded.difficulty.od).toFixed(1));
+            mapHp.update(parseFloat(parsed.modded.difficulty.hp).toFixed(1));
 
-
-            document.getElementById("map-length").innerText =
-                //毫秒数转分：秒
-                Math.trunc(parsed.modded.beatmap.length / 60000) + ":" +
-                //毫秒数转秒， 个位数前面添0
-                Math.trunc(parsed.modded.beatmap.length % 60000 / 1000).toString().padStart(2, "0");
-
-            document.getElementById("map-bpm").innerText = parsed.modded.beatmap.bpm.mostly;
-
-            document.getElementById("map-star").innerText = parsed.modded.difficulty.sr.toFixed(2) + "*";
-
-
+            mapLength.update(parsed.modded.beatmap.length);
+            mapBpm.update(parsed.modded.beatmap.bpm.mostly); 
+            mapStar.update(parsed.modded.difficulty.sr.toFixed(2));
         }
 
     } catch (error) {
