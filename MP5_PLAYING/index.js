@@ -116,16 +116,14 @@ socket.api_v1(async ({ menu, tourney }) => {
         // 歌曲信息
         var md5 = menu.bm.md5;
         if (md5 !== cache.md5) {
+            document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
             cache.md5 = md5;
 
             let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
 
-            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
+            let modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
             parsed.mod = modNameAndIndex.modName;
             parsed.index = modNameAndIndex.index;
-            mock.updateProperties(parsed); // 虽然这时候图应该已经上传了并且出现在 bracket 里, 但考虑可能直播员没更新所以还是再检查一次
-            modNameAndIndex.modName = parsed.mod;
-            modNameAndIndex.index = parsed.index;
 
             let mods = getModEnumFromModString(parsed.mod);
             parsed.modded = p.getModded(parsed, mods);
@@ -165,6 +163,7 @@ socket.api_v1(async ({ menu, tourney }) => {
         const operation = getStoredBeatmapById(bid.toString())
         console.log(operation)
         if (operation !== null) {
+            let modNameAndIndex = await getModNameAndIndexById(bid);
             if (operation.type === "Pick") {
                 document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
 
@@ -198,7 +197,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             }
         }).join('');
         document.getElementById("chat-content").innerHTML = chatHtml;
-        var element = document.getElementById("chat-content-container");
+        var element = document.getElementById("chat-content");
         element.scrollTop = element.scrollHeight;
     }
 
