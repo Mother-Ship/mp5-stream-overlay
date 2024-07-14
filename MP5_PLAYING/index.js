@@ -473,7 +473,7 @@ function setScoreBars(tourney) {
             scores.right.score = Math.min(rightClients.map(client => client.gameplay.score));
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
             // 375000 = 1500000 / 4, 这里是懒办法
-            scores.bar = Math.min(1, Math.pow(diff / 375000, 0.5) / 2) * 500 + 100;
+            scores.bar = Math.min(1, Math.pow(scoreDiff / 375000, 0.5) / 2) * 500 + 100;
             break;
         case 'B':
             // 完美主义, 改为展示总 acc
@@ -481,7 +481,7 @@ function setScoreBars(tourney) {
             scores.right.score = rightClients.reduce((acc, client) => acc + client.gameplay.accuracy, 0);
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
             // TODO 待测试具体参数, acc 差距由于比较小不能直接把 1500000 按比例缩放成 150
-            scores.bar = Math.min(1, Math.pow(diff / 50, 0.5) / 2) * 500 + 100;
+            scores.bar = Math.min(1, Math.pow(scoreDiff / 50, 0.5) / 2) * 500 + 100;
             break;
         case 'E':
             // 巨人杀手, 指定两人分数翻倍
@@ -491,7 +491,7 @@ function setScoreBars(tourney) {
             scores.left.score = Math.min(leftClients.map(client => client.gameplay.score));
             scores.right.score = Math.min(rightClients.map(client => client.gameplay.score));
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            scores.bar = Math.min(1, Math.pow(diff / 1500000, 0.5) / 2) * 500 + 100;
+            scores.bar = Math.min(1, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 500 + 100;
     }
 
     if (scores.left.score !== cache.leftScore || scores.right.score !== cache.rightScore) {
