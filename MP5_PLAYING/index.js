@@ -80,18 +80,21 @@ const cache = {
 /**
  * 右上角轮播图
  */
-document.addEventListener('DOMContentLoaded', function () {
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
 
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length; // 循环到第一张
-        slides[currentSlide].classList.add('active');
-    }
-
+function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length; // 循环到第一张
+    slides[currentSlide].classList.add('active');
+}
+if (document.readyState !== 'loading') {
     setInterval(nextSlide, 10000);
-});
+} else {
+    document.addEventListener('DOMContentLoaded', function () {
+        setInterval(nextSlide, 10000);
+    });
+}
 
 let scoreUpdateTimer = setTimeout(() => {
     console.log('隐藏分数条、歌曲信息，展示聊天框')

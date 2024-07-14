@@ -53,19 +53,24 @@ const mapAr = new CountUp('map-ar', 0, {
     });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
+/**
+ * 右上角轮播图
+ */
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
 
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length; // 循环到第一张
-        slides[currentSlide].classList.add('active');
-    }
-
-    // 自动轮播，每10秒切换一次
+function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length; // 循环到第一张
+    slides[currentSlide].classList.add('active');
+}
+if (document.readyState !== 'loading') {
     setInterval(nextSlide, 10000);
-});
+} else {
+    document.addEventListener('DOMContentLoaded', function () {
+        setInterval(nextSlide, 10000);
+    });
+}
 
 document.addEventListener('selectstart', function (e) {
     e.preventDefault();
