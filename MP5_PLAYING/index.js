@@ -130,7 +130,7 @@ socket.api_v1(async ({ menu, tourney }) => {
 
             let mods = getModEnumFromModString(parsed.mod);
             parsed.modded = p.getModded(parsed, mods);
-            
+
 
             if (parsed.modded.metadata.artistUnicode !== null && parsed.modded.metadata.artistUnicode !== "") {
                 document.getElementById("map-title").innerText =
@@ -172,135 +172,143 @@ socket.api_v1(async ({ menu, tourney }) => {
                         document.getElementById("map-info-container").classList.remove("picked-by-team-b")
                         document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
                         document.getElementById("map-mod").classList.remove("team-b-map-mod")
-
-                        document.getElementById("map-info-container").classList.add("picked-by-team-a")
-                        document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
-                        document.getElementById("map-mod").classList.add("team-a-map-mod")
                     }
-                    if (operation.team === "Blue") {
-                        document.getElementById("map-info-container").classList.remove("picked-by-team-a")
-                        document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
-                        document.getElementById("map-mod").classList.remove("team-a-map-mod")
+                    var bid = menu.bm.id;
+                    const operation = getStoredBeatmapById(bid.toString())
+                    if (operation !== null) {
+                        let modNameAndIndex = await getModNameAndIndexById(bid);
+                        if (operation.type === "Pick") {
+                            document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
 
-                        document.getElementById("map-info-container").classList.add("picked-by-team-b")
-                        document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
-                        document.getElementById("map-mod").classList.add("team-b-map-mod")
+                            document.getElementById("map-info-container").classList.add("picked-by-team-a")
+                            document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
+                            document.getElementById("map-mod").classList.add("team-a-map-mod")
+                        }
+                        if (operation.team === "Blue") {
+                            document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+                            document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+                            document.getElementById("map-mod").classList.remove("team-a-map-mod")
+
+                            document.getElementById("map-info-container").classList.add("picked-by-team-b")
+                            document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
+                            document.getElementById("map-mod").classList.add("team-b-map-mod")
+                        }
                     }
                 }
             }
-        }
 
 
-    // 聊天
-    const chat = tourney.manager.chat;
-    if (chat.length !== cache.chat.length) {
-        cache.chat = chat;
-        const chatHtml = chat.map(item => {
-            switch (item.team) {
-                case 'left':
-                    return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-                case 'right':
-                    return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-                case 'bot':
-                case 'unknown':
-                    return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+            // 聊天
+            const chat = tourney.manager.chat;
+            if (chat.length !== cache.chat.length) {
+                cache.chat = chat;
+                const chatHtml = chat.map(item => {
+                    switch (item.team) {
+                        case 'left':
+                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                        case 'right':
+                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                        case 'bot':
+                        case 'unknown':
+                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+
+                    }
+                }).join('');
+                document.getElementById("chat-content").innerHTML = chatHtml;
+                var element = document.getElementById("chat-content");
+                element.scrollTop = element.scrollHeight;
+            }
+
+            // 双边分数
+            setScoreBars(tourney);
+
+            // 双边星星槽位
+            const bestOF = tourney.manager.bestOF;
+            if (bestOF !== cache.bestOF) {
+
+                cache.bestOF = bestOF;
+                const max = bestOF / 2 + 0.5;
+                // 清空原有星星
+                document.getElementById("team-a-star-container").innerHTML = "";
+
+                for (let i = 0; i < max; i++) {
+                    const star = document.createElement("div");
+                    star.className = "team-a-star-slot";
+                    document.getElementById("team-a-star-container").appendChild(star);
+                }
+
+                // 清空原有星星
+                document.getElementById("team-b-star-container").innerHTML = "";
+
+                for (let i = 0; i < max; i++) {
+                    const star = document.createElement("div");
+                    star.className = "team-b-star-slot";
+                    document.getElementById("team-b-star-container").appendChild(star);
+                }
+            }
+
+            // 双边星星
+            const leftStar = tourney.manager.stars.left
+            if (leftStar !== cache.leftStar) {
+                cache.leftStar = leftStar;
+
+
+                const max = cache.bestOF / 2 + 0.5;
+                for (let i = 0; i < max; i++) {
+                    document.getElementById("team-a-star-container").children[i].className = "team-a-star-slot";
+                }
+                for (let i = 0; i < leftStar; i++) {
+                    const childElement = document.getElementById("team-a-star-container").children[i];
+                    childElement.className = "team-a-star";
+                }
 
             }
-        }).join('');
-        document.getElementById("chat-content").innerHTML = chatHtml;
-        var element = document.getElementById("chat-content");
-        element.scrollTop = element.scrollHeight;
-    }
+            const rightStar = tourney.manager.stars.right
+            if (rightStar !== cache.rightStar) {
+                cache.rightStar = rightStar;
 
-    // 双边分数
-    setScoreBars(tourney);
+                const max = cache.bestOF / 2 + 0.5;
 
-    // 双边星星槽位
-    const bestOF = tourney.manager.bestOF;
-    if (bestOF !== cache.bestOF) {
-
-        cache.bestOF = bestOF;
-        const max = bestOF / 2 + 0.5;
-        // 清空原有星星
-        document.getElementById("team-a-star-container").innerHTML = "";
-
-        for (let i = 0; i < max; i++) {
-            const star = document.createElement("div");
-            star.className = "team-a-star-slot";
-            document.getElementById("team-a-star-container").appendChild(star);
-        }
-
-        // 清空原有星星
-        document.getElementById("team-b-star-container").innerHTML = "";
-
-        for (let i = 0; i < max; i++) {
-            const star = document.createElement("div");
-            star.className = "team-b-star-slot";
-            document.getElementById("team-b-star-container").appendChild(star);
-        }
-    }
-
-    // 双边星星
-    const leftStar = tourney.manager.stars.left
-    if (leftStar !== cache.leftStar) {
-        cache.leftStar = leftStar;
-
-
-        const max = cache.bestOF / 2 + 0.5;
-        for (let i = 0; i < max; i++) {
-            document.getElementById("team-a-star-container").children[i].className = "team-a-star-slot";
-        }
-        for (let i = 0; i < leftStar; i++) {
-            const childElement = document.getElementById("team-a-star-container").children[i];
-            childElement.className = "team-a-star";
-        }
-
-    }
-    const rightStar = tourney.manager.stars.right
-    if (rightStar !== cache.rightStar) {
-        cache.rightStar = rightStar;
-
-        const max = cache.bestOF / 2 + 0.5;
-
-        for (let i = 0; i < max; i++) {
-            document.getElementById("team-b-star-container").children[i].className = "team-b-star-slot";
-        }
-        // 从右到左替换样式
-        for (let i = 0; i < rightStar; i++) {
-            const childElement = document.getElementById("team-b-star-container").children[max - i - 1];
-            childElement.className = "team-b-star";
-        }
-    }
-
-
-    // 双边队名 旗帜
-    const leftTeamName = tourney.manager.teamName.left;
-    if (leftTeamName !== cache.leftTeamName) {
-        cache.leftTeamName = leftTeamName;
-        getTeamFullInfoByName(leftTeamName).then(
-            (leftTeam) => {
-                // 设置队伍头像、名称
-                document.getElementById("team-a-name").innerText = leftTeam.FullName;
-                document.getElementById("team-a-avatar").src = "../COMMON/img/flag/" + leftTeam.Acronym + ".png"
+                for (let i = 0; i < max; i++) {
+                    document.getElementById("team-b-star-container").children[i].className = "team-b-star-slot";
+                }
+                // 从右到左替换样式
+                for (let i = 0; i < rightStar; i++) {
+                    const childElement = document.getElementById("team-b-star-container").children[max - i - 1];
+                    childElement.className = "team-b-star";
+                }
             }
-        )
-    }
-    const rightTeamName = tourney.manager.teamName.right;
-    if (rightTeamName !== cache.rightTeamName) {
-        cache.rightTeamName = rightTeamName;
-        getTeamFullInfoByName(rightTeamName).then(
-            (rightTeam) => {
-                document.getElementById("team-b-name").innerText = rightTeam.FullName;
-                document.getElementById("team-b-avatar").src = "../COMMON/img/flag/" + rightTeam.Acronym + ".png"
+
+
+            // 双边队名 旗帜
+            const leftTeamName = tourney.manager.teamName.left;
+            if (leftTeamName !== cache.leftTeamName) {
+                cache.leftTeamName = leftTeamName;
+                getTeamFullInfoByName(leftTeamName).then(
+                    (leftTeam) => {
+                        // 设置队伍头像、名称
+                        document.getElementById("team-a-name").innerText = leftTeam.FullName;
+                        document.getElementById("team-a-avatar").src = "../COMMON/img/flag/" + leftTeam.Acronym + ".png"
+                    }
+                )
             }
-        )
-    }
+            const rightTeamName = tourney.manager.teamName.right;
+            if (rightTeamName !== cache.rightTeamName) {
+                cache.rightTeamName = rightTeamName;
+                getTeamFullInfoByName(rightTeamName).then(
+                    (rightTeam) => {
+                        document.getElementById("team-b-name").innerText = rightTeam.FullName;
+                        document.getElementById("team-b-avatar").src = "../COMMON/img/flag/" + rightTeam.Acronym + ".png"
+                    }
+                )
+            }
+        }
 
 
-} catch (error) {
-    console.log(error);
-}
-});
+        } catch (error) {
+            console.log(error);
+        }
+    });
 
 // 控制台逻辑
 
@@ -469,8 +477,8 @@ function setScoreBars(tourney) {
     switch (magicCode) {
         case 'A':
             // 木桶效应, 改为展示队内最低分
-            scores.left.score = Math.min(leftClients.map(client => client.gameplay.score));
-            scores.right.score = Math.min(rightClients.map(client => client.gameplay.score));
+            scores.left.score = Math.min(...leftClients.map(client => client.gameplay.score));
+            scores.right.score = Math.min(...rightClients.map(client => client.gameplay.score));
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
             // 375000 = 1500000 / 4, 这里是懒办法
             scores.bar = Math.min(1, Math.pow(scoreDiff / 375000, 0.5) / 2) * 500 + 100;
@@ -486,10 +494,15 @@ function setScoreBars(tourney) {
         case 'E':
             // 巨人杀手, 指定两人分数翻倍
             // TODO, 魔法具体参数控制还没做, 这里要求选择两个玩家暂时不太好处理
+            scores.left.score = (leftClients.reduce((acc, client) => acc + client.gameplay.score * (Array.isArray(document._doublePlayers) && document._doublePlayers.includes(client.gameplay.name) ? 2 : 1), 0));
+            scores.right.score = (rightClients.reduce((acc, client) => acc + client.gameplay.score * (Array.isArray(document._doublePlayers) && document._doublePlayers.includes(client.gameplay.name) ? 2 : 1), 0));
+            scoreDiff = Math.abs(scores.left.score - scores.right.score);
+            scores.bar = Math.min(1, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 500 + 100;
+            break;
         default:
             // 其他场地魔法不改变分数显示
-            scores.left.score = Math.min(leftClients.map(client => client.gameplay.score));
-            scores.right.score = Math.min(rightClients.map(client => client.gameplay.score));
+            scores.left.score = (leftClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
+            scores.right.score = (rightClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
             scores.bar = Math.min(1, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 500 + 100;
     }
