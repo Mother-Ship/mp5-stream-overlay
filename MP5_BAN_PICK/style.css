@@ -322,7 +322,7 @@ body {
 .team-b-map-mod {
     width: 58px;
     height: 24px;
-    font-family: TorusNotched-Regular;
+    font-family: TorusNotched-Regular,sans-serif;
     font-size: 29px;
     font-weight: normal;
     font-stretch: normal;
@@ -337,7 +337,7 @@ body {
 .team-a-map-artist,
 .team-b-map-artist {
     position: absolute;
-    font-family: TorusNotched-Regular;
+    font-family: TorusNotched-Regular,sans-serif;
     color: #ffffff;
     text-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
     white-space: nowrap;
@@ -390,7 +390,7 @@ body {
 }
 
 .panel-title {
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 30px;
     color: #FFFFFF;
     position: absolute;
@@ -405,7 +405,7 @@ body {
 }
 
 .panel-label {
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 25px;
     color: #FFFFFF;
 }
@@ -415,7 +415,7 @@ body {
     border-radius: 8px;
     width: 180px;
     height: 48px;
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 20px;
     color: #808080;
     border: none;
@@ -426,7 +426,7 @@ body {
     border-radius: 8px;
     width: 180px;
     height: 48px;
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 20px;
     color: #FFFFFF;
     border: none;

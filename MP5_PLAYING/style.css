@@ -36,7 +36,7 @@ body {
 }
 
 #match-round {
-    font-family: "Resource-Han-Rounded-CN-Regular";
+    font-family: "Resource-Han-Rounded-CN-Regular",sans-serif;
     font-size: 23px;
     line-height: 48px;
 }
@@ -114,7 +114,7 @@ body {
 }
 
 #team-a-name {
-    font-family: "YouSheBiaoTiHei";
+    font-family: "YouSheBiaoTiHei",sans-serif;
     font-size: 42px;
     position: absolute;
     left: 111px;
@@ -170,7 +170,7 @@ body {
     text-align: right;
     font-size: 75px;
     color: #ffffff;
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
 }
 
 
@@ -225,7 +225,7 @@ body {
 }
 
 #team-b-name {
-    font-family: "YouSheBiaoTiHei";
+    font-family: "YouSheBiaoTiHei",sans-serif;
     font-size: 42px;
     position: absolute;
     right: 111px;
@@ -260,7 +260,7 @@ body {
     text-align: right;
     font-size: 75px;
     color: #ffffff;
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
 }
 
 
@@ -277,7 +277,7 @@ body {
 }
 
 #magic-name {
-    font-family: "YouSheBiaoTiHei";
+    font-family: "YouSheBiaoTiHei",sans-serif;
     font-size: 59px;
     letter-spacing: 0px;
     color: #ffffff;
@@ -322,7 +322,7 @@ body {
 }
 
 #magic-label {
-    font-family: "YouSheBiaoTiHei";
+    font-family: "YouSheBiaoTiHei",sans-serif;
     font-size: 133px;
     color: #ffffff;
     /*居中*/
@@ -335,7 +335,7 @@ body {
 }
 
 #magic-note {
-    font-family: "YouSheBiaoTiHei";
+    font-family: "YouSheBiaoTiHei",sans-serif;
     font-size: 75px;
     width: 998px;
     color: #ffffff;
@@ -444,7 +444,7 @@ body {
     -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
 #chat-content p {
-    font-family: Sarasa-UI-SC-Bold;
+    font-family: Sarasa-UI-SC-Bold,sans-serif;
     font-size: 25px;
     margin: 0px;
     color: #ffffff;
@@ -512,7 +512,7 @@ body {
 .team-a-map-mod {
     width: 58px;
     height: 24px;
-    font-family: TorusNotched-Regular;
+    font-family: TorusNotched-Regular,sans-serif;
     font-size: 29px;
     font-weight: normal;
     font-stretch: normal;
@@ -540,7 +540,7 @@ body {
 .team-b-map-mod {
     width: 58px;
     height: 24px;
-    font-family: TorusNotched-Regular;
+    font-family: TorusNotched-Regular,sans-serif;
     font-size: 29px;
     font-weight: normal;
     font-stretch: normal;
@@ -563,7 +563,7 @@ body {
 #map-title {
     position: absolute;
     width: 842px;
-    font-family: Resource-Han-Rounded-CN-Regular;
+    font-family: Resource-Han-Rounded-CN-Regular,sans-serif;
     font-size: 33px;
     color: #ffffff;
     left: 160px;
@@ -589,14 +589,14 @@ body {
 .map-data-text {
     color: #efca1b;
     font-size: 28px;
-    font-family: Resource-Han-Rounded-CN-Regular;
+    font-family: Resource-Han-Rounded-CN-Regular,sans-serif;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
 }
 
 .map-data-label {
     color: #ffffff;
     font-size: 28px;
-    font-family: Resource-Han-Rounded-CN-Regular;
+    font-family: Resource-Han-Rounded-CN-Regular,sans-serif;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
 }
 
@@ -609,7 +609,7 @@ body {
 }
 
 .panel-title {
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 30px;
     color: #FFFFFF;
     position: absolute;
@@ -624,7 +624,7 @@ body {
 }
 
 .panel-label {
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 25px;
     color: #FFFFFF;
 }
@@ -634,7 +634,7 @@ body {
     border-radius: 8px;
     width: 100px;
     height: 48px;
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 20px;
     color: #808080;
     border: none;
@@ -645,7 +645,7 @@ body {
     border-radius: 8px;
     width: 100px;
     height: 48px;
-    font-family: 'TorusNotched-Regular';
+    font-family: 'TorusNotched-Regular',sans-serif;
     font-size: 20px;
     color: #FFFFFF;
     border: none;
