@@ -213,53 +213,7 @@ socket.api_v1(async ({ menu, tourney }) => {
     }
 
     // 双边分数
-    const leftScore = tourney.manager.gameplay.score.left;
-    const rightScore = tourney.manager.gameplay.score.right;
-
-    if (leftScore !== cache.leftScore || rightScore !== cache.rightScore) {
-        cache.leftScore = leftScore;
-        cache.rightScore = rightScore;
-
-        // 分数条，狂抄Lazer https://github.com/ppy/osu/blob/master/osu.Game/Screens/Play/HUD/MatchScoreDisplay.cs#L145
-        var winningBar = leftScore > rightScore ? "team-a-score-bar" : "team-b-score-bar"
-        var losingBar = leftScore <= rightScore ? "team-a-score-bar" : "team-b-score-bar";
-
-        var diff = Math.max(leftScore, rightScore) - Math.min(leftScore, rightScore);
-        var animationWidth = Math.min(1, Math.pow(diff / 1500000, 0.5) / 2) * 500 + 100;
-
-        document.getElementById(losingBar).style.width = 100 + "px";
-        document.getElementById(winningBar).style.width = animationWidth + "px";
-
-        // 分数文字
-        teamAScore.update(leftScore);
-        teamBScore.update(rightScore);
-        document.getElementById("team-a-score").style.fontSize = leftScore > rightScore ? "75px" : "50px";
-        document.getElementById("team-b-score").style.fontSize = leftScore <= rightScore ? "75px" : "50px";
-
-        // 隐藏分数条、歌曲信息，展示聊天框
-        document.getElementById('chat').classList.remove('fade-in');
-        document.getElementById('chat').classList.add('fade-out');
-        document.getElementById('chat').style.opacity = "0";
-        setTimeout(() => {
-            document.getElementById('map-info-container').style.display = 'block';
-            document.getElementById('team-a-score-bar').style.display = 'block';
-            document.getElementById('team-b-score-bar').style.display = 'block';
-
-        }, 500)
-
-        // 重置计时器的执行时间
-        clearTimeout(scoreUpdateTimer);
-        scoreUpdateTimer = setTimeout(() => {
-            console.log('隐藏分数条、歌曲信息，展示聊天框')
-            document.getElementById('chat').classList.remove('fade-out');
-            document.getElementById('chat').style.opacity = "1";
-            document.getElementById('chat').classList.add('fade-in');
-
-            document.getElementById('map-info-container').style.display = 'none';
-            document.getElementById('team-a-score-bar').style.display = 'none';
-            document.getElementById('team-b-score-bar').style.display = 'none';
-        }, 8000);
-    }
+    setScoreBars(tourney);
 
     // 双边星星槽位
     const bestOF = tourney.manager.bestOF;
@@ -429,6 +383,9 @@ if (currentMagicCode !== null) {
             document.getElementById("magic-name").innerText =
                 magic.code + ": " + magic.name;
             document.getElementById("magic-full-note").innerText = magic.fullNote;
+
+            // 处理魔法对控制台操作的影响
+            handleMagicControls(magic.code);
         }
     ).catch((error) => {
         console.log(error);
@@ -487,3 +444,98 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 })
+
+async function handleMagicControls(magicCode) {
+    // TODO 这里可以做 HTML 里现在还没用到的 magic-data-control 的控制
+}
+
+function setScoreBars(tourney) {
+    // 根据当前场地魔法确定显示的分数数值和分数条情况
+    const magicCode = getCurrentMagic();
+    const scores = {
+        left: {
+            score: 0,
+        },
+        right: {
+            score: 0,
+        },
+        bar: -1,
+    }
+
+    const leftClients = tourney.ipcClients.filter(client => client.team === 'left');
+    const rightClients = tourney.ipcClients.filter(client => client.team === 'right');
+    let scoreDiff = 0;
+
+    switch (magicCode) {
+        case 'A':
+            // 木桶效应, 改为展示队内最低分
+            scores.left.score = Math.min(leftClients.map(client => client.gameplay.score));
+            scores.right.score = Math.min(rightClients.map(client => client.gameplay.score));
+            scoreDiff = Math.abs(scores.left.score - scores.right.score);
+            // 375000 = 1500000 / 4, 这里是懒办法
+            scores.bar = Math.min(1, Math.pow(diff / 375000, 0.5) / 2) * 500 + 100;
+            break;
+        case 'B':
+            // 完美主义, 改为展示总 acc
+            scores.left.score = leftClients.reduce((acc, client) => acc + client.gameplay.accuracy, 0);
+            scores.right.score = rightClients.reduce((acc, client) => acc + client.gameplay.accuracy, 0);
+            scoreDiff = Math.abs(scores.left.score - scores.right.score);
+            // TODO 待测试具体参数, acc 差距由于比较小不能直接把 1500000 按比例缩放成 150
+            scores.bar = Math.min(1, Math.pow(diff / 50, 0.5) / 2) * 500 + 100;
+            break;
+        case 'E':
+            // 巨人杀手, 指定两人分数翻倍
+            // TODO, 魔法具体参数控制还没做, 这里要求选择两个玩家暂时不太好处理
+        default:
+            // 其他场地魔法不改变分数显示
+            scores.left.score = Math.min(leftClients.map(client => client.gameplay.score));
+            scores.right.score = Math.min(rightClients.map(client => client.gameplay.score));
+            scoreDiff = Math.abs(scores.left.score - scores.right.score);
+            scores.bar = Math.min(1, Math.pow(diff / 1500000, 0.5) / 2) * 500 + 100;
+    }
+
+    if (scores.left.score !== cache.leftScore || scores.right.score !== cache.rightScore) {
+        cache.leftScore = scores.left.score;
+        cache.rightScore = scores.right.score;
+
+        const leftScore = scores.left.score;
+        const rightScore = scores.right.score;
+
+        // 分数条，狂抄Lazer https://github.com/ppy/osu/blob/master/osu.Game/Screens/Play/HUD/MatchScoreDisplay.cs#L145
+        var winningBar = leftScore > rightScore ? "team-a-score-bar" : "team-b-score-bar"
+        var losingBar = leftScore <= rightScore ? "team-a-score-bar" : "team-b-score-bar";
+
+        document.getElementById(losingBar).style.width = 100 + "px";
+        document.getElementById(winningBar).style.width = scores.bar + "px";
+
+        // 分数文字
+        teamAScore.update(leftScore);
+        teamBScore.update(rightScore);
+        document.getElementById("team-a-score").style.fontSize = leftScore > rightScore ? "75px" : "50px";
+        document.getElementById("team-b-score").style.fontSize = leftScore <= rightScore ? "75px" : "50px";
+
+        // 隐藏分数条、歌曲信息，展示聊天框
+        document.getElementById('chat').classList.remove('fade-in');
+        document.getElementById('chat').classList.add('fade-out');
+        document.getElementById('chat').style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById('map-info-container').style.display = 'block';
+            document.getElementById('team-a-score-bar').style.display = 'block';
+            document.getElementById('team-b-score-bar').style.display = 'block';
+
+        }, 500)
+
+        // 重置计时器的执行时间
+        clearTimeout(scoreUpdateTimer);
+        scoreUpdateTimer = setTimeout(() => {
+            console.log('隐藏分数条、歌曲信息，展示聊天框')
+            document.getElementById('chat').classList.remove('fade-out');
+            document.getElementById('chat').style.opacity = "1";
+            document.getElementById('chat').classList.add('fade-in');
+
+            document.getElementById('map-info-container').style.display = 'none';
+            document.getElementById('team-a-score-bar').style.display = 'none';
+            document.getElementById('team-b-score-bar').style.display = 'none';
+        }, 8000);
+    }
+}
