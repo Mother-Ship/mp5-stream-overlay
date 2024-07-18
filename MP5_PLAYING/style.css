@@ -36,7 +36,7 @@ body {
 }
 
 #match-round {
-    font-family: "Resource-Han-Rounded-CN-Regular",sans-serif;
+    font-family: "Resource-Han-Rounded-CN-Regular", sans-serif;
     font-size: 23px;
     line-height: 48px;
 }
@@ -114,7 +114,7 @@ body {
 }
 
 #team-a-name {
-    font-family: "YouSheBiaoTiHei",sans-serif;
+    font-family: "YouSheBiaoTiHei", sans-serif;
     font-size: 42px;
     position: absolute;
     left: 111px;
@@ -170,7 +170,7 @@ body {
     text-align: right;
     font-size: 75px;
     color: #ffffff;
-    font-family: 'TorusNotched-Regular',sans-serif;
+    font-family: 'TorusNotched-Regular', sans-serif;
 }
 
 
@@ -225,7 +225,7 @@ body {
 }
 
 #team-b-name {
-    font-family: "YouSheBiaoTiHei",sans-serif;
+    font-family: "YouSheBiaoTiHei", sans-serif;
     font-size: 42px;
     position: absolute;
     right: 111px;
@@ -260,7 +260,7 @@ body {
     text-align: right;
     font-size: 75px;
     color: #ffffff;
-    font-family: 'TorusNotched-Regular',sans-serif;
+    font-family: 'TorusNotched-Regular', sans-serif;
 }
 
 
@@ -274,14 +274,53 @@ body {
     justify-content: center;
     align-content: center;
     flex-wrap: wrap;
+
+    background-color: #4c4742;
+    border-radius: 27px;
+    border: solid 8px #33302f;
+    overflow: hidden;
+}
+
+#magic-name-label-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 115px;
+    height: 45px;
+    background-color: #33302f;
+    border-radius: 0px 19px 0px 19px;
+    display: flex;
+    justify-content: center;
+}
+
+#magic-name-label {
+    font-family: "Resource-Han-Rounded-CN-Regular", sans-serif;
+    font-size: 25px;
+    color: #ffffff;
+    line-height: 45px;
 }
 
 #magic-name {
-    font-family: "YouSheBiaoTiHei",sans-serif;
+    font-family: "YouSheBiaoTiHei", sans-serif;
     font-size: 59px;
     letter-spacing: 0px;
     color: #ffffff;
+    z-index: 1;
 }
+
+#magic-logo-container {
+    position: absolute;
+    left: -22px;
+    top: -89px;
+    transform: rotate(-15deg);
+    width: 307px;
+    height: 255px;
+    background-color: #2c2a27;
+    mask: url(../COMMON/img/logo2.png) no-repeat;
+    mask-size: 100% 100%;
+    opacity: 0.29;
+}
+
 
 #magic-note-container {
     position: relative;
@@ -322,7 +361,7 @@ body {
 }
 
 #magic-label {
-    font-family: "YouSheBiaoTiHei",sans-serif;
+    font-family: "YouSheBiaoTiHei", sans-serif;
     font-size: 133px;
     color: #ffffff;
     /*居中*/
@@ -335,7 +374,7 @@ body {
 }
 
 #magic-note {
-    font-family: "YouSheBiaoTiHei",sans-serif;
+    font-family: "YouSheBiaoTiHei", sans-serif;
     font-size: 75px;
     width: 998px;
     color: #ffffff;
@@ -369,6 +408,54 @@ body {
     opacity: 0; /* 淡出至完全透明 */
 }
 
+#danmaku-container {
+    position: absolute;
+    width: 570px;
+    height: 114px;
+    right: 23px;
+    top: 1270px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+
+    background-color: #4c4742;
+    border-radius: 27px;
+    border: solid 8px #33302f;
+    overflow: hidden;
+}
+
+#danmaku-label-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 115px;
+    height: 45px;
+    background-color: #33302f;
+    border-radius: 19px 0px 19px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+#danmaku-label {
+    font-family: "Resource-Han-Rounded-CN-Regular", sans-serif;
+    font-size: 25px;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+#danmaku-logo-container {
+    position: absolute;
+    right: -22px;
+    top: -89px;
+    transform: rotate(15deg);
+    width: 307px;
+    height: 255px;
+    background-color: #2c2a27;
+    mask: url(../COMMON/img/logo2.png) no-repeat;
+    mask-size: 100% 100%;
+    opacity: 0.29;
+}
 
 .rolling-girl {
     padding-left: 20px;
@@ -413,6 +500,7 @@ body {
 }
 
 #chat-label {
+    font-family: "Resource-Han-Rounded-CN-Regular", sans-serif;
     font-size: 18px;
     color: #ffffff;
     /*垂直居中*/
@@ -427,41 +515,48 @@ body {
     height: 240px;
     overflow-y: auto; /* 当内容溢出时，自动显示垂直滚动条 */
 }
+
 /* 滚动槽 */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
+
 ::-webkit-scrollbar-track {
     border-radius: 3px;
-    background: rgba(0,0,0,0.06);
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
+    background: rgba(0, 0, 0, 0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
 }
+
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
     border-radius: 3px;
-    background: rgba(0,0,0,0.12);
-    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
 #chat-content p {
-    font-family: Sarasa-UI-SC-Bold,sans-serif;
+    font-family: Sarasa-UI-SC-Bold, sans-serif;
     font-size: 25px;
     margin: 0px;
     color: #ffffff;
 }
-.time{
+
+.time {
     color: #e3e3e3;
 }
-.player-a-name-chat{
+
+.player-a-name-chat {
     color: #ea5455;
 }
-.unknown-chat{
+
+.unknown-chat {
     color: #28cc9e;
 }
-.player-b-name-chat{
+
+.player-b-name-chat {
     color: #a1eafb;
 }
-
 
 
 #chat-bg {
@@ -512,7 +607,7 @@ body {
 .team-a-map-mod {
     width: 58px;
     height: 24px;
-    font-family: TorusNotched-Regular,sans-serif;
+    font-family: TorusNotched-Regular, sans-serif;
     font-size: 29px;
     font-weight: normal;
     font-stretch: normal;
@@ -540,7 +635,7 @@ body {
 .team-b-map-mod {
     width: 58px;
     height: 24px;
-    font-family: TorusNotched-Regular,sans-serif;
+    font-family: TorusNotched-Regular, sans-serif;
     font-size: 29px;
     font-weight: normal;
     font-stretch: normal;
@@ -563,7 +658,7 @@ body {
 #map-title {
     position: absolute;
     width: 842px;
-    font-family: Resource-Han-Rounded-CN-Regular,sans-serif;
+    font-family: Resource-Han-Rounded-CN-Regular, sans-serif;
     font-size: 33px;
     color: #ffffff;
     left: 160px;
@@ -589,14 +684,14 @@ body {
 .map-data-text {
     color: #efca1b;
     font-size: 28px;
-    font-family: Resource-Han-Rounded-CN-Regular,sans-serif;
+    font-family: Resource-Han-Rounded-CN-Regular, sans-serif;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
 }
 
 .map-data-label {
     color: #ffffff;
     font-size: 28px;
-    font-family: Resource-Han-Rounded-CN-Regular,sans-serif;
+    font-family: Resource-Han-Rounded-CN-Regular, sans-serif;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
 }
 
@@ -609,7 +704,7 @@ body {
 }
 
 .panel-title {
-    font-family: 'TorusNotched-Regular',sans-serif;
+    font-family: 'TorusNotched-Regular', sans-serif;
     font-size: 30px;
     color: #FFFFFF;
     position: absolute;
@@ -624,7 +719,7 @@ body {
 }
 
 .panel-label {
-    font-family: 'TorusNotched-Regular',sans-serif;
+    font-family: 'TorusNotched-Regular', sans-serif;
     font-size: 25px;
     color: #FFFFFF;
 }
@@ -634,7 +729,7 @@ body {
     border-radius: 8px;
     width: 100px;
     height: 48px;
-    font-family: 'TorusNotched-Regular',sans-serif;
+    font-family: 'TorusNotched-Regular', sans-serif;
     font-size: 20px;
     color: #808080;
     border: none;
@@ -645,7 +740,7 @@ body {
     border-radius: 8px;
     width: 100px;
     height: 48px;
-    font-family: 'TorusNotched-Regular',sans-serif;
+    font-family: 'TorusNotched-Regular', sans-serif;
     font-size: 20px;
     color: #FFFFFF;
     border: none;
