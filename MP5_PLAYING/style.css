@@ -480,7 +480,7 @@ body {
     height: 273px;
     top: 1121px;
     left: 700px;
-    background-color: #383532;
+    background-color: #211f1d;
     border-radius: 27px;
     border: solid 6px #33302f;
     box-sizing: border-box;
@@ -559,11 +559,6 @@ body {
 }
 
 
-#chat-bg {
-    position: absolute;
-    width: 1260px;
-    height: 273px;
-}
 
 
 #map-info-container {

@@ -20,6 +20,7 @@ const socket = new WebSocketManager('127.0.0.1:24050');
 const cache = {
     leftTeam: "",
     rightTeam: "",
+    chat: [],
 };
 
 function appendPlayersToList(players, listId, teamName) {
@@ -40,6 +41,27 @@ function appendPlayersToList(players, listId, teamName) {
 
 socket.api_v1(({tourney}) => {
     try {
+        // 聊天
+        const chat = tourney.manager.chat;
+        if (chat.length !== cache.chat.length) {
+            cache.chat = chat;
+            const chatHtml = chat.map(item => {
+                switch (item.team) {
+                    case 'left':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                    case 'right':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                    case 'bot':
+                    case 'unknown':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+
+                }
+            }).join('');
+            document.getElementById("chat-content").innerHTML = chatHtml;
+            var element = document.getElementById("chat-content");
+            element.scrollTop = element.scrollHeight;
+        }
+
         if (tourney.manager.teamName.left !== cache.leftTeam || tourney.manager.teamName.right !== cache.rightTeam) {
             cache.leftTeam = tourney.manager.teamName.left;
             cache.rightTeam = tourney.manager.teamName.right;
@@ -105,11 +127,9 @@ document.getElementById('button-a-ban').addEventListener('click', function (e) {
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-a-ban');
     //去除team-a元素的background-color
-    document.getElementById("team-a").style.backgroundColor = "transparent";
+    document.getElementById("team-a").style.backgroundColor = "#824242";
     //给team-b元素加上background-color
-    document.getElementById("team-b").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    // 修改operation-hint的内容
-    document.getElementById("operation-hint").innerHTML = "当前操作：红方禁用"
+    document.getElementById("team-b").style.backgroundColor = "#202d45";
     // 准备好全局变量，类似于{ "team": "Red", "type": "Pick", "beatmapID": 2194138 }，只不过没有beatmapId
     currentOperation = {
         "team": "Red",
@@ -121,11 +141,9 @@ document.getElementById('button-a-pick').addEventListener('click', function (e) 
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-a-pick');
     //去除team-a元素的background-color
-    document.getElementById("team-a").style.backgroundColor = "transparent";
+    document.getElementById("team-a").style.backgroundColor = "#824242";
     //给team-b元素加上background-color
-    document.getElementById("team-b").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    // 修改operation-hint的内容
-    document.getElementById("operation-hint").innerHTML = "当前操作：红方选图"
+    document.getElementById("team-b").style.backgroundColor = "#202d45";
     currentOperation = {
         "team": "Red",
         "type": "Pick"
@@ -137,11 +155,9 @@ document.getElementById('button-b-ban').addEventListener('click', function (e) {
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-b-ban');
     //去除team-b元素的background-color
-    document.getElementById("team-b").style.backgroundColor = "transparent";
+    document.getElementById("team-b").style.backgroundColor = "#415a8a";
     //给team-a元素加上background-color
-    document.getElementById("team-a").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    // 修改operation-hint的内容
-    document.getElementById("operation-hint").innerHTML = "当前操作：蓝方禁用"
+    document.getElementById("team-a").style.backgroundColor = "#412121";
     currentOperation = {
         "team": "Blue",
         "type": "Ban"
@@ -152,15 +168,58 @@ document.getElementById('button-b-pick').addEventListener('click', function (e) 
     deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
     activateButton('button-b-pick');
     //去除team-b元素的background-color
-    document.getElementById("team-b").style.backgroundColor = "transparent";
+    document.getElementById("team-b").style.backgroundColor = "#415a8a";
     //给team-a元素加上background-color
-    document.getElementById("team-a").style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    // 修改operation-hint的内容
-    document.getElementById("operation-hint").innerHTML = "当前操作：蓝方选图"
+    document.getElementById("team-a").style.backgroundColor = "#412121";
     currentOperation = {
         "team": "Blue",
         "type": "Pick"
     }
+})
+document.getElementById('button-a-blank').addEventListener('click', function (e) {
+    let operationContainer = document.getElementById("team-a-operation");
+    // 如果没有ID为team-a-blank的子元素则创建
+    if (!document.getElementById("team-a-blank")) {
+        let operation = document.createElement("div");
+        operation.id = "team-a-blank";
+        operationContainer.appendChild(operation);
+        storeBeatmapSelection(
+            {
+                "team": "Red",
+                "type": "Blank",
+                "beatmapId": "RED_BLANK"
+            }
+        )
+    }
+})
+document.getElementById('button-b-blank').addEventListener('click', function (e) {
+    let operationContainer = document.getElementById("team-b-operation");
+    // 如果没有ID为team-b-blank的子元素则创建
+    if (!document.getElementById("team-b-blank")) {
+        let operation = document.createElement("div");
+        operation.id = "team-b-blank";
+        operationContainer.appendChild(operation);
+        storeBeatmapSelection(
+            {
+                "team": "Blue",
+                "type": "Blank",
+                "beatmapId": "BLUE_BLANK"
+            }
+        )
+    }
+
+
+})
+document.getElementById('button-a-blank').addEventListener('contextmenu', function (e) {
+    let operationContainer = document.getElementById("team-a-operation");
+    //删除ID为team-a-blank的子元素
+    operationContainer.removeChild(document.getElementById("team-a-blank"));
+
+})
+document.getElementById('button-b-blank').addEventListener('contextmenu', function (e) {
+    let operationContainer = document.getElementById("team-b-operation");
+    //删除ID为team-b-blank的子元素
+    operationContainer.removeChild(document.getElementById("team-b-blank"));
 })
 
 const TEAM_RED = "Red";
@@ -194,15 +253,20 @@ function restoreBeatmapSelection() {
                     const {team, type} = beatmapOperation;
                     let operationContainer = team === TEAM_RED ? teamAContainer : teamBContainer;
                     let operation = document.createElement("div");
-                    operation.id = beatmap.ID;
-                    if (type === "Pick") {
-                        operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
-                    }
-                    if (type === "Ban") {
-                        operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
-                    }
-                    const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
-                    operation.innerHTML = `  
+                    // 离线图的改动恰好兼容了空ban，这里找不到对应MOD也不会出现异常，而是直接插入空白div
+                    if (type === "Blank"){
+                        operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
+                        operationContainer.appendChild(operation);
+                    }else {
+                        operation.id = beatmap.ID;
+                        if (type === "Pick") {
+                            operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
+                        }
+                        if (type === "Ban") {
+                            operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
+                        }
+                        const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
+                        operation.innerHTML = `  
                         <div class="${classPrefix}-map-cover-border">                      
                             <img class="${classPrefix}-map-cover"
                                  src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
@@ -214,10 +278,12 @@ function restoreBeatmapSelection() {
                         <span class="${classPrefix}-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
                         <span class="${classPrefix}-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
                     `;
-                    operationContainer.appendChild(operation);
-                    setTimeout(function () {
-                        operation.classList.add('shown');
-                    }, 1000);
+                        operationContainer.appendChild(operation);
+                        setTimeout(function () {
+                            operation.classList.add('shown');
+                        }, 1000);
+                    }
+
                 });
             }).catch(error => {
                 console.error("Error restoring beatmap selections:", error);

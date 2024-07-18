@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <img id="ban-pick-bg" src="../COMMON/img/ban_pick_bg.png">
+    <img id="ban-pick-bg" src="../COMMON/img/ban_pick_bg_later.png">
 
     <div id="team-a">
         <img id="team-a-avatar">
@@ -33,20 +33,25 @@
     </div>
 
 
-    <span id="operation-hint">当前操作：无</span>
-
     <div id="operation-container">
 
         <div id="team-a-operation">
+        </div>
 
-
+        <div id="split">
         </div>
 
         <div id="team-b-operation">
+        </div>
+    </div>
+    <div id="chat">
+        <div id="chat-overlay">
+            <span id="chat-label">Player Chat</span>
+        </div>
+        <div id="chat-content">
 
         </div>
     </div>
-
     <div class="control-panel">
         <span class="panel-title">Control Panel</span>
         <div class="panel-buttons">
@@ -63,10 +68,16 @@
             <div class="ban-pick-control">
                 <div class="panel-label"><span>2. 选择当前Ban / Pick方</span></div>
 
-                <button id="button-a-ban" class="button-inactive">红色Ban</button>
-                <button id="button-b-ban" class="button-inactive">蓝色Ban</button>
-                <button id="button-a-pick" class="button-inactive">红色Pick</button>
-                <button id="button-b-pick" class="button-inactive">蓝色Pick</button>
+                <div class="ban-pick-control-buttons">
+                    <button id="button-a-ban" class="button-inactive">红色Ban</button>
+                    <button id="button-b-ban" class="button-inactive">蓝色Ban</button>
+                    <button id="button-a-pick" class="button-inactive">红色Pick</button>
+                    <button id="button-b-pick" class="button-inactive">蓝色Pick</button>
+
+                    <button id="button-a-blank" class="button-inactive">红色空操作</button>
+                    <button id="button-b-blank" class="button-inactive">蓝色空操作</button>
+                </div>
+
 
             </div>
 
