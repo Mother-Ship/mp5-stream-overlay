@@ -214,12 +214,15 @@ document.getElementById('button-a-blank').addEventListener('contextmenu', functi
     let operationContainer = document.getElementById("team-a-operation");
     //删除ID为team-a-blank的子元素
     operationContainer.removeChild(document.getElementById("team-a-blank"));
-
+    // 从localstorage删除操作
+    deleteBeatmapSelectionById("RED_BLANK");
 })
 document.getElementById('button-b-blank').addEventListener('contextmenu', function (e) {
     let operationContainer = document.getElementById("team-b-operation");
     //删除ID为team-b-blank的子元素
     operationContainer.removeChild(document.getElementById("team-b-blank"));
+    // 从localstorage删除操作
+    deleteBeatmapSelectionById("BLUE_BLANK");
 })
 
 const TEAM_RED = "Red";
