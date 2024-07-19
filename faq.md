@@ -1,3 +1,0 @@
-队旗需要给出直播包的人手动存一下放img里
-showcase场景如果有离线图，需要硬编码 MP5_SHOWCASE_INFO/index.js 写MD5和位置的映射
-playing 和showcase_playing的背景有这届MP5的徽标剪影，是和背景切在同一个图的，其他比赛要用要换掉
