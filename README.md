@@ -31,7 +31,7 @@
 
 1. 使用OBS导入场景集合（static目录下的[MP5_OBS_SCENE_COLLECTION.json](MP5_OBS_SCENE_COLLECTION.json)文件）；
 2. 提示缺少文件时，点击查找文件夹，选择static目录中的OBS Assets文件夹；
-3. 在OBS设置->音频里添加你自己的扬声器和麦克风设备；
+3. 在OBS设置->音频页面中，启用你自己的扬声器和麦克风设备；
 ---
 （如果你已经用过直播包，现在需要播同一届比赛的另一场比赛，则从这里开始）
 
