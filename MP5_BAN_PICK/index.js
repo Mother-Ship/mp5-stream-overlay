@@ -1,6 +1,5 @@
 // connecting to websocket
 import {
-    clearBeatmapSelections,
     deleteBeatmapSelectionById,
     getAllRound,
     getBeatmapListByRoundName,
@@ -110,11 +109,19 @@ document.addEventListener('selectstart', function (e) {
 })
 
 let allRound;
-let currentRound;
+let currentRoundName;
 getAllRound().then(
     (rounds) => {
         allRound = rounds;
-        currentRound = rounds[0];
+        // 尝试从localstorage找回当前轮次，否则使用第一轮
+        if (localStorage.getItem('currentRound')) {
+            currentRoundName = localStorage.getItem('currentRound');
+            locked = true;
+            deactivateButtons("button-match-next", "button-match-previous")
+            document.getElementById("lock").innerText = "解锁";
+        } else {
+            currentRoundName = rounds[0].roundName;
+        }
         onCurrentRoundChange();
     }
 )
@@ -257,10 +264,10 @@ function restoreBeatmapSelection() {
                     let operationContainer = team === TEAM_RED ? teamAContainer : teamBContainer;
                     let operation = document.createElement("div");
                     // 离线图的改动恰好兼容了空ban，这里找不到对应MOD也不会出现异常，而是直接插入空白div
-                    if (type === "Blank"){
+                    if (type === "Blank") {
                         operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
                         operationContainer.appendChild(operation);
-                    }else {
+                    } else {
                         operation.id = beatmap.ID;
                         if (type === "Pick") {
                             operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
@@ -368,14 +375,14 @@ function appendOperation(beatmap, mods) {
 }
 
 function onCurrentRoundChange() {
-    document.getElementById('current-match').innerText = "当前场次：" + currentRound.roundName;
+    document.getElementById('current-match').innerText = "当前场次：" + currentRoundName;
 
     // 从Localstorage找回所有上方谱面操作
     restoreBeatmapSelection();
 
 
     // 根据场次名称找到本场谱面
-    getBeatmapListByRoundName(currentRound.roundName)
+    getBeatmapListByRoundName(currentRoundName)
         .then((beatmaps) => {
                 // 填充map-pool-mod-container
                 const mapPool = document.getElementById("map-pool-mod-container");
@@ -523,20 +530,21 @@ function countMapsAndAddWideClass() {
         }
     }
 }
+
 let locked = false;
 
 document.getElementById('button-match-next').addEventListener('click', function (e) {
-    if (locked){
+    if (locked) {
         return;
     }
-    //切换currentRound到下一场
+    //切换currentRoundName到下一场
     for (let i = 0; i < allRound.length; i++) {
-        if (allRound[i].roundName === currentRound.roundName) {
+        if (allRound[i].roundName === currentRoundName) {
             console.log(i)
             if (i === allRound.length - 1) {
-                currentRound = allRound[0];
+                currentRoundName = allRound[0].roundName;
             } else {
-                currentRound = allRound[i + 1];
+                currentRoundName = allRound[i + 1].roundName;
             }
             break;
         }
@@ -547,17 +555,16 @@ document.getElementById('button-match-next').addEventListener('click', function 
 })
 
 document.getElementById('button-match-previous').addEventListener('click', function (e) {
-    if (locked){
+    if (locked) {
         return;
     }
     //切换currentRound到上一场
     for (let i = 0; i < allRound.length; i++) {
-        if (allRound[i].roundName === currentRound.roundName) {
-            console.log(i)
+        if (allRound[i].roundName === currentRoundName) {
             if (i === 0) {
-                currentRound = allRound[allRound.length - 1];
+                currentRoundName = allRound[allRound.length - 1].roundName;
             } else {
-                currentRound = allRound[i - 1];
+                currentRoundName = allRound[i - 1].roundName;
             }
             break;
         }
@@ -571,10 +578,14 @@ document.getElementById("lock").addEventListener('click', function (e) {
         activateButton("button-match-next");
         activateButton("button-match-previous");
         document.getElementById("lock").innerText = "锁定";
+        // 清除localstorage里当前轮次
+        localStorage.removeItem('currentRound');
     } else {
         locked = true;
         deactivateButtons("button-match-next", "button-match-previous")
         document.getElementById("lock").innerText = "解锁";
+        // 存储当前轮次到localstorage
+        localStorage.setItem('currentRound', currentRoundName);
     }
 })
 document.addEventListener('contextmenu', function (event) {
