@@ -34,11 +34,12 @@ body {
     left: -9px;
     top: -9px;
 }
+
 #carousel > ul,
-#carousel > ul > li{
+#carousel > ul > li {
     padding: 0;
     margin: 0;
-    list-style:none;
+    list-style: none;
 }
 
 .slide { /* 每个幻灯片样式 */
@@ -112,4 +113,56 @@ body {
     font-size: 28px;
     font-family: Resource-Han-Rounded-CN-Regular;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+#bg {
+    position: absolute;
+}
+
+#danmaku-container {
+    position: absolute;
+    width: 623px;
+    height: 119px;
+    right: 21px;
+    top: 1286px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+
+    background-color: #2d2b28;
+    border-radius: 34px;
+    border: solid 10px #282724;
+}
+
+#danmaku-label-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 115px;
+    height: 45px;
+    background-color: #282724;
+    border-radius: 19px 0px 19px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+#danmaku-label {
+    font-family: "Resource-Han-Rounded-CN-Regular", sans-serif;
+    font-size: 25px;
+    color: #ffffff;
+    line-height: 45px;
+}
+#danmaku-logo-container {
+    position: absolute;
+    right: -22px;
+    top: -89px;
+    transform: rotate(15deg);
+    width: 307px;
+    height: 255px;
+    background-color: #3b3a36;
+    mask: url(../COMMON/img/logo2.png) no-repeat;
+    mask-size: 100% 100%;
+    opacity: 0.62;
 }
