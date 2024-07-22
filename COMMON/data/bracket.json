@@ -1673,8 +1673,46 @@
           }
         },
         {
-          "ID": 998244353,
-          "Mods": "NM"
+          "ID": 4692350,
+          "Mods": "NM",
+          "BeatmapInfo": {
+            "OnlineID": 4692350,
+            "DifficultyName": "Hitoki Mai",
+            "BPM": 142.0,
+            "Length": 160000.0,
+            "StarRating": 5.26,
+            "EndTimeObjectCount": 351,
+            "TotalObjectCount": 795,
+            "Metadata": {
+              "Title": "Nemureru mori no shoujo",
+              "title_unicode": "眠れる森の少女  (Cut Ver.)",
+              "Artist": "Hatsuki Yura",
+              "artist_unicode": "葉月ゆら",
+              "Author": {
+                "OnlineID": 14242784,
+                "Username": "S_Saika",
+                "CountryString": "Unknown"
+              },
+              "Source": "催眠演舞",
+              "tags": "nm3 mp5 another flower saimin enbu",
+              "PreviewTime": -1,
+              "AudioFile": "",
+              "BackgroundFile": ""
+            },
+            "Difficulty": {
+              "DrainRate": 4.0,
+              "CircleSize": 4.0,
+              "OverallDifficulty": 7.8,
+              "ApproachRate": 9.3,
+              "SliderMultiplier": 1.4,
+              "SliderTickRate": 1.0
+            },
+            "Covers": {
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2214571/covers/cover@2x.jpg?1721021906",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2214571/covers/card@2x.jpg?1721021906",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2214571/covers/list@2x.jpg?1721021906"
+            }
+          }
         },
         {
           "ID": 3756543,
@@ -1971,8 +2009,46 @@
           }
         },
         {
-          "ID": 19198101,
-          "Mods": "HR"
+          "ID": 4692829,
+          "Mods": "HR",
+          "BeatmapInfo": {
+            "OnlineID": 4692829,
+            "DifficultyName": "Beloved",
+            "BPM": 88.0,
+            "Length": 210000.0,
+            "StarRating": 4.77,
+            "EndTimeObjectCount": 266,
+            "TotalObjectCount": 598,
+            "Metadata": {
+              "Title": "Nameless Heart",
+              "title_unicode": "Nameless Heart",
+              "Artist": "Fremy Speeddraw (CV: Yuuki Aoi)",
+              "artist_unicode": "フレミー・スピッドロウ（CV：悠木 碧）",
+              "Author": {
+                "OnlineID": 6854920,
+                "Username": "Another Flower",
+                "CountryString": "Unknown"
+              },
+              "Source": "六花の勇者",
+              "tags": "rokka no yuusha braves of the six flowers ending ed3 anime japanese hr2 悠木 碧",
+              "PreviewTime": -1,
+              "AudioFile": "",
+              "BackgroundFile": ""
+            },
+            "Difficulty": {
+              "DrainRate": 5.0,
+              "CircleSize": 5.0,
+              "OverallDifficulty": 8.5,
+              "ApproachRate": 8.2,
+              "SliderMultiplier": 1.4,
+              "SliderTickRate": 1.0
+            },
+            "Covers": {
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2214811/covers/cover@2x.jpg?1721052802",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2214811/covers/card@2x.jpg?1721052802",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2214811/covers/list@2x.jpg?1721052802"
+            }
+          }
         },
         {
           "ID": 3667381,
@@ -2437,7 +2513,7 @@
           }
         }
       ],
-      "StartDate": "2024-07-15T05:25:17.4980267+00:00",
+      "StartDate": "2024-07-15T13:25:17.4980267+08:00",
       "Matches": []
     }
   ],
