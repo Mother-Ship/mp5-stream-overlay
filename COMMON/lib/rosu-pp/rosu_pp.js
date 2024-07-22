@@ -23,7 +23,7 @@ function passArray8ToWasm0(arg, malloc) {
 * @param {number} mods
 * @returns {number}
 */
-function calculate_sr(str, mods) {
+export function calculate_sr(str, mods) {
     const ptr0 = passArray8ToWasm0(str, wasm.__wbindgen_malloc);
     const len0 = WASM_VECTOR_LEN;
     const ret = wasm.calculate_sr(ptr0, len0, mods);
@@ -101,7 +101,7 @@ async function __wbg_init(input) {
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
-        input = new URL(`${window.location.protocol}//${window.location.host}${window.location.pathname}providers/rosu/rosu_pp_bg.wasm`);
+        input = new URL('rosu_pp_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 
@@ -116,4 +116,5 @@ async function __wbg_init(input) {
     return __wbg_finalize_init(instance, module);
 }
 
-export { __wbg_init, calculate_sr }
+export { initSync, __wbg_init }
+export default __wbg_init;
