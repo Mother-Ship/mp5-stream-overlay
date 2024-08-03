@@ -171,12 +171,19 @@ socket.api_v1(async ({ menu, tourney }) => {
                 document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
 
                 if (operation.team === "Red") {
+                    document.getElementById("map-info-container").classList.remove("picked-by-team-b")
+                    document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
+                    document.getElementById("map-mod").classList.remove("team-b-map-mod")
+
                     document.getElementById("map-info-container").classList.add("picked-by-team-a")
                     document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
                     document.getElementById("map-mod").classList.add("team-a-map-mod")
-
                 }
                 if (operation.team === "Blue") {
+                    document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+                    document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+                    document.getElementById("map-mod").classList.remove("team-a-map-mod")
+
                     document.getElementById("map-info-container").classList.add("picked-by-team-b")
                     document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
                     document.getElementById("map-mod").classList.add("team-b-map-mod")
