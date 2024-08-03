@@ -318,6 +318,8 @@ body {
     background-color: #2c2a27;
     mask: url(../COMMON/img/logo2.png) no-repeat;
     mask-size: 100% 100%;
+    -webkit-mask: url(../COMMON/img/logo2.png) no-repeat;
+    -webkit-mask-size: 100% 100%;
     opacity: 0.29;
 }
 
@@ -454,6 +456,9 @@ body {
     background-color: #2c2a27;
     mask: url(../COMMON/img/logo2.png) no-repeat;
     mask-size: 100% 100%;
+    -webkit-mask: url(../COMMON/img/logo2.png) no-repeat;
+    -webkit-mask-size: 100% 100%;
+
     opacity: 0.29;
 }
 
