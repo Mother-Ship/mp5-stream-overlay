@@ -160,36 +160,37 @@ socket.api_v1(async ({ menu, tourney }) => {
             mapStar.update(parsed.modded.difficulty.sr.toFixed(2));
 
 
-        }
+            var bid = menu.bm.id;
+            const operation = getStoredBeatmapById(bid.toString())
+            console.log(operation)
+            if (operation !== null) {
+                let modNameAndIndex = await getModNameAndIndexById(bid);
+                if (operation.type === "Pick") {
+                    document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
 
-        var bid = menu.bm.id;
-        const operation = getStoredBeatmapById(bid.toString())
-        console.log(operation)
-        if (operation !== null) {
-            let modNameAndIndex = await getModNameAndIndexById(bid);
-            if (operation.type === "Pick") {
-                document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
+                    if (operation.team === "Red") {
+                        document.getElementById("map-info-container").classList.remove("picked-by-team-b")
+                        document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
+                        document.getElementById("map-mod").classList.remove("team-b-map-mod")
 
-                if (operation.team === "Red") {
-                    document.getElementById("map-info-container").classList.remove("picked-by-team-b")
-                    document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
-                    document.getElementById("map-mod").classList.remove("team-b-map-mod")
+                        document.getElementById("map-info-container").classList.add("picked-by-team-a")
+                        document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
+                        document.getElementById("map-mod").classList.add("team-a-map-mod")
+                    }
+                    if (operation.team === "Blue") {
+                        document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+                        document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+                        document.getElementById("map-mod").classList.remove("team-a-map-mod")
 
-                    document.getElementById("map-info-container").classList.add("picked-by-team-a")
-                    document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
-                    document.getElementById("map-mod").classList.add("team-a-map-mod")
-                }
-                if (operation.team === "Blue") {
-                    document.getElementById("map-info-container").classList.remove("picked-by-team-a")
-                    document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
-                    document.getElementById("map-mod").classList.remove("team-a-map-mod")
-
-                    document.getElementById("map-info-container").classList.add("picked-by-team-b")
-                    document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
-                    document.getElementById("map-mod").classList.add("team-b-map-mod")
+                        document.getElementById("map-info-container").classList.add("picked-by-team-b")
+                        document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
+                        document.getElementById("map-mod").classList.add("team-b-map-mod")
+                    }
                 }
             }
         }
+
+
     // 聊天
     const chat = tourney.manager.chat;
     if (chat.length !== cache.chat.length) {
