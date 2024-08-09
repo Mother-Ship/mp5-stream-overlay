@@ -7,10 +7,12 @@ import { Odometer } from '../COMMON/lib/odometer-countup.js';
 import { clearCurrentMagic, getCurrentMagic, getMagicByCode, storeCurrentMagic } from "../COMMON/lib/magic.js";
 import OsuParser from '../COMMON/lib/osuParser.js';
 import MapMock from '../COMMON/lib/mock.js';
+import { __wbg_init } from '../COMMON/lib/rosu-pp/rosu_pp.js';
 
 
+await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 const socket = new WebSocketManager('127.0.0.1:24050');
-const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
+const p = new OsuParser();
 const mock = new MapMock();
 
 await mock.init();

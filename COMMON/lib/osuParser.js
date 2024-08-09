@@ -1,10 +1,8 @@
-import { __wbg_init, calculate_sr } from './rosu-pp/rosu_pp.js';
+import { calculate_sr } from './rosu-pp/rosu_pp.js';
 
 class OsuParser {
-    constructor(wasmPath) {
-        __wbg_init(wasmPath).then(() => {
+    constructor() {
             this.wasmReady = true;
-        });
     }
 
     DEBUG = true;
