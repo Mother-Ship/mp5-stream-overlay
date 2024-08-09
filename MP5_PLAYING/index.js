@@ -178,143 +178,133 @@ socket.api_v1(async ({ menu, tourney }) => {
                         document.getElementById("map-info-container").classList.remove("picked-by-team-b")
                         document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
                         document.getElementById("map-mod").classList.remove("team-b-map-mod")
+
+                        document.getElementById("map-info-container").classList.add("picked-by-team-a")
+                        document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
+                        document.getElementById("map-mod").classList.add("team-a-map-mod")
                     }
-                    var bid = menu.bm.id;
-                    const operation = getStoredBeatmapById(bid.toString())
-                    if (operation !== null) {
-                        let modNameAndIndex = await getModNameAndIndexById(bid);
-                        if (operation.type === "Pick") {
-                            document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
+                    if (operation.team === "Blue") {
+                        document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+                        document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+                        document.getElementById("map-mod").classList.remove("team-a-map-mod")
 
-                            document.getElementById("map-info-container").classList.add("picked-by-team-a")
-                            document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
-                            document.getElementById("map-mod").classList.add("team-a-map-mod")
-                        }
-                        if (operation.team === "Blue") {
-                            document.getElementById("map-info-container").classList.remove("picked-by-team-a")
-                            document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
-                            document.getElementById("map-mod").classList.remove("team-a-map-mod")
-
-                            document.getElementById("map-info-container").classList.add("picked-by-team-b")
-                            document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
-                            document.getElementById("map-mod").classList.add("team-b-map-mod")
-                        }
+                        document.getElementById("map-info-container").classList.add("picked-by-team-b")
+                        document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
+                        document.getElementById("map-mod").classList.add("team-b-map-mod")
                     }
                 }
-            }
-
-
-            // 聊天
-            const chat = tourney.manager.chat;
-            if (chat.length !== cache.chat.length) {
-                cache.chat = chat;
-                const chatHtml = chat.map(item => {
-                    switch (item.team) {
-                        case 'left':
-                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-                        case 'right':
-                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-                        case 'bot':
-                        case 'unknown':
-                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-
-                    }
-                }).join('');
-                document.getElementById("chat-content").innerHTML = chatHtml;
-                var element = document.getElementById("chat-content");
-                element.scrollTop = element.scrollHeight;
-            }
-
-            // 双边分数
-            setScoreBars(tourney);
-
-            // 双边星星槽位
-            const bestOF = tourney.manager.bestOF;
-            if (bestOF !== cache.bestOF) {
-
-                cache.bestOF = bestOF;
-                const max = bestOF / 2 + 0.5;
-                // 清空原有星星
-                document.getElementById("team-a-star-container").innerHTML = "";
-
-                for (let i = 0; i < max; i++) {
-                    const star = document.createElement("div");
-                    star.className = "team-a-star-slot";
-                    document.getElementById("team-a-star-container").appendChild(star);
-                }
-
-                // 清空原有星星
-                document.getElementById("team-b-star-container").innerHTML = "";
-
-                for (let i = 0; i < max; i++) {
-                    const star = document.createElement("div");
-                    star.className = "team-b-star-slot";
-                    document.getElementById("team-b-star-container").appendChild(star);
-                }
-            }
-
-            // 双边星星
-            const leftStar = tourney.manager.stars.left
-            if (leftStar !== cache.leftStar) {
-                cache.leftStar = leftStar;
-
-
-                const max = cache.bestOF / 2 + 0.5;
-                for (let i = 0; i < max; i++) {
-                    document.getElementById("team-a-star-container").children[i].className = "team-a-star-slot";
-                }
-                for (let i = 0; i < leftStar; i++) {
-                    const childElement = document.getElementById("team-a-star-container").children[i];
-                    childElement.className = "team-a-star";
-                }
-
-            }
-            const rightStar = tourney.manager.stars.right
-            if (rightStar !== cache.rightStar) {
-                cache.rightStar = rightStar;
-
-                const max = cache.bestOF / 2 + 0.5;
-
-                for (let i = 0; i < max; i++) {
-                    document.getElementById("team-b-star-container").children[i].className = "team-b-star-slot";
-                }
-                // 从右到左替换样式
-                for (let i = 0; i < rightStar; i++) {
-                    const childElement = document.getElementById("team-b-star-container").children[max - i - 1];
-                    childElement.className = "team-b-star";
-                }
-            }
-
-
-            // 双边队名 旗帜
-            const leftTeamName = tourney.manager.teamName.left;
-            if (leftTeamName !== cache.leftTeamName) {
-                cache.leftTeamName = leftTeamName;
-                getTeamFullInfoByName(leftTeamName).then(
-                    (leftTeam) => {
-                        // 设置队伍头像、名称
-                        document.getElementById("team-a-name").innerText = leftTeam.FullName;
-                        document.getElementById("team-a-avatar").src = "../COMMON/img/flag/" + leftTeam.Acronym + ".png"
-                    }
-                )
-            }
-            const rightTeamName = tourney.manager.teamName.right;
-            if (rightTeamName !== cache.rightTeamName) {
-                cache.rightTeamName = rightTeamName;
-                getTeamFullInfoByName(rightTeamName).then(
-                    (rightTeam) => {
-                        document.getElementById("team-b-name").innerText = rightTeam.FullName;
-                        document.getElementById("team-b-avatar").src = "../COMMON/img/flag/" + rightTeam.Acronym + ".png"
-                    }
-                )
             }
         }
 
 
-        } catch (error) {
-            console.log(error);
+        // 聊天
+        const chat = tourney.manager.chat;
+        if (chat.length !== cache.chat.length) {
+            cache.chat = chat;
+            const chatHtml = chat.map(item => {
+                switch (item.team) {
+                    case 'left':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                    case 'right':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+                    case 'bot':
+                    case 'unknown':
+                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
+
+                }
+            }).join('');
+            document.getElementById("chat-content").innerHTML = chatHtml;
+            var element = document.getElementById("chat-content");
+            element.scrollTop = element.scrollHeight;
         }
-    });
+
+        // 双边分数
+        setScoreBars(tourney);
+
+        // 双边星星槽位
+        const bestOF = tourney.manager.bestOF;
+        if (bestOF !== cache.bestOF) {
+
+            cache.bestOF = bestOF;
+            const max = bestOF / 2 + 0.5;
+            // 清空原有星星
+            document.getElementById("team-a-star-container").innerHTML = "";
+
+            for (let i = 0; i < max; i++) {
+                const star = document.createElement("div");
+                star.className = "team-a-star-slot";
+                document.getElementById("team-a-star-container").appendChild(star);
+            }
+
+            // 清空原有星星
+            document.getElementById("team-b-star-container").innerHTML = "";
+
+            for (let i = 0; i < max; i++) {
+                const star = document.createElement("div");
+                star.className = "team-b-star-slot";
+                document.getElementById("team-b-star-container").appendChild(star);
+            }
+        }
+
+        // 双边星星
+        const leftStar = tourney.manager.stars.left
+        if (leftStar !== cache.leftStar) {
+            cache.leftStar = leftStar;
+
+
+            const max = cache.bestOF / 2 + 0.5;
+            for (let i = 0; i < max; i++) {
+                document.getElementById("team-a-star-container").children[i].className = "team-a-star-slot";
+            }
+            for (let i = 0; i < leftStar; i++) {
+                const childElement = document.getElementById("team-a-star-container").children[i];
+                childElement.className = "team-a-star";
+            }
+
+        }
+        const rightStar = tourney.manager.stars.right
+        if (rightStar !== cache.rightStar) {
+            cache.rightStar = rightStar;
+
+            const max = cache.bestOF / 2 + 0.5;
+
+            for (let i = 0; i < max; i++) {
+                document.getElementById("team-b-star-container").children[i].className = "team-b-star-slot";
+            }
+            // 从右到左替换样式
+            for (let i = 0; i < rightStar; i++) {
+                const childElement = document.getElementById("team-b-star-container").children[max - i - 1];
+                childElement.className = "team-b-star";
+            }
+        }
+
+
+        // 双边队名 旗帜
+        const leftTeamName = tourney.manager.teamName.left;
+        if (leftTeamName !== cache.leftTeamName) {
+            cache.leftTeamName = leftTeamName;
+            getTeamFullInfoByName(leftTeamName).then(
+                (leftTeam) => {
+                    // 设置队伍头像、名称
+                    document.getElementById("team-a-name").innerText = leftTeam.FullName;
+                    document.getElementById("team-a-avatar").src = "../COMMON/img/flag/" + leftTeam.Acronym + ".png"
+                }
+            )
+        }
+        const rightTeamName = tourney.manager.teamName.right;
+        if (rightTeamName !== cache.rightTeamName) {
+            cache.rightTeamName = rightTeamName;
+            getTeamFullInfoByName(rightTeamName).then(
+                (rightTeam) => {
+                    document.getElementById("team-b-name").innerText = rightTeam.FullName;
+                    document.getElementById("team-b-avatar").src = "../COMMON/img/flag/" + rightTeam.Acronym + ".png"
+                }
+            )
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 // 控制台逻辑
 
@@ -462,7 +452,7 @@ document.addEventListener('contextmenu', function (event) {
 
 async function handleMagicControls(magicCode) {
     // TODO 这里可以做 HTML 里现在还没用到的 magic-data-control 的控制
-    if(magicCode == 'E') { 
+    if (magicCode == 'E') {
         document.getElementById("magic-double-players-input-container").style.display = "block";
     }
     else {
