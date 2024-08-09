@@ -112,6 +112,12 @@ document.addEventListener('selectstart', function (e) {
     e.preventDefault();
 })
 
+document.getElementById('magic-double-players-confirm').addEventListener('click', () => {
+    const doublePlayers = document.getElementById('magic-double-players-input').value.split(',');
+    document._doublePlayers = doublePlayers;
+    console.log(`双倍分数玩家变动: ${doublePlayers}`);
+});
+
 
 socket.api_v1(async ({ menu, tourney }) => {
 
@@ -410,6 +416,7 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
         magic.then(
             (magic) => {
                 storeCurrentMagic(magic.code);
+                handleMagicControls(magic.code);
 
                 // 修改magic-name  magic-note magic-full-note
                 document.getElementById("magic-name").innerText =
@@ -455,6 +462,12 @@ document.addEventListener('contextmenu', function (event) {
 
 async function handleMagicControls(magicCode) {
     // TODO 这里可以做 HTML 里现在还没用到的 magic-data-control 的控制
+    if(magicCode == 'E') { 
+        document.getElementById("magic-double-players-input-container").style.display = "block";
+    }
+    else {
+        document.getElementById("magic-double-players-input-container").style.display = "none";
+    }
 }
 
 function setScoreBars(tourney) {
