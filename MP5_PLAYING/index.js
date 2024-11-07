@@ -326,7 +326,7 @@ function deactivateButtons(...buttonIds) {
 }
 
 document.getElementById("button-match-qf").addEventListener("click", () => {
-    matchRound.innerText = "1/4决赛";
+    matchRound.innerText = "瑞士轮";
 
     activateButton("button-match-qf");
 

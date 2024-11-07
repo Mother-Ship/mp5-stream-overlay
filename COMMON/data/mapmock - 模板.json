@@ -1,0 +1,25 @@
+[
+    {
+        "criterion": "曲名罗马音",
+        "values": {
+            "mod": "NM",
+            "index": "5"
+        }
+    },
+    {
+        "criterion": "曲名罗马音",
+        "values": {
+            "mod": "DT",
+            "index": "9",
+            "metadata": {
+                "artistUnicode": "这些东西可以强制修改",
+                "artist": "test artist",
+                "titleUnicode": "这是一张定制图",
+                "title": "123",
+                "diff": "难度名",
+                "creator": "麻婆"
+            }
+        }
+    }
+]
+

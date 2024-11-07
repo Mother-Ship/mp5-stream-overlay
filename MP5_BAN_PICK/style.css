@@ -245,7 +245,7 @@ body {
 {
     position: relative;
     width: 602px;
-    height: 118px;
+    height: 100px;
 }
 
 /*单个Ban选图*/
@@ -253,7 +253,7 @@ body {
 .team-b-ban {
     position: relative;
     width: 602px;
-    height: 118px;
+    height: 100px;
     border-radius: 35px;
 }
 
@@ -261,7 +261,7 @@ body {
 .team-b-pick {
     position: relative;
     width: 602px;
-    height: 118px;
+    height: 100px;
     border-radius: 35px;
 }
 
@@ -284,7 +284,7 @@ body {
 .team-b-map-cover {
     position: absolute;
     width: 592px;
-    height: 108px;
+    height: 90px;
     border-radius: 30px;
     object-fit: cover; /* 保持图片的宽高比并填充容器 */
     overflow: hidden; /* 隐藏超出容器的内容 */
@@ -293,7 +293,7 @@ body {
 .team-a-map-cover-border,
 .team-b-map-cover-border {
     width: 602px;
-    height: 118px;
+    height: 100px;
     border-style: solid;
     border-radius: 35px;
     border-width: 5px;
@@ -383,23 +383,23 @@ body {
 .team-a-map-artist {
     width: 560px;
     right: 27px;
-    top: 25px;
+    top: 16px;
     text-align: right;
 }
 
 .team-a-map-artist {
-    top: 65px;
+    top: 56px;
 }
 
 .team-b-map-title,
 .team-b-map-artist {
     width: 560px;
     left: 27px;
-    top: 25px;
+    top: 16px;
 }
 
 .team-b-map-artist {
-    top: 65px;
+    top: 56px;
 }
 
 
