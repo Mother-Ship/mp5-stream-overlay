@@ -587,6 +587,12 @@ body {
     border-style: solid;
 }
 
+.picked-tiebreaker {
+    border-color: #5e684b;
+    border-width: 8px;
+    border-style: solid;
+}
+
 .team-a-map-mod-container {
     width: 109px;
     height: 39px;
@@ -633,6 +639,34 @@ body {
 }
 
 .team-b-map-mod {
+    width: 58px;
+    height: 24px;
+    font-family: TorusNotched-Regular, sans-serif;
+    font-size: 29px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+.tiebreaker-map-mod-container {
+    width: 109px;
+    height: 39px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    /*水平垂直居中*/
+    justify-content: center;
+    align-content: center;
+
+    /*用#5e684b填充这个div*/
+    background-color: #5e684b;
+    border-radius: 21px 0px 21px 0px;
+    z-index: 2;
+}
+
+.tiebreaker-map-mod {
     width: 58px;
     height: 24px;
     font-family: TorusNotched-Regular, sans-serif;

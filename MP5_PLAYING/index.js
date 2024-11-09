@@ -110,7 +110,7 @@ function initPage() {
         window.obsstudio.getControlLevel(function (level) {
             console.log(`OBS browser control level: ${level}`);
 
-            if(level < 1) {
+            if (level < 1) {
                 // READ_OBS not available
                 console.log('READ_OBS not available');
                 document.getElementById('button-record-ack').style.display = 'block';
@@ -269,36 +269,55 @@ socket.api_v1(async ({ menu, tourney }) => {
 
         if (!cache.mapChoosed) {
             var bid = menu.bm.id;
-            const operation = getStoredBeatmapById(bid.toString());
-            console.log(operation);
-            if (operation !== null) {
-                cache.mapChoosed = true;
-                if (operation.type === "Pick") {
-                    let modNameAndIndex = await getModNameAndIndexById(bid);
-                    document.getElementById("map-mod").innerText = modNameAndIndex.modName + String(modNameAndIndex.index);
+            let modNameAndIndex = await getModNameAndIndexById(bid);
 
-                    if (operation.team === "Red") {
-                        document.getElementById("map-info-container").classList.remove("picked-by-team-b")
-                        document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
-                        document.getElementById("map-mod").classList.remove("team-b-map-mod")
+            // TB needs some special treatments
+            if (modNameAndIndex.modName === "TB") {
+                document.getElementById("map-mod").innerText = modNameAndIndex.modName + String(modNameAndIndex.index);
+                
+                document.getElementById("map-info-container").classList.remove("picked-by-team-b")
+                document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
+                document.getElementById("map-mod").classList.remove("team-b-map-mod")
+                document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+                document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+                document.getElementById("map-mod").classList.remove("team-a-map-mod")
 
-                        document.getElementById("map-info-container").classList.add("picked-by-team-a")
-                        document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
-                        document.getElementById("map-mod").classList.add("team-a-map-mod")
-                    }
-                    if (operation.team === "Blue") {
-                        document.getElementById("map-info-container").classList.remove("picked-by-team-a")
-                        document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
-                        document.getElementById("map-mod").classList.remove("team-a-map-mod")
-
-                        document.getElementById("map-info-container").classList.add("picked-by-team-b")
-                        document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
-                        document.getElementById("map-mod").classList.add("team-b-map-mod")
+                document.getElementById("map-info-container").classList.add("picked-tiebreaker")
+                document.getElementById("map-mod-container").classList.add("tiebreaker-map-mod-container")
+                document.getElementById("map-mod").classList.add("tiebreaker-map-mod")
+            }
+            else {
+                const operation = getStoredBeatmapById(bid.toString());
+                console.log(operation);
+                if (operation !== null) {
+                    cache.mapChoosed = true;
+                    if (operation.type === "Pick") {
+    
+                        document.getElementById("map-mod").innerText = modNameAndIndex.modName + String(modNameAndIndex.index);
+    
+                        if (operation.team === "Red") {
+                            document.getElementById("map-info-container").classList.remove("picked-by-team-b")
+                            document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
+                            document.getElementById("map-mod").classList.remove("team-b-map-mod")
+    
+                            document.getElementById("map-info-container").classList.add("picked-by-team-a")
+                            document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
+                            document.getElementById("map-mod").classList.add("team-a-map-mod")
+                        }
+                        if (operation.team === "Blue") {
+                            document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+                            document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+                            document.getElementById("map-mod").classList.remove("team-a-map-mod")
+    
+                            document.getElementById("map-info-container").classList.add("picked-by-team-b")
+                            document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
+                            document.getElementById("map-mod").classList.add("team-b-map-mod")
+                        }
                     }
                 }
             }
         }
-        
+
 
 
         // 聊天
@@ -438,7 +457,7 @@ document.getElementById("button-match-qf").addEventListener("click", () => {
 
     deactivateButtons("button-match-gf", "button-match-sf", "button-match-f",
         "button-match-winner", "button-match-loser");
-    
+
     storeMatchRound();
 });
 document.getElementById("button-match-gf").addEventListener("click", () => {
@@ -448,7 +467,7 @@ document.getElementById("button-match-gf").addEventListener("click", () => {
 
     deactivateButtons("button-match-qf", "button-match-sf", "button-match-f",
         "button-match-winner", "button-match-loser");
-    
+
     storeMatchRound();
 });
 
