@@ -214,9 +214,19 @@ document.getElementById('button-b-blank').addEventListener('click', function (e)
             }
         )
     }
-
-
 })
+
+document.getElementById('button-clear-picks').addEventListener('click', function (e) {
+    console.log('清空所有操作');
+    deactivateButtons('button-a-ban', 'button-a-pick', 'button-b-ban', 'button-b-pick');
+    document.getElementById("team-a-operation").innerHTML = "";
+    document.getElementById("team-b-operation").innerHTML = "";
+    document.getElementById("map-pool-mod-container").innerHTML = "";
+    localStorage.setItem('beatmapSelections', JSON.stringify(new Map()));
+    currentOperation = null;
+    onCurrentRoundChange();
+});
+
 document.getElementById('button-a-blank').addEventListener('contextmenu', function (e) {
     let operationContainer = document.getElementById("team-a-operation");
     //删除ID为team-a-blank的子元素

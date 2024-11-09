@@ -95,7 +95,7 @@ export function storeBeatmapSelection(item) {
 
     // 尝试从localStorage获取已存在的Map
     const stored = localStorage.getItem(key);
-    if (stored) {
+    if (stored && JSON.parse(stored).length > 0) {
         beatmapSelections = new Map(JSON.parse(stored));
     } else {
         beatmapSelections = new Map();
@@ -113,7 +113,7 @@ export function getStoredBeatmapById(beatmapID) {
     const key = 'beatmapSelections';
     const storedData = localStorage.getItem(key);
 
-    if (storedData) {
+    if (storedData && JSON.parse(storedData).length > 0) {
         const beatmapSelections = new Map(JSON.parse(storedData));
         if (beatmapSelections.has(beatmapID)) {
             return beatmapSelections.get(beatmapID);
@@ -127,7 +127,7 @@ export function getStoredBeatmap() {
     const key = 'beatmapSelections';
     const storedData = localStorage.getItem(key);
 
-    if (storedData) {
+    if (storedData && JSON.parse(storedData).length > 0) {
         return new Map(JSON.parse(storedData));
     }
 
@@ -145,7 +145,7 @@ export function deleteBeatmapSelectionById(beatmapID) {
 
     // 获取现有的Map
     const stored = localStorage.getItem(key);
-    if (stored) {
+    if (stored && JSON.parse(stored).length > 0) {
         beatmapSelections = new Map(JSON.parse(stored));
     } else {
         return; // 如果没有存储的数据，直接返回
