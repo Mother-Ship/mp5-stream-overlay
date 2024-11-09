@@ -79,6 +79,8 @@ const cache = {
     chat: [],
 
     md5: "",
+
+    mapChoosed: false,
 };
 
 
@@ -225,6 +227,8 @@ socket.api_v1(async ({ menu, tourney }) => {
             document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
             cache.md5 = md5;
 
+            cache.mapChoosed = false;
+
             let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
 
             let modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
@@ -261,14 +265,17 @@ socket.api_v1(async ({ menu, tourney }) => {
 
             mapBpm.update(parsed.modded.beatmap.bpm.mostly);
             mapStar.update(parsed.modded.difficulty.sr.toFixed(2));
+        }
 
-
+        if (!cache.mapChoosed) {
             var bid = menu.bm.id;
-            const operation = getStoredBeatmapById(bid.toString())
-            console.log(operation)
+            const operation = getStoredBeatmapById(bid.toString());
+            console.log(operation);
             if (operation !== null) {
+                cache.mapChoosed = true;
                 if (operation.type === "Pick") {
-                    document.getElementById("map-mod").innerText = parsed.mod + String(parsed.index);
+                    let modNameAndIndex = await getModNameAndIndexById(bid);
+                    document.getElementById("map-mod").innerText = modNameAndIndex.modName + String(modNameAndIndex.index);
 
                     if (operation.team === "Red") {
                         document.getElementById("map-info-container").classList.remove("picked-by-team-b")
@@ -291,6 +298,7 @@ socket.api_v1(async ({ menu, tourney }) => {
                 }
             }
         }
+        
 
 
         // 聊天
