@@ -176,6 +176,10 @@ document.getElementById('button-chat-toggle').addEventListener('click', () => {
     toggleChat(document.getElementById('chat').style.opacity == "0");
 });
 
+document.getElementById('button-record-ack').addEventListener('click', () => {
+    document.getElementById('notify-record').style.display = 'none';
+    document.getElementById('button-record-ack').style.display = 'none';
+});
 
 socket.api_v1(async ({ menu, tourney }) => {
 

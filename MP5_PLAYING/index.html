@@ -122,7 +122,7 @@
         <div class="panel-buttons">
 
             <div class="round-control">
-                <div class="panel-label"><span>1. 选择上方显示的比赛阶段</span></div>
+                <div class="panel-label"><span>选择上方显示的比赛阶段</span></div>
 
                 <div class="round-control-buttons">
 
@@ -140,11 +140,16 @@
 
             </div>
 
-            <div class="chat-control">
-                <div class="panel-label"><span>切换聊天展示</span></div>
+            <!-- [TODO] Refactor these to at lease put styles into CSS, or even better, use Flexbox -->
+            <div class="chat-control" style="position: absolute; left: 500px; top: 75px; width: 100px;">
                 <div class="round-control-buttons">
                     <button id="button-chat-toggle" class="button-active">Toggle Chat</button>
                 </div>
+            </div>
+
+            <div class="chat-control" style="position: absolute; left: 650px; top: 40px; width: 300px;">
+                <h1 style="color: white" id="notify-record">不要忘记开录像！</h1> 
+                <button id="button-record-ack" class="button-active">我知道了</button> 
             </div>
 
             <div class="magic-control" style="visibility: hidden">
