@@ -108,9 +108,9 @@ if (document.readyState !== 'loading') {
 // 3: Playing
 // 4: Ranking
 function handleIpcStateChange(state) {
-    if(state == cache.state) return;
+    if (state == cache.state) return;
     cache.state = state;
-    switch(state) { 
+    switch (state) {
         case 1:
             // Enter idle state, show chat
             toggleChat(true);
@@ -121,7 +121,7 @@ function handleIpcStateChange(state) {
             break;
         case 4:
             // Enter ranking state, show chat after 10s, similar to how Lazer works
-            if(cache.stateTimer) clearTimeout(cache.stateTimer);
+            if (cache.stateTimer) clearTimeout(cache.stateTimer);
             cache.stateTimer = setTimeout(() => {
                 toggleChat(true);
             }, 10000);
@@ -163,6 +163,10 @@ document.getElementById('magic-double-players-confirm').addEventListener('click'
     const doublePlayers = document.getElementById('magic-double-players-input').value.split(',');
     document._doublePlayers = doublePlayers;
     console.log(`双倍分数玩家变动: ${doublePlayers}`);
+});
+
+document.getElementById('button-chat-toggle').addEventListener('click', () => {
+    toggleChat(document.getElementById('chat').style.opacity == "0");
 });
 
 
