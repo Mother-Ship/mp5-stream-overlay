@@ -483,6 +483,7 @@ document.getElementById("button-match-loser").addEventListener("click", () => {
     }
 });
 
+/*
 let currentMagicCode = getCurrentMagic();
 
 if (currentMagicCode !== null) {
@@ -552,11 +553,13 @@ document.querySelectorAll("#magic-control-buttons button").forEach(button => {
         operation.style.opacity = "0";
     });
 });
+*/
 
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 })
 
+/*
 async function handleMagicControls(magicCode) {
     // TODO 这里可以做 HTML 里现在还没用到的 magic-data-control 的控制
     if (magicCode == 'E') {
@@ -566,10 +569,12 @@ async function handleMagicControls(magicCode) {
         document.getElementById("magic-double-players-input-container").style.display = "none";
     }
 }
+*/
 
 function setScoreBars(tourney) {
     // 根据当前场地魔法确定显示的分数数值和分数条情况
-    const magicCode = getCurrentMagic();
+    // const magicCode = getCurrentMagic();
+    const magicCode = null;
     const scores = {
         left: {
             score: 0,
