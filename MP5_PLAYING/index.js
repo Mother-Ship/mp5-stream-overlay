@@ -115,6 +115,7 @@ function initPage() {
             }
             else {
                 // We can read status, so show notification only when not recording
+                document.getElementById('notify-record').textContent = "你现在没在录像，别忘了开！"
                 window.obsstudio.getStatus(function (status) {
                     if (status.recording) {
                         document.getElementById('notify-record').style.display = 'none';
