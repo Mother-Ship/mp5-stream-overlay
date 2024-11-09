@@ -62,6 +62,9 @@ const mapAr = new CountUp('map-ar', 0, {
 
 
 const cache = {
+    state: 0,
+    stateTimer: null,
+
     leftTeamName: "",
     rightTeamName: "",
 
@@ -98,16 +101,58 @@ if (document.readyState !== 'loading') {
     });
 }
 
-let scoreUpdateTimer = setTimeout(() => {
-    console.log('隐藏分数条、歌曲信息，展示聊天框')
-    document.getElementById('chat').classList.remove('fade-out');
-    document.getElementById('chat').style.opacity = "1";
-    document.getElementById('chat').classList.add('fade-in');
 
-    document.getElementById('map-info-container').style.display = 'none';
-    document.getElementById('team-a-score-bar').style.display = 'none';
-    document.getElementById('team-b-score-bar').style.display = 'none';
-}, 8000);
+// tosu IPC states:
+// 1: Idle
+// 2: ?
+// 3: Playing
+// 4: Ranking
+function handleIpcStateChange(state) {
+    if(state == cache.state) return;
+    cache.state = state;
+    switch(state) { 
+        case 1:
+            // Enter idle state, show chat
+            toggleChat(true);
+            break;
+        case 3:
+            // Enter playing state, hide chat
+            toggleChat(false);
+            break;
+        case 4:
+            // Enter ranking state, show chat after 10s, similar to how Lazer works
+            if(cache.stateTimer) clearTimeout(cache.stateTimer);
+            cache.stateTimer = setTimeout(() => {
+                toggleChat(true);
+            }, 10000);
+            break;
+    }
+}
+
+function toggleChat(enable) {
+    if (enable) {
+        console.log('隐藏分数条、歌曲信息，展示聊天框')
+        document.getElementById('chat').classList.remove('fade-out');
+        document.getElementById('chat').style.opacity = "1";
+        document.getElementById('chat').classList.add('fade-in');
+
+        document.getElementById('map-info-container').style.display = 'none';
+        document.getElementById('team-a-score-bar').style.display = 'none';
+        document.getElementById('team-b-score-bar').style.display = 'none';
+    }
+    else {
+        console.log('隐藏聊天框，展示分数条、歌曲信息')
+        document.getElementById('chat').classList.remove('fade-in');
+        document.getElementById('chat').classList.add('fade-out');
+        document.getElementById('chat').style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById('map-info-container').style.display = 'block';
+            document.getElementById('team-a-score-bar').style.display = 'block';
+            document.getElementById('team-b-score-bar').style.display = 'block';
+
+        }, 500)
+    }
+}
 
 
 document.addEventListener('selectstart', function (e) {
@@ -219,6 +264,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             var element = document.getElementById("chat-content");
             element.scrollTop = element.scrollHeight;
         }
+        handleIpcStateChange(tourney.manager.ipcState || 0);
 
         // 双边分数
         setScoreBars(tourney);
@@ -531,29 +577,5 @@ function setScoreBars(tourney) {
         teamBScore.update(rightScore);
         document.getElementById("team-a-score").style.fontSize = leftScore > rightScore ? "75px" : "50px";
         document.getElementById("team-b-score").style.fontSize = leftScore <= rightScore ? "75px" : "50px";
-
-        // 隐藏分数条、歌曲信息，展示聊天框
-        document.getElementById('chat').classList.remove('fade-in');
-        document.getElementById('chat').classList.add('fade-out');
-        document.getElementById('chat').style.opacity = "0";
-        setTimeout(() => {
-            document.getElementById('map-info-container').style.display = 'block';
-            document.getElementById('team-a-score-bar').style.display = 'block';
-            document.getElementById('team-b-score-bar').style.display = 'block';
-
-        }, 500)
-
-        // 重置计时器的执行时间
-        clearTimeout(scoreUpdateTimer);
-        scoreUpdateTimer = setTimeout(() => {
-            console.log('隐藏分数条、歌曲信息，展示聊天框')
-            document.getElementById('chat').classList.remove('fade-out');
-            document.getElementById('chat').style.opacity = "1";
-            document.getElementById('chat').classList.add('fade-in');
-
-            document.getElementById('map-info-container').style.display = 'none';
-            document.getElementById('team-a-score-bar').style.display = 'none';
-            document.getElementById('team-b-score-bar').style.display = 'none';
-        }, 8000);
     }
 }
