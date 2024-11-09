@@ -232,9 +232,8 @@ socket.api_v1(async ({ menu, tourney }) => {
             const operation = getStoredBeatmapById(bid.toString())
             console.log(operation)
             if (operation !== null) {
-                let modNameAndIndex = await getModNameAndIndexById(bid);
                 if (operation.type === "Pick") {
-                    document.getElementById("map-mod").innerText = modNameAndIndex.modName + modNameAndIndex.index;
+                    document.getElementById("map-mod").innerText = parsed.mod + String(parsed.index);
 
                     if (operation.team === "Red") {
                         document.getElementById("map-info-container").classList.remove("picked-by-team-b")

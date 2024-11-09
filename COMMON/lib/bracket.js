@@ -67,7 +67,7 @@ export function getModNameAndIndexById(bid) {
         } else {
             // throw new Error(`Beatmap with ID ${bid} not found.`);
             return {
-                modName: "??",
+                modName: "00",
                 index: 0,
             } 
         }
