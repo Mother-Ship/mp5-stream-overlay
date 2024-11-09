@@ -93,12 +93,19 @@ function nextSlide() {
     currentSlide = (currentSlide + 1) % slides.length; // 循环到第一张
     slides[currentSlide].classList.add('active');
 }
-if (document.readyState !== 'loading') {
+
+function initPage() {
     setInterval(nextSlide, 10000);
+    let currentMatchRound = localStorage.getItem('currentMatchRound');
+    if (currentMatchRound !== null) {
+        document.getElementById("match-round").innerText = currentMatchRound;
+    }
+}
+
+if (document.readyState !== 'loading') {
+    initPage();
 } else {
-    document.addEventListener('DOMContentLoaded', function () {
-        setInterval(nextSlide, 10000);
-    });
+    document.addEventListener('DOMContentLoaded', initPage);
 }
 
 
@@ -363,6 +370,9 @@ socket.api_v1(async ({ menu, tourney }) => {
 // 点击button-match-qf和button-match-gf时，点亮自身，熄灭round-control-buttons内其他按钮，修改match-round的文本为按钮文本
 const matchRound = document.getElementById("match-round");
 
+function storeMatchRound() {
+    localStorage.setItem('currentMatchRound', matchRound.innerText);
+}
 function activateButton(buttonId) {
     document.getElementById(buttonId).classList.remove("button-inactive", "button-active");
     document.getElementById(buttonId).classList.add("button-active");
@@ -382,6 +392,8 @@ document.getElementById("button-match-qf").addEventListener("click", () => {
 
     deactivateButtons("button-match-gf", "button-match-sf", "button-match-f",
         "button-match-winner", "button-match-loser");
+    
+    storeMatchRound();
 });
 document.getElementById("button-match-gf").addEventListener("click", () => {
     matchRound.innerText = "总决赛";
@@ -390,6 +402,8 @@ document.getElementById("button-match-gf").addEventListener("click", () => {
 
     deactivateButtons("button-match-qf", "button-match-sf", "button-match-f",
         "button-match-winner", "button-match-loser");
+    
+    storeMatchRound();
 });
 
 // 点击button-match-sf和button-match-f时，点亮自身和"button-match-winner", "button-match-loser"，
@@ -414,17 +428,21 @@ document.getElementById("button-match-f").addEventListener("click", () => {
 document.getElementById("button-match-winner").addEventListener("click", () => {
     if (matchRound.innerText === "决赛" || matchRound.innerText === "半决赛") {
         matchRound.innerText = "胜者组" + matchRound.innerText;
+        storeMatchRound();
     }
     if (matchRound.innerText.includes("败者组")) {
         matchRound.innerText = matchRound.innerText.replace("败者组", "胜者组");
+        storeMatchRound();
     }
 });
 document.getElementById("button-match-loser").addEventListener("click", () => {
     if (matchRound.innerText === "决赛" || matchRound.innerText === "半决赛") {
         matchRound.innerText = "败者组" + matchRound.innerText;
+        storeMatchRound();
     }
     if (matchRound.innerText.includes("胜者组")) {
         matchRound.innerText = matchRound.innerText.replace("胜者组", "败者组");
+        storeMatchRound();
     }
 });
 
