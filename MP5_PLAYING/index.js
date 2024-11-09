@@ -100,6 +100,40 @@ function initPage() {
     if (currentMatchRound !== null) {
         document.getElementById("match-round").innerText = currentMatchRound;
     }
+
+    // obs-browser feature checks
+    if (window.obsstudio) {
+        console.log('OBS Browser Source detected, version:', window.obsstudio.pluginVersion);
+        console.log('Feature checks..');
+        window.obsstudio.getControlLevel(function (level) {
+            console.log(`OBS browser control level: ${level}`);
+
+            if(level < 1) {
+                // READ_OBS not available
+                console.log('READ_OBS not available');
+                document.getElementById('button-record-ack').style.display = 'block';
+            }
+            else {
+                // We can read status, so show notification only when not recording
+                window.obsstudio.getStatus(function (status) {
+                    if (status.recording) {
+                        document.getElementById('notify-record').style.display = 'none';
+                    }
+
+                    window.addEventListener('obsRecordingStarted', () => {
+                        document.getElementById('notify-record').style.display = 'none';
+                    });
+                    window.addEventListener('obsRecordingStopped', () => {
+                        document.getElementById('notify-record').style.display = 'block';
+                    });
+                })
+            }
+        });
+    }
+    else {
+        console.log('Not OBS Browser or OBS control features not supported');
+        document.getElementById('button-record-ack').style.display = 'block';
+    }
 }
 
 if (document.readyState !== 'loading') {
@@ -179,7 +213,7 @@ document.getElementById('button-chat-toggle').addEventListener('click', () => {
 document.getElementById('button-record-ack').addEventListener('click', () => {
     document.getElementById('notify-record').style.display = 'none';
     document.getElementById('button-record-ack').style.display = 'none';
-});
+})
 
 socket.api_v1(async ({ menu, tourney }) => {
 
