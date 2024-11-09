@@ -249,7 +249,7 @@ class OsuParser {
         }
 
         if (this.DEBUG)
-            console.log(`[osuFileParser] Beatmap with mod ${mods}:\n${JSON.stringify(bm)}`);
+            console.log(`[osuFileParser] Beatmap with mod ${mods}:\n${JSON.stringify(modded)}`);
 
         return modded;
     }
