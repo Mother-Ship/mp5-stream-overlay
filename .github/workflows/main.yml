@@ -1,0 +1,45 @@
+name: Package Stream Pack
+
+on:
+  push:
+    branches:
+      - useful_file
+      - main
+  pull_request:
+    branches:
+      - useful_file
+      - main
+
+jobs:
+  update_and_compress:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        
+    - name: Create static directory
+      run: mkdir -p static
+
+    - name: Move main files to static directory
+      run: |
+        mv * static/
+        mv .gitignore static/  # 如果需要 .gitignore 文件也移动
+
+    - name: Pull useful_file branch
+      run: |
+        git fetch origin useful_file
+        git checkout origin/useful_file -- .
+
+
+    - name: Compress files with high compression
+      run: |
+        tar -czf static_files.tar.gz --use-compress-program=pigz static/
+
+    - name: Upload the compressed file as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: static_files
+        path: static_files.tar.gz
