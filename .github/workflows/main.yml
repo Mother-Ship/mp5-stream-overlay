@@ -9,6 +9,7 @@ on:
     branches:
       - useful_file
       - main
+  workflow_dispatch:
 
 jobs:
   update_and_compress:
