@@ -350,7 +350,7 @@ socket.api_v1(async ({ menu, tourney }) => {
         if (bestOF !== cache.bestOF) {
 
             cache.bestOF = bestOF;
-            const max = bestOF / 2 + 0.5;
+            const max = parseInt(bestOF / 2 + 1);
             // 清空原有星星
             document.getElementById("team-a-star-container").innerHTML = "";
 
@@ -376,7 +376,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             cache.leftStar = leftStar;
 
 
-            const max = cache.bestOF / 2 + 0.5;
+            const max = parseInt(cache.bestOF / 2 + 1)
             for (let i = 0; i < max; i++) {
                 document.getElementById("team-a-star-container").children[i].className = "team-a-star-slot";
             }
@@ -390,7 +390,7 @@ socket.api_v1(async ({ menu, tourney }) => {
         if (rightStar !== cache.rightStar) {
             cache.rightStar = rightStar;
 
-            const max = cache.bestOF / 2 + 0.5;
+            const max = parseInt(cache.bestOF / 2 + 1)
 
             for (let i = 0; i < max; i++) {
                 document.getElementById("team-b-star-container").children[i].className = "team-b-star-slot";
