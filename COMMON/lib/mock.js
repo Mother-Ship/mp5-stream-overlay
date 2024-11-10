@@ -12,7 +12,17 @@ class MapMock {
 
     async loadMocks() {
         let mapmocks = await fetch('../COMMON/data/mapmock.json');
-        return mapmocks.json();
+        if (mapmocks.ok) {
+            try {
+                let json = mapmocks.json();
+                return json;
+            }
+            catch(e) {
+                console.log(`[mock] request succeeded, but failed to parse json: ${e}`);
+            }
+        }
+        console.log(`[mock] fail to load mapmock.json, code ${mapmocks.status}`);
+        return [];
     }
 
     checkMatch(bm) {
