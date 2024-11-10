@@ -299,6 +299,10 @@ socket.api_v1(async ({ menu, tourney }) => {
                             document.getElementById("map-info-container").classList.remove("picked-by-team-b")
                             document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
                             document.getElementById("map-mod").classList.remove("team-b-map-mod")
+
+                            document.getElementById("map-info-container").classList.remove("picked-tiebreaker")
+                            document.getElementById("map-mod-container").classList.remove("tiebreaker-map-mod-container")
+                            document.getElementById("map-mod").classList.remove("tiebreaker-map-mod")
     
                             document.getElementById("map-info-container").classList.add("picked-by-team-a")
                             document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
@@ -308,6 +312,10 @@ socket.api_v1(async ({ menu, tourney }) => {
                             document.getElementById("map-info-container").classList.remove("picked-by-team-a")
                             document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
                             document.getElementById("map-mod").classList.remove("team-a-map-mod")
+
+                            document.getElementById("map-info-container").classList.remove("picked-tiebreaker")
+                            document.getElementById("map-mod-container").classList.remove("tiebreaker-map-mod-container")
+                            document.getElementById("map-mod").classList.remove("tiebreaker-map-mod")
     
                             document.getElementById("map-info-container").classList.add("picked-by-team-b")
                             document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
