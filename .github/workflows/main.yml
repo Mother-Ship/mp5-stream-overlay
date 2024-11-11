@@ -27,6 +27,7 @@ jobs:
 
     - name: 将master分支代码移到static目录
       run: |
+        shopt -s extglob
         cp -af !(static) static/
         rm -rf !(static*)
 
