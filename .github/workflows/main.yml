@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - useful_file
-      - main
+      - master
   pull_request:
     branches:
       - useful_file
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Pull main branch
+    - name: Pull master branch
       run: |
-        git fetch origin main
-        git checkout origin/main -- .
+        git fetch origin master
+        git checkout origin/master -- .
 
         
     - name: Create static directory
       run: mkdir -p static
 
-    - name: Move main files to static directory
+    - name: Move master files to static directory
       run: |
         mv * static/
         mv .gitignore static/  # 如果需要 .gitignore 文件也移动
