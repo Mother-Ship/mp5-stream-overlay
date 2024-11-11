@@ -22,24 +22,24 @@ jobs:
         ref: master
 
         
-    - name: 创建tosu需要的static目录
-      run: mkdir -p static
+    - name: 创建target以及tosu需要的static目录
+      run: mkdir -p /tmp/target/static
 
-    - name: 将master分支代码移到static目录
+    - name: 将master分支代码复制到target/static目录
       run: |
         shopt -s extglob
         rm -rf ./.git
-        cp -af !(static) static/
-        rm -rf !(static/)
-
+        cp -af ./ /tmp/target/static/
+        
     - name: 签出tosu/gosu/说明文件等所在的useful_file分支
       uses: actions/checkout@v4
       with:
         ref: useful_file
 
-    - name: 删除.git提交历史压缩体积
+    - name: 删除.git提交历史压缩体积，并将useful_file复制到target目录
       run: |
         rm -rf ./.git
+        cp -af !(target) /tmp/target/
         
     - name: 获取当前日期
       id: date
@@ -50,4 +50,4 @@ jobs:
       with:
         name: mp5-stream-overlay${{ steps.date.outputs.date }}
         compression-level: 9
-        path: ./
+        path: /tmp/target
