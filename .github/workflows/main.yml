@@ -27,7 +27,6 @@ jobs:
 
     - name: 将master分支代码复制到target/static目录
       run: |
-        shopt -s extglob
         rm -rf ./.git
         cp -af ./ /tmp/target/static/
         
@@ -39,7 +38,7 @@ jobs:
     - name: 删除.git提交历史压缩体积，并将useful_file复制到target目录
       run: |
         rm -rf ./.git
-        cp -af !(target) /tmp/target/
+        cp -af ./ /tmp/target/
         
     - name: 获取当前日期
       id: date
