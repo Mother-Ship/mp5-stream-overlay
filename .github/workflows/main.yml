@@ -1,4 +1,4 @@
-name: Package Stream Pack
+name: 打直播包
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout master branch
+    - name: 签出代码所在的master分支
       uses: actions/checkout@v3
       with:
         ref: master
@@ -25,21 +25,22 @@ jobs:
     - name: Create static directory
       run: mkdir -p static
 
-    - name: Move master files to static directory
+    - name: 将master分支代码移到static目录
       run: |
         find . -maxdepth 1 -not -name 'static' -exec mv {} static/ \;
+        rm -rf ./.git
 
-    - name: Pull useful_file branch
+    - name: 签出tosu/gosu/说明文件等所在的master分支
       run: |
         git fetch origin useful_file
         git checkout origin/useful_file -- .
 
 
-    - name: Compress files with high compression
+    - name: 打压缩包
       run: |
         tar -czf static_files.tar.gz --use-compress-program=pigz static/
 
-    - name: Upload the compressed file as artifact
+    - name: 上传文件
       uses: actions/upload-artifact@v3
       with:
         name: static_files
