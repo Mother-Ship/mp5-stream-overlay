@@ -58,7 +58,9 @@ const mapAr = new CountUp('map-ar', 0, {
         plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
-    });
+    }),
+    teamAScoreLead = new CountUp('team-a-score-lead', 0, { duration: 0.5, useGrouping: true, prefix: '+' }),
+    teamBScoreLead = new CountUp('team-b-score-lead', 0, { duration: 0.5, useGrouping: true, prefix: '+' });
 
 
 const cache = {
@@ -655,7 +657,7 @@ function setScoreBars(tourney) {
             scores.left.score = (leftClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
             scores.right.score = (rightClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            scores.bar = Math.min(1, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 500 + 100;
+            scores.bar = Math.min(0.4, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 2000 + 100;
     }
 
     if (scores.left.score !== cache.leftScore || scores.right.score !== cache.rightScore) {
@@ -664,18 +666,45 @@ function setScoreBars(tourney) {
 
         const leftScore = scores.left.score;
         const rightScore = scores.right.score;
+        const scoreDiff = Math.abs(leftScore - rightScore);
 
         // 分数条，狂抄Lazer https://github.com/ppy/osu/blob/master/osu.Game/Screens/Play/HUD/MatchScoreDisplay.cs#L145
-        var winningBar = leftScore > rightScore ? "team-a-score-bar" : "team-b-score-bar"
-        var losingBar = leftScore <= rightScore ? "team-a-score-bar" : "team-b-score-bar";
+        if (leftScore == rightScore) {
+            document.getElementById('team-a-score-bar').style.width = 100 + "px";
+            document.getElementById('team-b-score-bar').style.width = 100 + "px";
 
-        document.getElementById(losingBar).style.width = 100 + "px";
-        document.getElementById(winningBar).style.width = scores.bar + "px";
+            document.getElementById("team-a-score").style.fontSize = '50px';
+            document.getElementById("team-b-score").style.fontSize = '50px';
+
+            document.getElementById('team-a-score-lead').style.visibility = 'hidden';
+            document.getElementById('team-b-score-lead').style.visibility = 'hidden';
+        }
+        else if(leftScore > rightScore) {
+            document.getElementById('team-b-score-bar').style.width = 100 + "px";
+            document.getElementById('team-a-score-bar').style.width = scores.bar + "px";
+
+            document.getElementById("team-a-score").style.fontSize = '75px';
+            document.getElementById("team-b-score").style.fontSize = '50px';
+
+            document.getElementById('team-a-score-lead').style.visibility = 'visible';
+            document.getElementById('team-b-score-lead').style.visibility = 'hidden';
+        }
+        else {
+            document.getElementById('team-a-score-bar').style.width = 100 + "px";
+            document.getElementById('team-b-score-bar').style.width = scores.bar + "px";
+
+            document.getElementById("team-a-score").style.fontSize = '50px';
+            document.getElementById("team-b-score").style.fontSize = '75px';
+
+            document.getElementById('team-a-score-lead').style.visibility = 'hidden';
+            document.getElementById('team-b-score-lead').style.visibility = 'visible';
+        }
 
         // 分数文字
         teamAScore.update(leftScore);
         teamBScore.update(rightScore);
-        document.getElementById("team-a-score").style.fontSize = leftScore > rightScore ? "75px" : "50px";
-        document.getElementById("team-b-score").style.fontSize = leftScore <= rightScore ? "75px" : "50px";
+
+        teamAScoreLead.update(scoreDiff);
+        teamBScoreLead.update(scoreDiff);
     }
 }
