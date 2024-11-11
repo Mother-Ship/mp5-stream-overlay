@@ -28,25 +28,26 @@ jobs:
     - name: 将master分支代码移到static目录
       run: |
         shopt -s extglob
+        rm -rf ./.git
         cp -af !(static) static/
-        rm -rf !(static*)
+        rm -rf !(static/)
 
     - name: 签出tosu/gosu/说明文件等所在的useful_file分支
       uses: actions/checkout@v4
       with:
         ref: useful_file
 
-
-    - name: 打压缩包
+    - name: 删除.git提交历史压缩体积
       run: |
-        zip -r9 stream_pack.zip ./
+        rm -rf ./.git
         
     - name: 获取当前日期
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-    - name: 重命名文件并上传
+    - name: 打压缩包并上传
       uses: actions/upload-artifact@v4
       with:
         name: mp5-stream-overlay${{ steps.date.outputs.date }}
-        path: stream_pack.zip
+        compression-level: 9
+        path: ./
