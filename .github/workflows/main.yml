@@ -39,7 +39,7 @@ jobs:
 
     - name: 打压缩包
       run: |
-        tar -czf static_files.tar.gz /
+        tar -czf static_files.tar.gz ./
 
     - name: 上传文件
       uses: actions/upload-artifact@v3
