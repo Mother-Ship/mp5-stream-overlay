@@ -14,6 +14,7 @@ import {
 import WebSocketManager from "../COMMON/lib/socket.js";
 
 const socket = new WebSocketManager('127.0.0.1:24050');
+const imgFormats = ['jpg', 'jpeg', 'png'];
 
 // 左右两侧队伍信息缓存
 const cache = {
@@ -68,8 +69,11 @@ socket.api_v1(({tourney}) => {
             getTeamFullInfoByName(tourney.manager.teamName.left).then(
                 (leftTeam) => {
                     // 设置队伍头像、名称
+                    document.getElementById("team-a-avatar").srcset = imgFormats.map(function(format) {
+                        return "../COMMON/img/flag/" + leftTeam.Acronym  + "." + format;
+                    });
+
                     document.getElementById("team-a-name").innerText = leftTeam.FullName;
-                    document.getElementById("team-a-avatar").src = "../COMMON/img/flag/" + leftTeam.Acronym + ".png"
                     // 设置队伍成员
                     document.getElementById("team-a-player-list").innerHTML = "";
                     appendPlayersToList(leftTeam.Players, "team-a-player-list", 'team-a');
@@ -78,8 +82,11 @@ socket.api_v1(({tourney}) => {
 
             getTeamFullInfoByName(tourney.manager.teamName.right).then(
                 (rightTeam) => {
+                    document.getElementById("team-b-avatar").srcset = imgFormats.map(function(format) {
+                        return "../COMMON/img/flag/" + rightTeam.Acronym  + "." + format;
+                    });
+
                     document.getElementById("team-b-name").innerText = rightTeam.FullName;
-                    document.getElementById("team-b-avatar").src = "../COMMON/img/flag/" + rightTeam.Acronym + ".png"
                     document.getElementById("team-b-player-list").innerHTML = "";
                     appendPlayersToList(rightTeam.Players, "team-b-player-list", 'team-b');
                 }
@@ -90,7 +97,6 @@ socket.api_v1(({tourney}) => {
         console.log(error);
     }
 });
-
 
 function activateButton(buttonId) {
     document.getElementById(buttonId).classList.remove("button-inactive", "button-active");
