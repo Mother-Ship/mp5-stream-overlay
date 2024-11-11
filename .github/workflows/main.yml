@@ -5,6 +5,7 @@ on:
     branches:
       - useful_file
       - master
+      - dev
   pull_request:
     branches:
       - useful_file
