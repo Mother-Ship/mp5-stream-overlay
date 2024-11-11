@@ -32,7 +32,7 @@ jobs:
         rm -rf !(static*)
 
     - name: 签出tosu/gosu/说明文件等所在的useful_file分支
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: useful_file
 
@@ -48,5 +48,5 @@ jobs:
     - name: 重命名文件并上传
       uses: actions/upload-artifact@v4
       with:
-        name: mp5-stream-overlay${{ steps.date.outputs.date }}.zip
+        name: mp5-stream-overlay${{ steps.date.outputs.date }}
         path: stream_pack.zip
