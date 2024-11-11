@@ -27,7 +27,7 @@ jobs:
 
     - name: Move master files to static directory
       run: |
-        mv * static/
+        find . -maxdepth 1 -not -name 'static' -exec mv {} static/ \;
 
     - name: Pull useful_file branch
       run: |
