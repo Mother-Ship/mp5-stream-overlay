@@ -39,11 +39,10 @@ jobs:
 
     - name: 打压缩包
       run: |
-        FILE_NAME="mp5-stream-overlay_$(date +'%Y-%m-%d').zip"
-        zip -r9 $FILE_NAME ./
+        zip -r9 stream_pack.zip ./
 
     - name: 重命名文件并上传
       uses: actions/upload-artifact@v3
       with:
-        name: $FILE_NAME
-        path: $FILE_NAME
+        name: mp5-stream-overlay_$(date +'%Y-%m-%d').zip
+        path: stream_pack.zip
