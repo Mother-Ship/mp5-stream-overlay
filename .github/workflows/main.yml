@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - pack_without_useful_files
+      - dev
   pull_request:
     branches:
       - master
@@ -13,39 +13,41 @@ on:
 jobs:
   update_and_compress:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout files
-      uses: actions/checkout@v3
+    
+    - name: 签出代码所在的master分支
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
-    
-    - name: Create dist folder
-      run: mkdir -p dist
-        
-    - name: Create static folder used by tosu
-      run: mkdir -p dist/static
 
-    - name: Move files
+    - name: 创建target以及tosu需要的static目录
+      run: mkdir -p /tmp/target/static
+      
+    - name: 将master分支代码复制到target/static目录
       run: |
-        shopt -s extglob
-        cp -af !(dist) dist/static/
-        mv dist/static/*.json dist/
-
-    - name: Download tosu release
+        rm -rf ./.git
+        cp -af ./ /tmp/target/static/
+        mv /tmp/target/static/*.json /tmp/target/
+        
+    - name: 下载tosu release
       uses: wei/wget@v1
       with:
         args: -O tosu.zip https://github.com/tosuapp/tosu/releases/download/v3.6.0/tosu-windows-v3.6.0.zip
     
-    - name: Extract tosu
-      run: unzip tosu.zip -d dist/
+    - name: 解压tosu
+      run: unzip tosu.zip -d /tmp/target/
     
-    - name: Write configuration file
+    - name: 写入tosu配置
       run: |
-        echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static" > dist/tsosu.env
+        echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static" > /tmp/target/tsosu.env
+        
+    - name: 获取当前日期
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-    - name: Upload artifact
+    - name: 打压缩包并上传
       uses: actions/upload-artifact@v4
       with:
-        name: mp5_stream_overlay_${{ github.ref_name }}_${{ github.sha }}
-        path: dist
+        name: mp5-stream-overlay_${{ steps.date.outputs.date }}_${{ github.ref_name }}_${{ github.sha }}
+        compression-level: 9
+        path: /tmp/target
