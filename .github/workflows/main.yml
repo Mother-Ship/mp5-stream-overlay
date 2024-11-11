@@ -43,11 +43,11 @@ jobs:
         
     - name: 获取当前日期
       id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
     - name: 打压缩包并上传
       uses: actions/upload-artifact@v4
       with:
-        name: mp5-stream-overlay_${{ steps.date.outputs.date }}_${{ github.ref_name }}_${{ github.sha }}
+        name: mp5-stream-overlay_${{ steps.date.outputs.date }}_${{ github.ref_name }}_${GITHUB_SHA::7}
         compression-level: 9
         path: /tmp/target
