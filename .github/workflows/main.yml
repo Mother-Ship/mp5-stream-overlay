@@ -3,11 +3,10 @@ name: 打直播包
 on:
   push:
     branches:
-      - useful_file
       - master
+      - pack_without_useful_files
   pull_request:
     branches:
-      - useful_file
       - master
   workflow_dispatch:
 
@@ -16,33 +15,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 签出代码所在的master分支
+    - name: Checkout files
       uses: actions/checkout@v3
       with:
-        ref: master
-
+        ref: ${{ github.ref_name }}
+    
+    - name: Create dist folder
+      run: mkdir -p dist
         
-    - name: 创建tosu需要的static目录
-      run: mkdir -p static
+    - name: Create static folder used by tosu
+      run: mkdir -p dist/static
 
-    - name: 将master分支代码移到static目录
+    - name: Move files
       run: |
         shopt -s extglob
-        cp -af !(static) static/
-        rm -rf !(static*)
+        cp -af !(dist) dist/static/
+        mv dist/static/*.json dist/
 
-    - name: 签出tosu/gosu/说明文件等所在的useful_file分支
-      uses: actions/checkout@v3
+    - name: Download tosu release
+      uses: wei/wget@v1
       with:
-        ref: useful_file
-
-
-    - name: 打压缩包
+        args: -O tosu.zip https://github.com/tosuapp/tosu/releases/download/v3.6.0/tosu-windows-v3.6.0.zip
+    
+    - name: Extract tosu
+      run: unzip tosu.zip -d dist/
+    
+    - name: Write configuration file
       run: |
-        zip -r9 stream_pack.zip ./
+        echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static" > dist/tsosu.env
 
-    - name: 重命名文件并上传
-      uses: actions/upload-artifact@v3
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
       with:
-        name: mp5-stream-overlay_$(date +'%Y-%m-%d').zip
-        path: stream_pack.zip
+        name: mp5_stream_overlay_${{ github.ref_name }}_${{ github.sha }}
+        path: dist
