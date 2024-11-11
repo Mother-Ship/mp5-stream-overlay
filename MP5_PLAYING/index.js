@@ -1,13 +1,17 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
 
-import { getModNameAndIndexById, getStoredBeatmapById, getTeamFullInfoByName, getModEnumFromModString } from "../COMMON/lib/bracket.js";
-import { CountUp } from '../COMMON/lib/countUp.min.js';
-import { Odometer } from '../COMMON/lib/odometer-countup.js';
-import { clearCurrentMagic, getCurrentMagic, getMagicByCode, storeCurrentMagic } from "../COMMON/lib/magic.js";
+import {
+    getModEnumFromModString,
+    getModNameAndIndexById,
+    getStoredBeatmapById,
+    getTeamFullInfoByName
+} from "../COMMON/lib/bracket.js";
+import {CountUp} from '../COMMON/lib/countUp.min.js';
+import {Odometer} from '../COMMON/lib/odometer-countup.js';
 import OsuParser from '../COMMON/lib/osuParser.js';
 import MapMock from '../COMMON/lib/mock.js';
-import { __wbg_init } from '../COMMON/lib/rosu-pp/rosu_pp.js';
+import {__wbg_init} from '../COMMON/lib/rosu-pp/rosu_pp.js';
 
 
 await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
@@ -17,50 +21,50 @@ const mock = new MapMock();
 
 await mock.init();
 
-const teamAScore = new CountUp('team-a-score', 0, { duration: 0.5, useGrouping: true });
-const teamBScore = new CountUp('team-b-score', 0, { duration: 0.5, useGrouping: true });
+const teamAScore = new CountUp('team-a-score', 0, {duration: 0.5, useGrouping: true});
+const teamBScore = new CountUp('team-b-score', 0, {duration: 0.5, useGrouping: true});
 const mapAr = new CountUp('map-ar', 0, {
-    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
-    duration: 0.5,
-    decimalPlaces: 1
-}),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        duration: 0.5,
+        decimalPlaces: 1
+    }),
     mapOd = new CountUp('map-od', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapCs = new CountUp('map-cs', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapHp = new CountUp('map-hp', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapBpm = new CountUp('map-bpm', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
     }),
     mapStar = new CountUp('map-star', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
         duration: 0.5,
         decimalPlaces: 2,
         suffix: '*',
     }),
     mapLengthMinutes = new CountUp('map-length-minutes', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.2, lastDigitDelay: 0}),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),
     mapLengthSeconds = new CountUp('map-length-seconds', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        plugin: new Odometer({duration: 0.2, lastDigitDelay: 0}),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),
-    teamAScoreLead = new CountUp('team-a-score-lead', 0, { duration: 0.5, useGrouping: true, prefix: '+' }),
-    teamBScoreLead = new CountUp('team-b-score-lead', 0, { duration: 0.5, useGrouping: true, prefix: '+' });
+    teamAScoreLead = new CountUp('team-a-score-lead', 0, {duration: 0.5, useGrouping: true, prefix: '+'}),
+    teamBScoreLead = new CountUp('team-b-score-lead', 0, {duration: 0.5, useGrouping: true, prefix: '+'});
 
 
 const cache = {
@@ -116,8 +120,7 @@ function initPage() {
                 // READ_OBS not available
                 console.log('READ_OBS not available');
                 document.getElementById('button-record-ack').style.display = 'block';
-            }
-            else {
+            } else {
                 // We can read status, so show notification only when not recording
                 document.getElementById('notify-record').textContent = "你现在没在录像，别忘了开！"
                 window.obsstudio.getStatus(function (status) {
@@ -134,8 +137,7 @@ function initPage() {
                 })
             }
         });
-    }
-    else {
+    } else {
         console.log('Not OBS Browser or OBS control features not supported');
         document.getElementById('button-record-ack').style.display = 'block';
     }
@@ -185,8 +187,7 @@ function toggleChat(enable) {
         document.getElementById('map-info-container').style.display = 'none';
         document.getElementById('team-a-score-bar').style.display = 'none';
         document.getElementById('team-b-score-bar').style.display = 'none';
-    }
-    else {
+    } else {
         console.log('隐藏聊天框，展示分数条、歌曲信息')
         document.getElementById('chat').classList.remove('fade-in');
         document.getElementById('chat').classList.add('fade-out');
@@ -220,7 +221,7 @@ document.getElementById('button-record-ack').addEventListener('click', () => {
     document.getElementById('button-record-ack').style.display = 'none';
 })
 
-socket.api_v1(async ({ menu, tourney }) => {
+socket.api_v1(async ({menu, tourney}) => {
 
     try {
         // 歌曲信息
@@ -276,7 +277,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             // TB needs some special treatments
             if (modNameAndIndex.modName === "TB") {
                 document.getElementById("map-mod").innerText = modNameAndIndex.modName + String(modNameAndIndex.index);
-                
+
                 document.getElementById("map-info-container").classList.remove("picked-by-team-b")
                 document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
                 document.getElementById("map-mod").classList.remove("team-b-map-mod")
@@ -287,16 +288,15 @@ socket.api_v1(async ({ menu, tourney }) => {
                 document.getElementById("map-info-container").classList.add("picked-tiebreaker")
                 document.getElementById("map-mod-container").classList.add("tiebreaker-map-mod-container")
                 document.getElementById("map-mod").classList.add("tiebreaker-map-mod")
-            }
-            else {
+            } else {
                 const operation = getStoredBeatmapById(bid.toString());
                 console.log(operation);
                 if (operation !== null) {
                     cache.mapChoosed = true;
                     if (operation.type === "Pick") {
-    
+
                         document.getElementById("map-mod").innerText = modNameAndIndex.modName + String(modNameAndIndex.index);
-    
+
                         if (operation.team === "Red") {
                             document.getElementById("map-info-container").classList.remove("picked-by-team-b")
                             document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
@@ -305,7 +305,7 @@ socket.api_v1(async ({ menu, tourney }) => {
                             document.getElementById("map-info-container").classList.remove("picked-tiebreaker")
                             document.getElementById("map-mod-container").classList.remove("tiebreaker-map-mod-container")
                             document.getElementById("map-mod").classList.remove("tiebreaker-map-mod")
-    
+
                             document.getElementById("map-info-container").classList.add("picked-by-team-a")
                             document.getElementById("map-mod-container").classList.add("team-a-map-mod-container")
                             document.getElementById("map-mod").classList.add("team-a-map-mod")
@@ -318,7 +318,7 @@ socket.api_v1(async ({ menu, tourney }) => {
                             document.getElementById("map-info-container").classList.remove("picked-tiebreaker")
                             document.getElementById("map-mod-container").classList.remove("tiebreaker-map-mod-container")
                             document.getElementById("map-mod").classList.remove("tiebreaker-map-mod")
-    
+
                             document.getElementById("map-info-container").classList.add("picked-by-team-b")
                             document.getElementById("map-mod-container").classList.add("team-b-map-mod-container")
                             document.getElementById("map-mod").classList.add("team-b-map-mod")
@@ -327,7 +327,6 @@ socket.api_v1(async ({ menu, tourney }) => {
                 }
             }
         }
-
 
 
         // 聊天
@@ -421,7 +420,7 @@ socket.api_v1(async ({ menu, tourney }) => {
                 (leftTeam) => {
                     // 设置队伍头像、名称
                     document.getElementById("team-a-name").innerText = leftTeam.FullName;
-                    document.getElementById("team-a-avatar").src = "../COMMON/img/flag/" + leftTeam.Acronym + ".png"
+                    setLeftTeamAvatar(leftTeam.Acronym);
                 }
             )
         }
@@ -431,7 +430,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             getTeamFullInfoByName(rightTeamName).then(
                 (rightTeam) => {
                     document.getElementById("team-b-name").innerText = rightTeam.FullName;
-                    document.getElementById("team-b-avatar").src = "../COMMON/img/flag/" + rightTeam.Acronym + ".png"
+                    setRightTeamAvatar(rightTeam.Acronym);
                 }
             )
         }
@@ -439,6 +438,40 @@ socket.api_v1(async ({ menu, tourney }) => {
         console.log(error);
     }
 });
+
+function setLeftTeamAvatar(acronym) {
+    var basePath = "../COMMON/img/flag/" + acronym;
+    var imgElement = document.getElementById("team-a-avatar");
+    setTeamAvatar(imgElement, basePath);
+}
+
+function setRightTeamAvatar(acronym) {
+    var basePath = "../COMMON/img/flag/" + acronym;
+    var imgElement = document.getElementById("team-b-avatar");
+    setTeamAvatar(imgElement, basePath);
+}
+
+function setTeamAvatar(imgElement, basePath) {
+
+    var imgFormats = ['jpg', 'jpeg', 'png']; // 支持的格式
+    var found = false;
+
+    imgFormats.forEach(function (format) {
+        if (!found) {
+            var imgUrl = basePath + "." + format;
+            var img = new Image();
+            img.onload = function () {
+                imgElement.src = imgUrl; // 加载成功，更新图片
+                found = true; // 停止尝试其他格式
+            };
+            img.onerror = function () {
+                // 如果加载失败，继续尝试下一个格式
+            };
+            img.src = imgUrl;
+        }
+    });
+}
+
 
 // 控制台逻辑
 
@@ -448,6 +481,7 @@ const matchRound = document.getElementById("match-round");
 function storeMatchRound() {
     localStorage.setItem('currentMatchRound', matchRound.innerText);
 }
+
 function activateButton(buttonId) {
     document.getElementById(buttonId).classList.remove("button-inactive", "button-active");
     document.getElementById(buttonId).classList.add("button-active");
@@ -678,8 +712,7 @@ function setScoreBars(tourney) {
 
             document.getElementById('team-a-score-lead').style.visibility = 'hidden';
             document.getElementById('team-b-score-lead').style.visibility = 'hidden';
-        }
-        else if(leftScore > rightScore) {
+        } else if (leftScore > rightScore) {
             document.getElementById('team-b-score-bar').style.width = 100 + "px";
             document.getElementById('team-a-score-bar').style.width = scores.bar + "px";
 
@@ -688,8 +721,7 @@ function setScoreBars(tourney) {
 
             document.getElementById('team-a-score-lead').style.visibility = 'visible';
             document.getElementById('team-b-score-lead').style.visibility = 'hidden';
-        }
-        else {
+        } else {
             document.getElementById('team-a-score-bar').style.width = 100 + "px";
             document.getElementById('team-b-score-bar').style.width = scores.bar + "px";
 
