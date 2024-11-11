@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: 签出代码所在的master分支
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: master
 
@@ -40,9 +40,13 @@ jobs:
     - name: 打压缩包
       run: |
         zip -r9 stream_pack.zip ./
+        
+    - name: 获取当前日期
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - name: 重命名文件并上传
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: mp5-stream-overlay_$(date +'%Y-%m-%d').zip
+        name: mp5-stream-overlay${{ steps.date.outputs.date }}.zip
         path: stream_pack.zip
