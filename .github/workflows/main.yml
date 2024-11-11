@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Pull master branch
-      run: |
-        git fetch origin master
-        git checkout origin/master -- .
+    - name: Checkout master branch
+      uses: actions/checkout@v3
+      with:
+        ref: master
 
         
     - name: Create static directory
