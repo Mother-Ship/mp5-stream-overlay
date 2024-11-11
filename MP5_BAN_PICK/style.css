@@ -39,8 +39,8 @@ body {
     --font-family-torus: 'TorusNotched-Regular', sans-serif;
     --gap: 20px;
     --player-avatar-size: 101px;
-    --team-avatar-width: 101px;
-    --team-avatar-height: 68px;
+    --team-avatar-width: 121px;
+    --team-avatar-height: 88px;
 
     --team-a-color: #824242;
     --team-b-color: #415a8a;
@@ -72,6 +72,7 @@ body {
     position: absolute;
     width: var(--team-avatar-width);
     height: var(--team-avatar-height);
+    object-fit: contain;
 }
 
 #team-a-avatar {
@@ -132,6 +133,8 @@ body {
     position: relative;
     height: 101px;
     width: 400px;
+    display: flex;
+    align-items: center; /* 让内容在纵向上居中 */
 }
 
 .team-a-player-avatar, .team-b-player-avatar {
@@ -151,7 +154,7 @@ body {
     color: var(--text-color);
     position: absolute;
     width: 300px;
-    height: 39px;
+    height: 35px;
 }
 
 .team-a-player-name {

@@ -69,9 +69,7 @@ socket.api_v1(({tourney}) => {
             getTeamFullInfoByName(tourney.manager.teamName.left).then(
                 (leftTeam) => {
                     // 设置队伍头像、名称
-                    document.getElementById("team-a-avatar").srcset = imgFormats.map(function(format) {
-                        return "../COMMON/img/flag/" + leftTeam.Acronym  + "." + format;
-                    });
+                    setLeftTeamAvatar(leftTeam.Acronym);
 
                     document.getElementById("team-a-name").innerText = leftTeam.FullName;
                     // 设置队伍成员
@@ -82,9 +80,8 @@ socket.api_v1(({tourney}) => {
 
             getTeamFullInfoByName(tourney.manager.teamName.right).then(
                 (rightTeam) => {
-                    document.getElementById("team-b-avatar").srcset = imgFormats.map(function(format) {
-                        return "../COMMON/img/flag/" + rightTeam.Acronym  + "." + format;
-                    });
+                    // 设置队伍头像、名称
+                    setRightTeamAvatar(rightTeam.Acronym);
 
                     document.getElementById("team-b-name").innerText = rightTeam.FullName;
                     document.getElementById("team-b-player-list").innerHTML = "";
@@ -97,6 +94,39 @@ socket.api_v1(({tourney}) => {
         console.log(error);
     }
 });
+
+function setLeftTeamAvatar(acronym) {
+    var basePath = "../COMMON/img/flag/" + acronym;
+    var imgElement = document.getElementById("team-a-avatar");
+    setTeamAvatar(imgElement, basePath);
+}
+
+function setRightTeamAvatar(acronym) {
+    var basePath = "../COMMON/img/flag/" + acronym;
+    var imgElement = document.getElementById("team-b-avatar");
+    setTeamAvatar(imgElement, basePath);
+}
+
+function setTeamAvatar(imgElement, basePath) {
+
+    var imgFormats = ['jpg', 'jpeg', 'png']; // 支持的格式
+    var found = false;
+
+    imgFormats.forEach(function (format) {
+        if (!found) {
+            var imgUrl = basePath + "." + format;
+            var img = new Image();
+            img.onload = function () {
+                imgElement.src = imgUrl; // 加载成功，更新图片
+                found = true; // 停止尝试其他格式
+            };
+            img.onerror = function () {
+                // 如果加载失败，继续尝试下一个格式
+            };
+            img.src = imgUrl;
+        }
+    });
+}
 
 function activateButton(buttonId) {
     document.getElementById(buttonId).classList.remove("button-inactive", "button-active");
