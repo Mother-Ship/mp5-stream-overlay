@@ -657,7 +657,7 @@ function setScoreBars(tourney) {
             scores.left.score = (leftClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
             scores.right.score = (rightClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
             scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            scores.bar = Math.min(0.4, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 2000 + 100;
+            scores.bar = Math.min(0.4, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 1000 + 100;
     }
 
     if (scores.left.score !== cache.leftScore || scores.right.score !== cache.rightScore) {
