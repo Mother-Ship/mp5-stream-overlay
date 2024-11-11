@@ -42,7 +42,10 @@ jobs:
         zip -r9 static_files.zip ./
 
     - name: 上传文件
-      uses: actions/upload-artifact@v3
-      with:
-        name: static_files
-        path: static_files.zip
+      run: |
+        FILE_NAME="mp5-stream-overlay_$(date +'%Y-%m-%d').zip"
+        mv static_files.zip $FILE_NAME
+        uses: actions/upload-artifact@v3
+        with:
+          name: $FILE_NAME
+          path: $FILE_NAME
