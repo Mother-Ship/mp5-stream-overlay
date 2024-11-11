@@ -27,8 +27,10 @@ jobs:
 
     - name: Move master files to static directory
       run: |
-        mv * static/
-        mv .gitignore static/  # 如果需要 .gitignore 文件也移动
+        # Enable dotglob to include hidden files
+        shopt -s dotglob
+        # Move everything except the 'static' directory
+        mv !(static) static/
 
     - name: Pull useful_file branch
       run: |
