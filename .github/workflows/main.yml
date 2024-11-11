@@ -20,7 +20,7 @@ jobs:
     - name: 签出代码所在的master分支
       uses: actions/checkout@v4
       with:
-        ref: master
+        ref: ${{ github.ref_name }}
 
         
     - name: 创建target以及tosu需要的static目录
