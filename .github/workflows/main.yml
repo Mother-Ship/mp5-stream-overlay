@@ -22,18 +22,18 @@ jobs:
         ref: master
 
         
-    - name: Create static directory
+    - name: 创建tosu需要的static目录
       run: mkdir -p static
 
     - name: 将master分支代码移到static目录
       run: |
-        find . -maxdepth 1 -not -name 'static' -exec mv {} static/ \;
-        rm -rf ./.git
+        cp -af !(static) static/
+        rm -rf !(static*)
 
-    - name: 签出tosu/gosu/说明文件等所在的master分支
-      run: |
-        git fetch origin useful_file
-        git checkout origin/useful_file -- .
+    - name: 签出tosu/gosu/说明文件等所在的useful_file分支
+      uses: actions/checkout@v3
+      with:
+        ref: useful_file
 
 
     - name: 打压缩包
