@@ -173,6 +173,28 @@ body {
     font-family: 'TorusNotched-Regular', sans-serif;
 }
 
+#team-a-score-lead {
+    position: absolute;
+    left: 20px;
+    text-align: left;
+    font-size: 30px;
+    color: #ffffff;
+    font-family: 'TorusNotched-Regular', sans-serif;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+#team-b-score-lead {
+    position: absolute;
+    right: 20px;
+    text-align: right;
+    font-size: 30px;
+    color: #ffffff;
+    font-family: 'TorusNotched-Regular', sans-serif;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
 
 #team-b-container {
     position: absolute;
