@@ -323,11 +323,11 @@ function restoreBeatmapSelection() {
                         }
                         const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
                         operation.innerHTML = `  
-                        <div class="${classPrefix}-map-cover-border">                      
+                        <div class="${classPrefix}-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">                      
                             <img class="${classPrefix}-map-cover"
                                  src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
                         </div>
-                        <div class="${classPrefix}-map-mod-container">
+                        <div class="${classPrefix}-map-mod-container  map-mod-container-${mods.modName.toLocaleLowerCase()}">
                             <span class="${classPrefix}-map-mod">${mods.modName}${mods.index}</span>
                         </div>
                     
@@ -369,12 +369,12 @@ function appendOperation(beatmap, mods) {
             operation.classList.add("team-a-ban");
         }
         operation.innerHTML = `
-            <div class="team-a-map-cover-border">
+            <div class="team-a-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">
                 <img class="team-a-map-cover"
                     src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
             </div>
-            <div class="team-a-map-mod-container">
-                <span class="team-a-map-mod">${mods.modName}${mods.index}</span>
+            <div class="team-a-map-mod-container map-mod-container-${mods.modName.toLocaleLowerCase()}">
+                <span class="team-a-map-mod ">${mods.modName}${mods.index}</span>
             </div>
         
             <span class="team-a-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
@@ -400,12 +400,12 @@ function appendOperation(beatmap, mods) {
             operation.classList.add("team-b-ban");
         }
         operation.innerHTML = `
-            <div class="team-b-map-cover-border">
+            <div class="team-b-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">
                   <img class="team-b-map-cover"
                               src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
             </div>
             
-            <div class="team-b-map-mod-container">
+            <div class="team-b-map-mod-container map-mod-container-${mods.modName.toLocaleLowerCase()}">
                 <span class="team-b-map-mod">${mods.modName}${mods.index}</span>
             </div>
 

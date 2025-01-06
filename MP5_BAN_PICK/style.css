@@ -243,9 +243,9 @@ body {
 #team-b-operation {
     right: 41px;
 }
+
 #team-a-blank,
-#team-b-blank
-{
+#team-b-blank {
     position: relative;
     width: 602px;
     height: 100px;
@@ -303,12 +303,28 @@ body {
     box-sizing: border-box;
 }
 
-.team-a-map-cover-border {
-    border-color: var(--team-a-color);
+.map-border-nm {
+    border-color: var(--border-color-nm);
 }
 
-.team-b-map-cover-border {
-    border-color: var(--team-b-color);
+.map-border-hd {
+    border-color: var(--border-color-hd);
+}
+
+.map-border-hr {
+    border-color: var(--border-color-hr);
+}
+
+.map-border-dt {
+    border-color: var(--border-color-dt);
+}
+
+.map-border-fm {
+    border-color: var(--border-color-fm);
+}
+
+.map-border-tb {
+    border-color: var(--border-color-tb);
 }
 
 .team-a-map-cover,
@@ -331,18 +347,38 @@ body {
 }
 
 .team-a-map-mod-container {
-    /*用#824242填充这个div*/
-    background-color: var(--team-a-color);
     border-radius: 0px 35px 0px 35px;
 }
 
 .team-b-map-mod-container {
     right: 0;
-
-    background-color: var(--team-b-color);
     border-radius: 35px 0px 35px 0px;
 }
 
+
+.map-mod-container-nm {
+    background-color: var(--border-color-nm);
+}
+
+.map-mod-container-hd {
+    background-color: var(--border-color-hd);
+}
+
+.map-mod-container-hr {
+    background-color: var(--border-color-hr);
+}
+
+.map-mod-container-dt {
+    background-color: var(--border-color-dt);
+}
+
+.map-mod-container-fm {
+    background-color: var(--border-color-fm);
+}
+
+.map-mod-container-tb {
+    background-color: var(--border-color-tb);
+}
 
 .team-a-map-mod,
 .team-b-map-mod {
