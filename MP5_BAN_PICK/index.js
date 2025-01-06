@@ -149,14 +149,14 @@ let currentRoundName;
 getAllRound().then(
     (rounds) => {
         allRound = rounds;
-        // 尝试从localstorage找回当前轮次，否则使用第一轮
+        // 尝试从localstorage找回当前轮次，如果localstorage为空，则使用最后一轮
         if (localStorage.getItem('currentRound')) {
             currentRoundName = localStorage.getItem('currentRound');
             locked = true;
             deactivateButtons("button-match-next", "button-match-previous")
             document.getElementById("lock").innerText = "解锁";
         } else {
-            currentRoundName = rounds[0].roundName;
+            currentRoundName = rounds[rounds.length - 1].roundName;
         }
         onCurrentRoundChange();
     }
