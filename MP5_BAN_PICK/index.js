@@ -149,13 +149,15 @@ let currentRoundName;
 getAllRound().then(
     (rounds) => {
         allRound = rounds;
-        // 尝试从localstorage找回当前轮次，如果localstorage为空，则使用最后一轮
-        if (localStorage.getItem('currentRound')) {
+        // 尝试从localstorage找回当前轮次，仅仅当bracket存在当前轮次名字时才找回
+        if (localStorage.getItem('currentRound')
+         && rounds.some(round => round.roundName === localStorage.getItem('currentRound'))) {
             currentRoundName = localStorage.getItem('currentRound');
             locked = true;
             deactivateButtons("button-match-next", "button-match-previous")
             document.getElementById("lock").innerText = "解锁";
         } else {
+            // 如果localstorage为空，则使用最后一轮
             currentRoundName = rounds[rounds.length - 1].roundName;
         }
         onCurrentRoundChange();
