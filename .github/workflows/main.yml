@@ -3,51 +3,52 @@ name: 打直播包
 on:
   push:
     branches:
-      - useful_file
       - master
       - dev
   pull_request:
     branches:
-      - useful_file
       - master
   workflow_dispatch:
 
 jobs:
   update_and_compress:
     runs-on: ubuntu-latest
-
     steps:
+    
     - name: 签出代码所在的master分支
       uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
 
-        
     - name: 创建target以及tosu需要的static目录
       run: mkdir -p /tmp/target/static
-
+      
     - name: 将master分支代码复制到target/static目录
       run: |
         rm -rf ./.git
         cp -af ./ /tmp/target/static/
+        mv /tmp/target/static/*.json /tmp/target/
         
-    - name: 签出tosu/gosu/说明文件等所在的useful_file分支
-      uses: actions/checkout@v4
+    - name: 下载tosu release
+      uses: wei/wget@v1
       with:
-        ref: useful_file
-
-    - name: 删除.git提交历史压缩体积，并将useful_file复制到target目录
+        args: -O tosu.zip https://github.com/tosuapp/tosu/releases/download/v3.6.0/tosu-windows-v3.6.0.zip
+    
+    - name: 解压tosu
+      run: unzip tosu.zip -d /tmp/target/
+    
+    - name: 写入tosu配置
       run: |
-        rm -rf ./.git
-        cp -af ./ /tmp/target/
+        echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static" > /tmp/target/tsosu.env
         
     - name: 获取当前日期
       id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-
+      run: |
+        echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+        echo "short_sha=$(echo ${GITHUB_SHA} | head -c 7)" >> $GITHUB_OUTPUT
     - name: 打压缩包并上传
       uses: actions/upload-artifact@v4
       with:
-        name: mp5-stream-overlay${{ steps.date.outputs.date }}
+        name: mp5-stream-overlay_${{ steps.date.outputs.date }}_${{ github.ref_name }}_${{ steps.date.outputs.short_sha }}
         compression-level: 9
         path: /tmp/target
