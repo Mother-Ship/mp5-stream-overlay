@@ -547,6 +547,21 @@ body {
     background-color: #2b617c;
 }
 
+.button-warning {
+    background-color: #ff3057;
+    border-radius: 8px;
+    width: 180px;
+    height: 48px;
+    font-family: 'TorusNotched-Regular', sans-serif;
+    font-size: 20px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.button-warning:hover {
+    background-color: #ff4f6f;
+}
+
 
 .round-control {
     position: absolute;
