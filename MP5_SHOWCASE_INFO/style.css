@@ -99,8 +99,8 @@ body {
     gap: 31px;
 }
 #map-icon-container img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 
 #map-data-container {
@@ -115,7 +115,7 @@ body {
 .map-data-text {
     color: #efca1b;
     font-size: 70px;
-    line-height: 100px;
+    line-height: 80px;
     font-family: TorusNotched-Regular;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
 }
