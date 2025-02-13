@@ -32,7 +32,7 @@ jobs:
     - name: 下载tosu release
       uses: wei/wget@v1
       with:
-        args: -O tosu.zip https://github.com/tosuapp/tosu/releases/download/v3.6.0/tosu-windows-v3.6.0.zip
+        args: -O tosu.zip https://github.com/tosuapp/tosu/releases/download/v4.2.0/tosu-windows-v4.2.0.zip
     
     - name: 解压tosu
       run: unzip tosu.zip -d /tmp/target/
