@@ -47,6 +47,11 @@ const mapAr = new CountUp('map-ar', 0, {
         plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: (x) => `${Math.trunc(x / 60000).toString().padStart(2, '0')}:${Math.trunc(x % 60000 / 1000).toString().padStart(2, '0')}`,
+    }),
+    mapSr = new CountUp('map-sr', 0, {
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        duration: 0.5,
+        decimalPlaces: 2,
     });
 
 
@@ -95,6 +100,7 @@ socket.api_v1( async ({menu}) => {
             mapLength.update(parsed.modded.beatmap.length);
 
             mapBpm.update(parsed.modded.beatmap.bpm.mostly); 
+            mapSr.update(parsed.modded.difficulty.sr.toFixed(2));
 
             document.getElementById("mods").innerText = modNameAndIndex.modName + modNameAndIndex.index;
         }
