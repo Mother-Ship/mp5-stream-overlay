@@ -16,12 +16,50 @@ import WebSocketManager from "../COMMON/lib/socket.js";
 const socket = new WebSocketManager('127.0.0.1:24050');
 const imgFormats = ['jpg', 'jpeg', 'png'];
 
-// 左右两侧队伍信息缓存
 const cache = {
     leftTeam: "",
     rightTeam: "",
     chat: [],
+    md5: "",
+    // auto BP only works for first beatmap change (or manual pick) after streamer manually chooses pick/ban side.
+    // [TODO] auto-rotate pick/ban teams
+    // [TODO] detect OBS scene change for fully automatic B/P
+    canAutoPick: false,
+
+    // list of BIDs of picked/banned maps
+    pickedMaps: [],
 };
+
+let isAutoPick = true;
+
+// [TODO] OBS-based automatic pick/ban rotating
+/*
+// obs-browser feature checks
+if (window.obsstudio) {
+    console.log('OBS Browser Source detected, version:', window.obsstudio.pluginVersion);
+    console.log('Feature checks..');
+    window.obsstudio.getControlLevel(function (level) {
+        console.log(`OBS browser control level: ${level}`);
+
+        if (level < 1) {
+            // READ_OBS not available
+            console.log('READ_OBS not available');
+        } else {
+
+        }
+    });
+} else {
+    console.warn('Not OBS Browser or OBS control features not supported, auto pick/ban would be disabled');
+    isAutoPick = false;
+    toggleEnableAutoPick(isAutoPick);
+    document.getElementById("button-auto-picks").style.display = "none";
+}
+*/
+
+function toggleAllowAutoPick(isAllow) {
+    console.log('允许自动 BP: ' + isAllow);
+    cache.canAutoPick = isAllow;
+}
 
 function appendPlayersToList(players, listId, teamName) {
     const fragment = document.createDocumentFragment();
@@ -39,7 +77,7 @@ function appendPlayersToList(players, listId, teamName) {
     document.getElementById(listId).appendChild(fragment);
 }
 
-socket.api_v1(({ tourney }) => {
+socket.api_v1(async ({ menu, tourney }) => {
     try {
         // 聊天
         const chat = tourney.manager.chat;
@@ -97,10 +135,98 @@ socket.api_v1(({ tourney }) => {
                 },
             );
         }
+
+        // watch for map change
+        if (menu.bm.md5 !== cache.md5) {
+            cache.md5 = menu.bm.md5;
+
+            if (!isAutoPick);
+            else if (!cache.canAutoPick);
+            else {
+                // auto pick is possible, and map changed
+                const bid = parseInt(menu.bm.id, 10);
+                const [beatmap, mods] = await Promise.all([
+                    getFullBeatmapFromBracketById(bid),
+                    getModNameAndIndexById(bid),
+                ]);
+
+                // MP5 referee convention: keep TB picked ingame before the first real pick
+                if (mods.modName === "TB") return;
+
+                // Check if map was picked
+                let isMapPicked = false;
+                cache.pickedMaps.forEach(pickedBID => { isMapPicked |= bid.toString() == pickedBID });
+
+                if (!isMapPicked) {
+                    appendOperation(beatmap, mods);
+                    // [TODO] modify control panel
+                    console.log('自动 BP 操作: ' + beatmap);
+                }
+                toggleAllowAutoPick(false);
+            }
+        }
     } catch (error) {
         console.log(error);
     }
 });
+
+/**
+ * Visually display a ban/pick in operation containers
+ * Since we don't actually store operations (yet, but why?) most side effects can be ignored.
+ * e.g. pick status on the control panel, restored picks don't care either though
+ * @param {Number} team constant TEAM_RED or TEAM_BLUE
+ * @param {Number|String} bid BID of said map
+ * @param {String} type "pick", "ban" or "blank", lowercase
+ * @param {Boolean} animate apply highlighting animation to the element, defaults to true
+ * @returns the DOM element of the new operation
+ */
+async function applyOperationToDOM(team, bid, type, animate = true) {
+
+    let operationContainer = team === TEAM_RED ?
+        document.getElementById("team-a-operation") :
+        document.getElementById("team-b-operation");
+    let operation = document.createElement("div");
+    let beatmap = await getFullBeatmapFromBracketById(bid);
+    let mods = await getModNameAndIndexById(bid);
+
+    if (type === "blank") {
+        operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
+        operationContainer.appendChild(operation);
+        return null;
+    }
+
+    cache.pickedMaps.push(bid.toString());
+    if (type === "pick") {
+        operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
+    }
+    if (type === "ban") {
+        operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
+    }
+    const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
+    operation.innerHTML = `  
+    <div class="${classPrefix}-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">                      
+        <img class="${classPrefix}-map-cover"
+             src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
+    </div>
+    <div class="${classPrefix}-map-mod-container  map-mod-container-${mods.modName.toLocaleLowerCase()}">
+        <span class="${classPrefix}-map-mod">${mods.modName}${mods.index}</span>
+    </div>
+
+    <span class="${classPrefix}-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
+    <span class="${classPrefix}-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
+`;
+
+    setTimeout(function () {
+        operation.classList.add("shown");
+    }, 1000);
+    if (animate) {
+        operation.classList.add("animated");
+    }
+
+    operationContainer.appendChild(operation);
+
+    return operation;
+}
 
 function setLeftTeamAvatar(acronym) {
     var basePath = "../COMMON/img/flag/" + acronym;
@@ -162,7 +288,7 @@ getAllRound().then(
         allRound = rounds;
         // 尝试从localstorage找回当前轮次，仅仅当bracket存在当前轮次名字时才找回
         if (localStorage.getItem('currentRound')
-         && rounds.some(round => round.roundName === localStorage.getItem('currentRound'))) {
+            && rounds.some(round => round.roundName === localStorage.getItem('currentRound'))) {
             currentRoundName = localStorage.getItem('currentRound');
             locked = true;
             deactivateButtons("button-match-next", "button-match-previous")
@@ -195,6 +321,8 @@ document.getElementById("button-a-ban").addEventListener("click", function (e) {
         team: "Red",
         type: "Ban",
     };
+
+    toggleAllowAutoPick(true);
 });
 document
     .getElementById("button-a-pick")
@@ -215,6 +343,8 @@ document
             team: "Red",
             type: "Pick",
         };
+
+        toggleAllowAutoPick(true);
     });
 
 document.getElementById("button-b-ban").addEventListener("click", function (e) {
@@ -234,6 +364,8 @@ document.getElementById("button-b-ban").addEventListener("click", function (e) {
         team: "Blue",
         type: "Ban",
     };
+
+    toggleAllowAutoPick(true);
 });
 document
     .getElementById("button-b-pick")
@@ -254,6 +386,8 @@ document
             team: "Blue",
             type: "Pick",
         };
+
+        toggleAllowAutoPick(true);
     });
 document
     .getElementById("button-a-blank")
@@ -261,9 +395,7 @@ document
         let operationContainer = document.getElementById("team-a-operation");
         // 如果没有ID为team-a-blank的子元素则创建
         if (!document.getElementById("team-a-blank")) {
-            let operation = document.createElement("div");
-            operation.id = "team-a-blank";
-            operationContainer.appendChild(operation);
+            applyOperationToDOM(TEAM_RED, -1, "blank", false);
             storeBeatmapSelection({
                 team: "Red",
                 type: "Blank",
@@ -277,9 +409,7 @@ document
         let operationContainer = document.getElementById("team-b-operation");
         // 如果没有ID为team-b-blank的子元素则创建
         if (!document.getElementById("team-b-blank")) {
-            let operation = document.createElement("div");
-            operation.id = "team-b-blank";
-            operationContainer.appendChild(operation);
+            applyOperationToDOM(TEAM_BLUE, -1, "blank", false);
             storeBeatmapSelection({
                 team: "Blue",
                 type: "Blank",
@@ -288,7 +418,7 @@ document
         }
     });
 
-let clearPickStatus = 0, 
+let clearPickStatus = 0,
     clearPickResetTimer = null;
 document
     .getElementById("button-clear-picks")
@@ -299,7 +429,7 @@ document
                 document.getElementById("button-clear-picks").classList.remove("button-active");
                 document.getElementById("button-clear-picks").classList.add("button-warning");
                 document.getElementById("button-clear-picks").textContent = "确认清空？";
-                clearPickResetTimer = setTimeout(() => {clearPickStatus = 0; document.getElementById("button-clear-picks").textContent = "清空所有BP"; document.getElementById("button-clear-picks").classList.remove("button-warning"); document.getElementById("button-clear-picks").classList.add("button-active");}, 3000);
+                clearPickResetTimer = setTimeout(() => { clearPickStatus = 0; document.getElementById("button-clear-picks").textContent = "清空所有BP"; document.getElementById("button-clear-picks").classList.remove("button-warning"); document.getElementById("button-clear-picks").classList.add("button-active"); }, 3000);
                 break;
             case 2:
                 console.log("清空所有操作");
@@ -322,6 +452,9 @@ document
                 document.getElementById("button-clear-picks").textContent = "清空所有BP";
                 document.getElementById("button-clear-picks").classList.remove("button-warning");
                 document.getElementById("button-clear-picks").classList.add("button-active");
+
+                toggleAllowAutoPick(false);
+                cache.pickedMaps = [];
         };
     });
 
@@ -343,6 +476,27 @@ document
         // 从localstorage删除操作
         deleteBeatmapSelectionById("BLUE_BLANK");
     });
+document
+    .getElementById("button-auto-picks")
+    .addEventListener("click", function (e) {
+        isAutoPick = !isAutoPick;
+        toggleEnableAutoPick(isAutoPick);
+        console.log("自动BP：" + isAutoPick);
+    });
+
+function toggleEnableAutoPick(isEnable) {
+    if (isEnable) {
+        document.getElementById("button-auto-picks").classList.add("button-active");
+        document.getElementById("button-auto-picks").classList.remove("button-inactive");
+        document.getElementById("button-auto-picks").textContent = "自动BP：启用";
+    }
+    else {
+        document.getElementById("button-auto-picks").classList.add("button-inactive");
+        document.getElementById("button-auto-picks").classList.remove("button-active");
+        document.getElementById("button-auto-picks").textContent = "自动BP：禁用";
+    }
+}
+
 
 const TEAM_RED = "Red";
 const TEAM_BLUE = "Blue";
@@ -360,58 +514,11 @@ function restoreBeatmapSelection() {
         if (teamAContainer && teamBContainer) {
             teamAContainer.innerHTML = "";
             teamBContainer.innerHTML = "";
-            // 使用Promise.all处理异步操作
-            Promise.all(
-                beatmapSelections.map((beatmapOperation) => {
-                    // beatmapOperation.beatmapId转数字
-                    const bid = parseInt(beatmapOperation.beatmapId, 10);
-                    return getFullBeatmapFromBracketById(bid).then((beatmap) => {
-                        return getModNameAndIndexById(bid).then((mods) => {
-                            return [beatmap, mods, beatmapOperation];
-                        });
-                    });
-                })
-            ).then(results => {
-                results.forEach(([beatmap, mods, beatmapOperation]) => {
-                    // 根据所有Promise结果修改HTML
-                    const {team, type} = beatmapOperation;
-                    let operationContainer = team === TEAM_RED ? teamAContainer : teamBContainer;
-                    let operation = document.createElement("div");
-                    // 离线图的改动恰好兼容了空ban，这里找不到对应MOD也不会出现异常，而是直接插入空白div
-                    if (type === "Blank") {
-                        operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
-                        operationContainer.appendChild(operation);
-                    } else {
-                        operation.id = beatmap.ID;
-                        if (type === "Pick") {
-                            operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
-                        }
-                        if (type === "Ban") {
-                            operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
-                        }
-                        const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
-                        operation.innerHTML = `  
-                        <div class="${classPrefix}-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">                      
-                            <img class="${classPrefix}-map-cover"
-                                 src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
-                        </div>
-                        <div class="${classPrefix}-map-mod-container  map-mod-container-${mods.modName.toLocaleLowerCase()}">
-                            <span class="${classPrefix}-map-mod">${mods.modName}${mods.index}</span>
-                        </div>
-
-                        <span class="${classPrefix}-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
-                        <span class="${classPrefix}-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
-                    `;
-                            operationContainer.appendChild(operation);
-                            setTimeout(function () {
-                                operation.classList.add("shown");
-                            }, 1000);
-                        }
-                    });
-                })
-                .catch((error) => {
-                    console.error("Error restoring beatmap selections:", error);
-                });
+            
+            beatmapSelections.forEach(operation => {
+                const { team, type } = operation;
+                applyOperationToDOM(team, Number(operation.beatmapId), type.toLocaleLowerCase(), false);
+            })
         }
     }
 }
@@ -424,68 +531,10 @@ function restoreBeatmapSelection() {
  * @param mods
  */
 function appendOperation(beatmap, mods) {
-    if (currentOperation.team === "Red") {
-        let operationContainer = document.getElementById("team-a-operation");
-        // 根据ban、pick生成一个div，追加到operationContainer
-        let operation = document.createElement("div");
-        operation.id = beatmap.ID;
-        operation.classList.add("animated");
-        if (currentOperation.type === "Pick") {
-            operation.classList.add("team-a-pick");
-        }
-        if (currentOperation.type === "Ban") {
-            operation.classList.add("team-a-ban");
-        }
-        operation.innerHTML = `
-            <div class="team-a-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">
-                <img class="team-a-map-cover"
-                    src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
-            </div>
-            <div class="team-a-map-mod-container map-mod-container-${mods.modName.toLocaleLowerCase()}">
-                <span class="team-a-map-mod ">${mods.modName}${mods.index}</span>
-            </div>
+    // Ensure auto pick only works for the current operation
+    toggleAllowAutoPick(false);
 
-            <span class="team-a-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
-            <span class="team-a-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
-        `;
-        operationContainer.appendChild(operation);
-
-        // 延迟一秒后停止播放闪烁动画
-        setTimeout(function () {
-            operation.classList.add("shown");
-        }, 1000);
-    }
-    if (currentOperation.team === "Blue") {
-        let operationContainer = document.getElementById("team-b-operation");
-        let operation = document.createElement("div");
-        operation.id = beatmap.ID;
-        operation.classList.add("animated");
-
-        if (currentOperation.type === "Pick") {
-            operation.classList.add("team-b-pick");
-        }
-        if (currentOperation.type === "Ban") {
-            operation.classList.add("team-b-ban");
-        }
-        operation.innerHTML = `
-            <div class="team-b-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">
-                  <img class="team-b-map-cover"
-                              src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
-            </div>
-            
-            <div class="team-b-map-mod-container map-mod-container-${mods.modName.toLocaleLowerCase()}">
-                <span class="team-b-map-mod">${mods.modName}${mods.index}</span>
-            </div>
-
-            <span class="team-b-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
-            <span class="team-b-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
-            `;
-        operationContainer.appendChild(operation);
-
-        setTimeout(function () {
-            operation.classList.add("shown");
-        }, 1000);
-    }
+    applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), {animate: true})
 }
 
 function onCurrentRoundChange() {
@@ -502,8 +551,8 @@ function onCurrentRoundChange() {
         mapPool.innerHTML = "";
 
         let currentMod = "";
-        let rod;
-        let rndex = 0;
+        let mod;
+        let index = 0;
 
         // 创建一个文档片段
         const fragment = document.createDocumentFragment();
@@ -545,6 +594,8 @@ function onCurrentRoundChange() {
         // 统计mod下map的数量，如果大于4 则添加map-pool-wide类
         countMapsAndAddWideClass();
     });
+
+    toggleAllowAutoPick(false);
 }
 
 function setupMapListeners(map) {
