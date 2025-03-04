@@ -25,6 +25,9 @@ const cache = {
     // [TODO] auto-rotate pick/ban teams
     // [TODO] detect OBS scene change for fully automatic B/P
     canAutoPick: false,
+    // mapChoosed 存储 canAutoPick 为假后谱面是否变动
+    // [TODO] 改成某种方法判断是否已经切出过 BAN_PICK 场景, 这样就不用存这两个状态了
+    lastChangedMapBid: null,
 
     // list of BIDs of picked/banned maps
     pickedMaps: [],
@@ -139,36 +142,49 @@ socket.api_v1(async ({ menu, tourney }) => {
         // watch for map change
         if (menu.bm.md5 !== cache.md5) {
             cache.md5 = menu.bm.md5;
+            cache.lastChangedMapBid = parseInt(menu.bm.id);
+            console.log('当前播放谱面变动, 新 BID: ' + cache.lastChangedMapBid);
 
             if (!isAutoPick);
             else if (!cache.canAutoPick);
             else {
                 // auto pick is possible, and map changed
-                const bid = parseInt(menu.bm.id, 10);
-                const [beatmap, mods] = await Promise.all([
-                    getFullBeatmapFromBracketById(bid),
-                    getModNameAndIndexById(bid),
-                ]);
-
-                // MP5 referee convention: keep TB picked ingame before the first real pick
-                if (mods.modName === "TB") return;
-
-                // Check if map was picked
-                let isMapPicked = false;
-                cache.pickedMaps.forEach(pickedBID => { isMapPicked |= bid.toString() == pickedBID });
-
-                if (!isMapPicked) {
-                    appendOperation(beatmap, mods);
-                    // [TODO] modify control panel
-                    console.log('自动 BP 操作: ' + beatmap);
-                }
-                toggleAllowAutoPick(false);
+                doAutoPick(menu.bm.id);
             }
         }
     } catch (error) {
         console.log(error);
     }
 });
+
+/**
+ * 进行一次自动 BP 操作, 将允许自动 BP 状态设置为 false
+ * @param {Number} bid 操作的目标谱面 BID
+ * @returns {Promise<void>}
+ */
+async function doAutoPick(bid) {
+    if (typeof bid !== "number") {
+        bid = parseInt(bid, 10);
+    }
+    const [beatmap, mods] = await Promise.all([
+        getFullBeatmapFromBracketById(bid),
+        getModNameAndIndexById(bid),
+    ]);
+
+    // MP5 referee convention: keep TB picked ingame before the first real pick
+    if (mods.modName === "TB") return;
+
+    // Check if map was picked
+    let isMapPicked = false;
+    cache.pickedMaps.forEach(pickedBID => { isMapPicked |= bid.toString() == pickedBID });
+
+    if (!isMapPicked) {
+        appendOperation(beatmap, mods);
+        // [TODO] modify control panel
+        console.log('自动 BP 操作: ' + beatmap);
+    }
+    toggleAllowAutoPick(false);
+}
 
 /**
  * Visually display a ban/pick in operation containers
@@ -301,6 +317,18 @@ getAllRound().then(
     }
 );
 
+/**
+ * 选定操作方后假如当前谱面未被 ban/pick, 进行一次自动 BP 操作
+ */
+function tryAutoPick() {
+    if (!isAutoPick) return;
+    if (!cache.canAutoPick) return;
+    if (cache.lastChangedMapBid === null) return;
+    doAutoPick(cache.lastChangedMapBid);
+    cache.lastChangedMapBid = null;
+}
+
+
 let currentOperation = null;
 
 document.getElementById("button-a-ban").addEventListener("click", function (e) {
@@ -323,6 +351,7 @@ document.getElementById("button-a-ban").addEventListener("click", function (e) {
     };
 
     toggleAllowAutoPick(true);
+    tryAutoPick();
 });
 document
     .getElementById("button-a-pick")
@@ -345,6 +374,7 @@ document
         };
 
         toggleAllowAutoPick(true);
+        tryAutoPick();
     });
 
 document.getElementById("button-b-ban").addEventListener("click", function (e) {
@@ -366,6 +396,7 @@ document.getElementById("button-b-ban").addEventListener("click", function (e) {
     };
 
     toggleAllowAutoPick(true);
+    tryAutoPick();
 });
 document
     .getElementById("button-b-pick")
@@ -388,6 +419,7 @@ document
         };
 
         toggleAllowAutoPick(true);
+        tryAutoPick();
     });
 document
     .getElementById("button-a-blank")
@@ -635,6 +667,7 @@ function setupMapListeners(map) {
         currentOperation = null;
     });
 
+    // 删除操作
     map.addEventListener("contextmenu", (event) => {
         console.log(beatmapId);
         // 更新上方BanPick容器 删除对当前谱面的操作
@@ -653,6 +686,9 @@ function setupMapListeners(map) {
                     }, 500);
                 });
         });
+
+        // 清理 pickedMaps 中的条目
+        cache.pickedMaps = cache.pickedMaps.filter((pickedBID) => pickedBID != beatmapId.toString());
 
         // 删除控制台里的样式
         map.classList.remove("map-pool-button-a-pick");
