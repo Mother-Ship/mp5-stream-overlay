@@ -14,7 +14,6 @@ import WebSocketManager from "../COMMON/lib/socket.js";
 import {drawTeamAndPlayerInfo} from "./teamAndPlayer.js";
 
 const socket = new WebSocketManager('127.0.0.1:24050');
-const imgFormats = ['jpg', 'jpeg', 'png'];
 
 const cache = {
     leftTeam: "",
@@ -130,7 +129,7 @@ async function doAutoPick(bid) {
     cache.pickedMaps.forEach(pickedBID => { isMapPicked |= bid.toString() == pickedBID });
 
     if (!isMapPicked) {
-        appendOperation(beatmap, mods);
+        appendOperation(beatmap);
         // [TODO] modify control panel
         console.log('自动 BP 操作: ' + beatmap);
     }
@@ -250,7 +249,7 @@ function tryAutoPick() {
 
 let currentOperation = null;
 
-document.getElementById("button-a-ban").addEventListener("click", function (e) {
+document.getElementById("button-a-ban").addEventListener("click", function () {
     // 激活自己，熄灭其他ban pick按钮
     deactivateButtons(
         "button-a-ban",
@@ -274,7 +273,7 @@ document.getElementById("button-a-ban").addEventListener("click", function (e) {
 });
 document
     .getElementById("button-a-pick")
-    .addEventListener("click", function (e) {
+    .addEventListener("click", function () {
         // 激活自己，熄灭其他ban pick按钮
         deactivateButtons(
             "button-a-ban",
@@ -296,7 +295,7 @@ document
         tryAutoPick();
     });
 
-document.getElementById("button-b-ban").addEventListener("click", function (e) {
+document.getElementById("button-b-ban").addEventListener("click", function () {
     // 激活自己，熄灭其他ban pick按钮
     deactivateButtons(
         "button-a-ban",
@@ -319,7 +318,7 @@ document.getElementById("button-b-ban").addEventListener("click", function (e) {
 });
 document
     .getElementById("button-b-pick")
-    .addEventListener("click", function (e) {
+    .addEventListener("click", function () {
         // 激活自己，熄灭其他ban pick按钮
         deactivateButtons(
             "button-a-ban",
@@ -342,8 +341,7 @@ document
     });
 document
     .getElementById("button-a-blank")
-    .addEventListener("click", function (e) {
-        let operationContainer = document.getElementById("team-a-operation");
+    .addEventListener("click", function () {
         // 如果没有ID为team-a-blank的子元素则创建
         if (!document.getElementById("team-a-blank")) {
             applyOperationToDOM(TEAM_RED, -1, "blank", false);
@@ -356,8 +354,7 @@ document
     });
 document
     .getElementById("button-b-blank")
-    .addEventListener("click", function (e) {
-        let operationContainer = document.getElementById("team-b-operation");
+    .addEventListener("click", function () {
         // 如果没有ID为team-b-blank的子元素则创建
         if (!document.getElementById("team-b-blank")) {
             applyOperationToDOM(TEAM_BLUE, -1, "blank", false);
@@ -373,7 +370,7 @@ let clearPickStatus = 0,
     clearPickResetTimer = null;
 document
     .getElementById("button-clear-picks")
-    .addEventListener("click", function (e) {
+    .addEventListener("click", function () {
         clearPickStatus += 1;
         switch (clearPickStatus) {
             case 1:
@@ -411,7 +408,7 @@ document
 
 document
     .getElementById("button-a-blank")
-    .addEventListener("contextmenu", function (e) {
+    .addEventListener("contextmenu", function () {
         let operationContainer = document.getElementById("team-a-operation");
         //删除ID为team-a-blank的子元素
         operationContainer.removeChild(document.getElementById("team-a-blank"));
@@ -420,7 +417,7 @@ document
     });
 document
     .getElementById("button-b-blank")
-    .addEventListener("contextmenu", function (e) {
+    .addEventListener("contextmenu", function () {
         let operationContainer = document.getElementById("team-b-operation");
         //删除ID为team-b-blank的子元素
         operationContainer.removeChild(document.getElementById("team-b-blank"));
@@ -429,7 +426,7 @@ document
     });
 document
     .getElementById("button-auto-picks")
-    .addEventListener("click", function (e) {
+    .addEventListener("click", function () {
         isAutoPick = !isAutoPick;
         toggleEnableAutoPick(isAutoPick);
         console.log("自动BP：" + isAutoPick);
@@ -481,7 +478,7 @@ function restoreBeatmapSelection() {
  * @param beatmap
  * @param mods
  */
-function appendOperation(beatmap, mods) {
+function appendOperation(beatmap) {
     // Ensure auto pick only works for the current operation
     toggleAllowAutoPick(false);
 
@@ -556,10 +553,7 @@ function setupMapListeners(map) {
         //beatmapId转数字
         const bid = parseInt(beatmapId, 10);
         // 使用Promise.all处理异步操作
-        const [beatmap, mods] = await Promise.all([
-            getFullBeatmapFromBracketById(bid),
-            getModNameAndIndexById(bid),
-        ]);
+        const beatmap = await getFullBeatmapFromBracketById(bid);
 
         deactivateButtons(
             "button-a-ban",
@@ -580,7 +574,7 @@ function setupMapListeners(map) {
             applyOperationStyles(map, currentOperation);
 
             // 向上方追加操作
-            appendOperation(beatmap, mods);
+            appendOperation(beatmap);
         }
 
         currentOperation = null;
@@ -656,7 +650,7 @@ let locked = false;
 
 document
     .getElementById("button-match-next")
-    .addEventListener("click", function (e) {
+    .addEventListener("click", function () {
         if (locked) {
             return;
         }
@@ -678,7 +672,7 @@ document
 
 document
     .getElementById("button-match-previous")
-    .addEventListener("click", function (e) {
+    .addEventListener("click", function () {
         if (locked) {
             return;
         }
@@ -696,7 +690,7 @@ document
         onCurrentRoundChange();
     });
 
-document.getElementById("lock").addEventListener("click", function (e) {
+document.getElementById("lock").addEventListener("click", function () {
     if (locked) {
         locked = false;
         activateButton("button-match-next");

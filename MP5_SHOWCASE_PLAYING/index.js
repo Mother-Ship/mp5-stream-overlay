@@ -115,11 +115,7 @@ socket.api_v1(async ({menu}) => {
             }
 
             document.getElementById("map-data-container").style.display = 'block';
-
-            // document.getElementById("map-cover").src = "https://assets.ppy.sh/beatmaps/" + menu.bm.set + "/covers/card@2x.jpg?";
-            // document.getElementById("map-cover").src = "https://assets.ppy.sh/beatmaps/" + menu.bm.set + "/covers/card@2x.jpg?";
             document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
-
 
             mapAr.update(parseFloat(parsed.modded.difficulty.ar).toFixed(1));
             mapCs.update(parseFloat(parsed.modded.difficulty.cs).toFixed(1));

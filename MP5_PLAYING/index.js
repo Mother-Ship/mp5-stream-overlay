@@ -7,11 +7,11 @@ import {
     getStoredBeatmapById,
     getTeamFullInfoByName
 } from "../COMMON/lib/bracket.js";
-import {CountUp} from '../COMMON/lib/countUp.min.js';
-import {Odometer} from '../COMMON/lib/odometer-countup.js';
+import { CountUp } from '../COMMON/lib/countUp.min.js';
+import { Odometer } from '../COMMON/lib/odometer-countup.js';
 import OsuParser from '../COMMON/lib/osuParser.js';
 import MapMock from '../COMMON/lib/mock.js';
-import {__wbg_init} from '../COMMON/lib/rosu-pp/rosu_pp.js';
+import { __wbg_init } from '../COMMON/lib/rosu-pp/rosu_pp.js';
 
 
 await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
@@ -21,50 +21,50 @@ const mock = new MapMock();
 
 await mock.init();
 
-const teamAScore = new CountUp('team-a-score', 0, {duration: 0.5, useGrouping: true});
-const teamBScore = new CountUp('team-b-score', 0, {duration: 0.5, useGrouping: true});
+const teamAScore = new CountUp('team-a-score', 0, { duration: 0.5, useGrouping: true });
+const teamBScore = new CountUp('team-b-score', 0, { duration: 0.5, useGrouping: true });
 const mapAr = new CountUp('map-ar', 0, {
-        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
-        duration: 0.5,
-        decimalPlaces: 1
-    }),
+    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+    duration: 0.5,
+    decimalPlaces: 1
+}),
     mapOd = new CountUp('map-od', 0, {
-        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapCs = new CountUp('map-cs', 0, {
-        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapHp = new CountUp('map-hp', 0, {
-        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapBpm = new CountUp('map-bpm', 0, {
-        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
     }),
     mapStar = new CountUp('map-star', 0, {
-        plugin: new Odometer({duration: 0.3, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 2,
         suffix: '*',
     }),
     mapLengthMinutes = new CountUp('map-length-minutes', 0, {
-        plugin: new Odometer({duration: 0.2, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),
     mapLengthSeconds = new CountUp('map-length-seconds', 0, {
-        plugin: new Odometer({duration: 0.2, lastDigitDelay: 0}),
+        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),
-    teamAScoreLead = new CountUp('team-a-score-lead', 0, {duration: 0.5, useGrouping: true, prefix: '+'}),
-    teamBScoreLead = new CountUp('team-b-score-lead', 0, {duration: 0.5, useGrouping: true, prefix: '+'});
+    teamAScoreLead = new CountUp('team-a-score-lead', 0, { duration: 0.5, useGrouping: true, prefix: '+' }),
+    teamBScoreLead = new CountUp('team-b-score-lead', 0, { duration: 0.5, useGrouping: true, prefix: '+' });
 
 
 const cache = {
@@ -221,7 +221,7 @@ document.getElementById('button-record-ack').addEventListener('click', () => {
     document.getElementById('button-record-ack').style.display = 'none';
 })
 
-socket.api_v1(async ({menu, tourney}) => {
+socket.api_v1(async ({ menu, tourney }) => {
 
     try {
         // 歌曲信息
@@ -555,98 +555,11 @@ document.getElementById("button-match-loser").addEventListener("click", () => {
     }
 });
 
-/*
-let currentMagicCode = getCurrentMagic();
-
-if (currentMagicCode !== null) {
-    let magic = getMagicByCode(currentMagicCode);
-    magic.then(
-        (magic) => {
-            console.log(magic)
-            // 修改magic-name  magic-full-note 但不弹窗
-            document.getElementById("magic-name").innerText =
-                magic.code + ": " + magic.name;
-            document.getElementById("magic-full-note").innerText = magic.fullNote;
-
-            // 处理魔法对控制台操作的影响
-            handleMagicControls(magic.code);
-        }
-    ).catch((error) => {
-        console.log(error);
-    })
-        ;
-}
-
-let hideTimer;
-// 找到id为magic-control-buttons下面的所有buttons 添加点击事件
-document.querySelectorAll("#magic-control-buttons button").forEach(button => {
-    button.addEventListener("click", () => {
-        // 找到button的id，从magic.js获取对应魔法
-        let magic = getMagicByCode(button.id);
-        magic.then(
-            (magic) => {
-                storeCurrentMagic(magic.code);
-                handleMagicControls(magic.code);
-
-                // 修改magic-name  magic-note magic-full-note
-                document.getElementById("magic-name").innerText =
-                    magic.code + ": " + magic.name;
-                document.getElementById("magic-full-note").innerText = magic.fullNote;
-
-
-                document.getElementById("magic-note").innerText =
-                    magic.name + ": " + magic.note;
-
-                let operation = document.getElementById("magic-note-container");
-                operation.classList.add('fade-in');
-                operation.classList.add('blink');
-                operation.style.opacity = "0.99";
-
-                clearTimeout(hideTimer);
-                hideTimer = setTimeout(function () {
-                    operation.classList.add('fade-out');
-                    operation.classList.remove('fade-in');
-                    operation.classList.remove('blink');
-                    operation.style.opacity = "0";
-                }, 4000);
-            }
-        )
-    });
-    button.addEventListener("contextmenu", (event) => {
-
-        clearCurrentMagic();
-
-        document.getElementById("magic-name").innerText = ""
-        document.getElementById("magic-full-note").innerText = ""
-        let operation = document.getElementById("magic-note-container");
-        operation.classList.add('fade-out');
-        operation.classList.remove('fade-in');
-        operation.classList.remove('blink');
-        operation.style.opacity = "0";
-    });
-});
-*/
-
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
 })
 
-/*
-async function handleMagicControls(magicCode) {
-    // TODO 这里可以做 HTML 里现在还没用到的 magic-data-control 的控制
-    if (magicCode == 'E') {
-        document.getElementById("magic-double-players-input-container").style.display = "block";
-    }
-    else {
-        document.getElementById("magic-double-players-input-container").style.display = "none";
-    }
-}
-*/
-
 function setScoreBars(tourney) {
-    // 根据当前场地魔法确定显示的分数数值和分数条情况
-    // const magicCode = getCurrentMagic();
-    const magicCode = null;
     const scores = {
         left: {
             score: 0,
@@ -661,38 +574,11 @@ function setScoreBars(tourney) {
     const rightClients = tourney.ipcClients.filter(client => client.team === 'right');
     let scoreDiff = 0;
 
-    switch (magicCode) {
-        case 'A':
-            // 木桶效应, 改为展示队内最低分
-            scores.left.score = Math.min(...leftClients.map(client => client.gameplay.score));
-            scores.right.score = Math.min(...rightClients.map(client => client.gameplay.score));
-            scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            // 375000 = 1500000 / 4, 这里是懒办法
-            scores.bar = Math.min(1, Math.pow(scoreDiff / 375000, 0.5) / 2) * 500 + 100;
-            break;
-        case 'B':
-            // 完美主义, 改为展示总 acc
-            scores.left.score = leftClients.reduce((acc, client) => acc + client.gameplay.accuracy, 0);
-            scores.right.score = rightClients.reduce((acc, client) => acc + client.gameplay.accuracy, 0);
-            scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            // TODO 待测试具体参数, acc 差距由于比较小不能直接把 1500000 按比例缩放成 150
-            scores.bar = Math.min(1, Math.pow(scoreDiff / 50, 0.5) / 2) * 500 + 100;
-            break;
-        case 'E':
-            // 巨人杀手, 指定两人分数翻倍
-            // TODO, 魔法具体参数控制还没做, 这里要求选择两个玩家暂时不太好处理
-            scores.left.score = (leftClients.reduce((acc, client) => acc + client.gameplay.score * (Array.isArray(document._doublePlayers) && document._doublePlayers.includes(client.gameplay.name) ? 2 : 1), 0));
-            scores.right.score = (rightClients.reduce((acc, client) => acc + client.gameplay.score * (Array.isArray(document._doublePlayers) && document._doublePlayers.includes(client.gameplay.name) ? 2 : 1), 0));
-            scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            scores.bar = Math.min(1, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 500 + 100;
-            break;
-        default:
-            // 其他场地魔法不改变分数显示
-            scores.left.score = (leftClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
-            scores.right.score = (rightClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
-            scoreDiff = Math.abs(scores.left.score - scores.right.score);
-            scores.bar = Math.min(0.4, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 1000 + 100;
-    }
+
+    scores.left.score = (leftClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
+    scores.right.score = (rightClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
+    scoreDiff = Math.abs(scores.left.score - scores.right.score);
+    scores.bar = Math.min(0.4, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 1000 + 100;
 
     if (scores.left.score !== cache.leftScore || scores.right.score !== cache.rightScore) {
         cache.leftScore = scores.left.score;
