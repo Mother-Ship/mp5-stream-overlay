@@ -206,12 +206,6 @@ document.addEventListener('selectstart', function (e) {
     e.preventDefault();
 })
 
-document.getElementById('magic-double-players-confirm').addEventListener('click', () => {
-    const doublePlayers = document.getElementById('magic-double-players-input').value.split(',');
-    document._doublePlayers = doublePlayers;
-    console.log(`双倍分数玩家变动: ${doublePlayers}`);
-});
-
 document.getElementById('button-chat-toggle').addEventListener('click', () => {
     toggleChat(document.getElementById('chat').style.opacity == "0");
 });
