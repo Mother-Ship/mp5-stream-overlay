@@ -24,42 +24,42 @@ await mock.init();
 const teamAScore = new CountUp('team-a-score', 0, { duration: 0.5, useGrouping: true });
 const teamBScore = new CountUp('team-b-score', 0, { duration: 0.5, useGrouping: true });
 const mapAr = new CountUp('map-ar', 0, {
-    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+    // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
     duration: 0.5,
     decimalPlaces: 1
 }),
     mapOd = new CountUp('map-od', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapCs = new CountUp('map-cs', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapHp = new CountUp('map-hp', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1
     }),
     mapBpm = new CountUp('map-bpm', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
     }),
     mapStar = new CountUp('map-star', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 2,
         suffix: '*',
     }),
     mapLengthMinutes = new CountUp('map-length-minutes', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),
     mapLengthSeconds = new CountUp('map-length-seconds', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: x => x.toString().padStart(2, "0"),
     }),

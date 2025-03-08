@@ -20,37 +20,37 @@ const cache = {
 };
 
 const mapAr = new CountUp('map-ar', 0, {
-    plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+    // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
     duration: 0.5,
     decimalPlaces: 1,
     }),
     mapOd = new CountUp('map-od', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1,
     }),
     mapCs = new CountUp('map-cs', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1,
     }),
     mapHp = new CountUp('map-hp', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 1,
     }),
     mapBpm = new CountUp('map-bpm', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
     }),
     mapStar = new CountUp('map-star', 0, {
-        plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.3, lastDigitDelay: 0 }),
         duration: 0.5,
         decimalPlaces: 2,
         suffix: '*',
     }),
     mapLength = new CountUp('map-length', 0, {
-        plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
+        // plugin: new Odometer({ duration: 0.2, lastDigitDelay: 0 }),
         duration: 0.5,
         formattingFn: (x) => `${Math.trunc(x / 60000).toString().padStart(2, '0')}:${Math.trunc(x % 60000 / 1000).toString().padStart(2, '0')}`,
     });
