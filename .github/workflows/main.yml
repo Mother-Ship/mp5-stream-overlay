@@ -40,7 +40,21 @@ jobs:
     - name: 写入tosu配置
       run: |
         echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static" > /tmp/target/tsosu.env
-        
+    
+    - name: 配置 Go 环境
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.24
+
+    - name: 构建 Go bracket 下载器
+      run: |
+        cd /tmp/target/static/bracket_downloader
+        GOOS=windows GOARCH=amd64 go build -o ../../更新bracket.exe bracket.go
+
+    - name: 移动 PowerShell bracket 下载器
+      run: |
+        mv /tmp/target/static/bracket_downloader/更新bracket.ps1 /tmp/target/
+
     - name: 获取当前日期
       id: date
       run: |
