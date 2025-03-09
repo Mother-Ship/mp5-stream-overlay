@@ -11,7 +11,7 @@ import {
 } from "../COMMON/lib/bracket.js";
 
 import WebSocketManager from "../COMMON/lib/socket.js";
-import {drawTeamAndPlayerInfo} from "./teamAndPlayer.js";
+import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 
@@ -99,7 +99,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             else if (!cache.canAutoPick);
             else {
                 // auto pick is possible, and map changed
-                doAutoPick(menu.bm.id);
+                doAutoPick(currentOperation.team == 'Red' ? TEAM_RED : TEAM_BLUE, menu.bm.id, currentOperation.type.toLowerCase());
             }
         }
     } catch (error) {
@@ -109,10 +109,13 @@ socket.api_v1(async ({ menu, tourney }) => {
 
 /**
  * 进行一次自动 BP 操作, 将允许自动 BP 状态设置为 false
+ * @param {Number} team 操作的目标队伍 TEAM_RED or TEAM_BLUE
  * @param {Number} bid 操作的目标谱面 BID
+ * @param {String} type 操作类型 "pick" or "ban"
  * @returns {Promise<void>}
  */
-async function doAutoPick(bid) {
+async function doAutoPick(team, bid, type) {
+    console.log(bid)
     if (typeof bid !== "number") {
         bid = parseInt(bid, 10);
     }
@@ -129,7 +132,8 @@ async function doAutoPick(bid) {
     cache.pickedMaps.forEach(pickedBID => { isMapPicked |= bid.toString() == pickedBID });
 
     if (!isMapPicked) {
-        applyOperationToDOM(beatmap);
+        console.log(beatmap);
+        applyOperationToDOM(team, beatmap.ID, type);
         // [TODO] modify control panel
         console.log('自动 BP 操作: ' + beatmap);
     }
@@ -148,28 +152,34 @@ async function doAutoPick(bid) {
  */
 async function applyOperationToDOM(team, bid, type, animate = true) {
 
-    let operationContainer = team === TEAM_RED ?
-        document.getElementById("team-a-operation") :
-        document.getElementById("team-b-operation");
-    let operation = document.createElement("div");
-    let beatmap = await getFullBeatmapFromBracketById(bid);
-    let mods = await getModNameAndIndexById(bid);
+    // 检查图是否已经选过
+    if (!cache.pickedMaps.includes(bid.toString())) {
 
-    if (type === "blank") {
-        operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
-        operationContainer.appendChild(operation);
-        return null;
-    }
 
-    cache.pickedMaps.push(bid.toString());
-    if (type === "pick") {
-        operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
-    }
-    if (type === "ban") {
-        operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
-    }
-    const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
-    operation.innerHTML = `  
+        let operationContainer = team === TEAM_RED ?
+            document.getElementById("team-a-operation") :
+            document.getElementById("team-b-operation");
+        let operation = document.createElement("div");
+        let beatmap = await getFullBeatmapFromBracketById(bid);
+        let mods = await getModNameAndIndexById(bid);
+
+        if (type === "blank") {
+            operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
+            operationContainer.appendChild(operation);
+            return operation;
+        }
+
+        operation.id = bid.toString();
+
+        cache.pickedMaps.push(bid.toString());
+        if (type === "pick") {
+            operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
+        }
+        if (type === "ban") {
+            operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
+        }
+        const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
+        operation.innerHTML = `  
     <div class="${classPrefix}-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">                      
         <img class="${classPrefix}-map-cover"
              src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
@@ -182,16 +192,27 @@ async function applyOperationToDOM(team, bid, type, animate = true) {
     <span class="${classPrefix}-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
 `;
 
-    setTimeout(function () {
-        operation.classList.add("shown");
-    }, 1000);
-    if (animate) {
-        operation.classList.add("animated");
+        storeBeatmapSelection({
+            team: team === TEAM_RED ? "Red" : "Blue",
+            type: type.charAt(0).toUpperCase() + type.slice(1),
+            beatmapId: bid.toString(),
+        });
+
+        setTimeout(function () {
+            operation.classList.add("shown");
+        }, 1000);
+        if (animate) {
+            operation.classList.add("animated");
+        }
+
+        operationContainer.appendChild(operation);
+
+        return operation;
     }
-
-    operationContainer.appendChild(operation);
-
-    return operation;
+    else {
+        console.log(`图 ${bid} 已经被选过`);
+        return null;
+    }
 }
 
 
@@ -242,7 +263,7 @@ function tryAutoPick() {
     if (!isAutoPick) return;
     if (!cache.canAutoPick) return;
     if (cache.lastChangedMapBid === null) return;
-    doAutoPick(cache.lastChangedMapBid);
+    doAutoPick(currentOperation.team == 'Red' ? TEAM_RED : TEAM_BLUE, cache.lastChangedMapBid, currentOperation.type.toLowerCase());
     cache.lastChangedMapBid = null;
 }
 
@@ -462,7 +483,7 @@ function restoreBeatmapSelection() {
         if (teamAContainer && teamBContainer) {
             teamAContainer.innerHTML = "";
             teamBContainer.innerHTML = "";
-            
+
             beatmapSelections.forEach(operation => {
                 const { team, type } = operation;
                 applyOperationToDOM(team, Number(operation.beatmapId), type.toLocaleLowerCase(), false);
@@ -482,7 +503,7 @@ function appendOperation(beatmap) {
     // Ensure auto pick only works for the current operation
     toggleAllowAutoPick(false);
 
-    applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), {animate: true})
+    applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), { animate: true })
 }
 
 function onCurrentRoundChange() {
@@ -568,13 +589,15 @@ function setupMapListeners(map) {
                 beatmapId: beatmapId,
             };
             // 存储操作到Localstorage
-            storeBeatmapSelection(currentOperation);
+            // storeBeatmapSelection(currentOperation);
 
             // 修改控制台按钮样式
             applyOperationStyles(map, currentOperation);
 
             // 向上方追加操作
-            appendOperation(beatmap);
+            //appendOperation(beatmap);
+
+            applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), true);
         }
 
         currentOperation = null;
