@@ -129,7 +129,7 @@ async function doAutoPick(bid) {
     cache.pickedMaps.forEach(pickedBID => { isMapPicked |= bid.toString() == pickedBID });
 
     if (!isMapPicked) {
-        appendOperation(beatmap);
+        applyOperationToDOM(beatmap);
         // [TODO] modify control panel
         console.log('自动 BP 操作: ' + beatmap);
     }
