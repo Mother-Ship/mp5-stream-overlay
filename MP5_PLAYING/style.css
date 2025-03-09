@@ -111,6 +111,7 @@ body {
     top: 15px;
     width: 79px;
     height: 53px;
+    object-fit: contain;
 }
 
 #team-a-name {
@@ -244,6 +245,7 @@ body {
     top: 15px;
     width: 79px;
     height: 53px;
+    object-fit: contain;
 }
 
 #team-b-name {
