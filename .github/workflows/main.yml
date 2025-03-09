@@ -55,6 +55,9 @@ jobs:
       run: |
         mv /tmp/target/static/bracket_downloader/更新bracket.ps1 /tmp/target/
 
+    - name: 删除下载器源码
+      run: rm -rf /tmp/target/static/bracket_downloader
+
     - name: 获取当前日期
       id: date
       run: |
