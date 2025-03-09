@@ -9,82 +9,124 @@
   "Matches": [],
   "Rounds": [
     {
-      "Name": "瑞士轮（一）",
-      "Description": "瑞士轮（一）",
+      "Name": "小组赛（一）",
+      "Description": "小组赛（一）",
       "BestOf": 9,
       "BanCount": 1,
       "Beatmaps": [
         {
-          "ID": 3718752,
+          "ID": 4138137,
           "Mods": "NM",
           "BeatmapInfo": {
-            "OnlineID": 3718752,
-            "DifficultyName": "Blooming Smile",
-            "BPM": 169.85,
-            "Length": 229000.0,
-            "StarRating": 5.3,
-            "EndTimeObjectCount": 359,
-            "TotalObjectCount": 784,
+            "OnlineID": 4138137,
+            "DifficultyName": "Sehnsucht",
+            "BPM": 180.0,
+            "Length": 273000.0,
+            "StarRating": 5.25,
+            "EndTimeObjectCount": 355,
+            "TotalObjectCount": 761,
             "Metadata": {
-              "Title": "Sakuranbo",
-              "title_unicode": "さくらんぼ",
-              "Artist": "Tsukimi Eiko (VO: 96neko)",
-              "artist_unicode": "月見英子 (VO: 96猫)",
+              "Title": "Hanabi",
+              "title_unicode": "花火",
+              "Artist": "Kimura Yuka",
+              "artist_unicode": "木村結香",
               "Author": {
-                "OnlineID": 4754771,
-                "Username": "Akitoshi",
+                "OnlineID": 19270348,
+                "Username": "Amami Yuu",
                 "CountryString": "Unknown"
               },
-              "Source": "パリピ孔明",
-              "tags": "corinn -laura- paripi koumei ya boy kongming! 大塚愛 otsuka ai cherry cover japanese pop jpop j-pop",
+              "Source": "",
+              "tags": "kyomii- aundy leomine leominexd color colour japanese pop jpop j-pop female vocals vocalist",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 6.0,
+              "DrainRate": 5.5,
               "CircleSize": 4.0,
-              "OverallDifficulty": 8.5,
+              "OverallDifficulty": 9.0,
               "ApproachRate": 9.2,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/1812791/covers/cover@2x.jpg?1663439377",
-              "card@2x": "https://assets.ppy.sh/beatmaps/1812791/covers/card@2x.jpg?1663439377",
-              "list@2x": "https://assets.ppy.sh/beatmaps/1812791/covers/list@2x.jpg?1663439377"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/1991648/covers/cover@2x.jpg?1724023364",
+              "card@2x": "https://assets.ppy.sh/beatmaps/1991648/covers/card@2x.jpg?1724023364",
+              "list@2x": "https://assets.ppy.sh/beatmaps/1991648/covers/list@2x.jpg?1724023364"
             }
           }
         },
         {
-          "ID": 4846725,
+          "ID": 5015925,
           "Mods": "NM",
           "BeatmapInfo": {
-            "OnlineID": 4846725,
-            "DifficultyName": "n.m.s.l.",
-            "BPM": 174.0,
-            "Length": 122000.0,
-            "StarRating": 5.24,
-            "EndTimeObjectCount": 217,
-            "TotalObjectCount": 756,
+            "OnlineID": 5015925,
+            "DifficultyName": "Rua",
+            "BPM": 175.0,
+            "Length": 126000.0,
+            "StarRating": 5.16,
+            "EndTimeObjectCount": 187,
+            "TotalObjectCount": 604,
             "Metadata": {
-              "Title": "c.s.q.n.",
-              "title_unicode": "c.s.q.n.",
-              "Artist": "Aoi",
-              "artist_unicode": "Aoi",
+              "Title": "Brionac ~Lugh Lamhfhata~",
+              "title_unicode": "Brionac ~Lugh Lamhfhata~",
+              "Artist": "Project Grimoire",
+              "artist_unicode": "Project Grimoire",
               "Author": {
-                "OnlineID": 2433507,
-                "Username": "Koiyuki",
+                "OnlineID": 8984146,
+                "Username": "Asaba Harumasa",
                 "CountryString": "Unknown"
               },
-              "Source": "BOFXV - THE BMS OF FIGHTERS eXtreme Violence -",
-              "tags": "mp5 nm2 minakami yuki mtbbsben csqn hybrid core electronic instrumental mobile arcade rhythm game featured artist fa mappers' guild mpg mg sega maimai muse dash give up treatment vol vol. 10 オンゲキ ongeki o.n.g.e.k.i. pigeon games phigros noxy inc. lanota peroperogames btworks orzmic berry melody paradigm: reboot starri rotaeno azrael",
+              "Source": "Cytus",
+              "tags": "mp5 nm2 r1 rayark team chapter 9 buried m3 grimoire of emerald kemono video game celtic instrumental ix",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 5.0,
+              "DrainRate": 5.6,
+              "CircleSize": 4.0,
+              "OverallDifficulty": 8.1,
+              "ApproachRate": 9.2,
+              "SliderMultiplier": 1.4,
+              "SliderTickRate": 1.0
+            },
+            "Covers": {
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2336455/covers/cover@2x.jpg?1741526041",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2336455/covers/card@2x.jpg?1741526041",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2336455/covers/list@2x.jpg?1741526041"
+            }
+          }
+        },
+        {
+          "ID": 4839147,
+          "Mods": "NM",
+          "BeatmapInfo": {
+            "OnlineID": 4839147,
+            "DifficultyName": "Luval's Insane",
+            "BPM": 128.0,
+            "Length": 136000.0,
+            "StarRating": 4.46,
+            "EndTimeObjectCount": 205,
+            "TotalObjectCount": 596,
+            "Metadata": {
+              "Title": "Burning Desires",
+              "title_unicode": "Burning Desires 绝望吧台",
+              "Artist": "San-Z",
+              "artist_unicode": "三Z",
+              "Author": {
+                "OnlineID": 3420746,
+                "Username": "Saki",
+                "CountryString": "Unknown"
+              },
+              "Source": "绝区零",
+              "tags": "burnice ep zenlesszonezero burnicewhite zzz sān-z mihoyo mes zenless zone zero wyrio superbox luval lost surprized leominexd leomine fanzhen0019 take san-z studio hoyo-mix electronic pop video game english character demo hoyoverse vert saki world",
+              "PreviewTime": -1,
+              "AudioFile": "",
+              "BackgroundFile": ""
+            },
+            "Difficulty": {
+              "DrainRate": 4.0,
               "CircleSize": 4.0,
               "OverallDifficulty": 8.0,
               "ApproachRate": 9.0,
@@ -92,77 +134,35 @@
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/2274656/covers/cover@2x.jpg?1730632402",
-              "card@2x": "https://assets.ppy.sh/beatmaps/2274656/covers/card@2x.jpg?1730632402",
-              "list@2x": "https://assets.ppy.sh/beatmaps/2274656/covers/list@2x.jpg?1730632402"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2266375/covers/cover@2x.jpg?1735309190",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2266375/covers/card@2x.jpg?1735309190",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2266375/covers/list@2x.jpg?1735309190"
             }
           }
         },
         {
-          "ID": 3272915,
+          "ID": 4046348,
           "Mods": "NM",
           "BeatmapInfo": {
-            "OnlineID": 3272915,
-            "DifficultyName": "Insane",
-            "BPM": 137.0,
-            "Length": 228000.0,
-            "StarRating": 4.69,
-            "EndTimeObjectCount": 381,
-            "TotalObjectCount": 782,
+            "OnlineID": 4046348,
+            "DifficultyName": "E4pi4Tose's Insane",
+            "BPM": 170.0,
+            "Length": 148000.0,
+            "StarRating": 4.78,
+            "EndTimeObjectCount": 281,
+            "TotalObjectCount": 598,
             "Metadata": {
-              "Title": "Saikai",
-              "title_unicode": "再会",
-              "Artist": "Harumaki Gohan",
-              "artist_unicode": "はるまきごはん",
+              "Title": "Rolling Beat",
+              "title_unicode": "Rolling Beat",
+              "Artist": "Mitsukiyo",
+              "artist_unicode": "ミツキヨ",
               "Author": {
-                "OnlineID": 11119539,
-                "Username": "AirinCat",
+                "OnlineID": 11199892,
+                "Username": "E4pi4mak",
                 "CountryString": "Unknown"
               },
-              "Source": "",
-              "tags": "fuju futarino ふたりの japanese pop jpop reunion featured artist fa mappers' guild vocaloid cover vocal version",
-              "PreviewTime": -1,
-              "AudioFile": "",
-              "BackgroundFile": ""
-            },
-            "Difficulty": {
-              "DrainRate": 5.0,
-              "CircleSize": 4.0,
-              "OverallDifficulty": 7.8,
-              "ApproachRate": 9.0,
-              "SliderMultiplier": 1.4,
-              "SliderTickRate": 1.0
-            },
-            "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/1602654/covers/cover@2x.jpg?1645645309",
-              "card@2x": "https://assets.ppy.sh/beatmaps/1602654/covers/card@2x.jpg?1645645309",
-              "list@2x": "https://assets.ppy.sh/beatmaps/1602654/covers/list@2x.jpg?1645645309"
-            }
-          }
-        },
-        {
-          "ID": 4254807,
-          "Mods": "NM",
-          "BeatmapInfo": {
-            "OnlineID": 4254807,
-            "DifficultyName": "justaleaf's insane",
-            "BPM": 160.0,
-            "Length": 200000.0,
-            "StarRating": 4.82,
-            "EndTimeObjectCount": 497,
-            "TotalObjectCount": 875,
-            "Metadata": {
-              "Title": "qu'ils mangent des puchi pastel",
-              "title_unicode": "qu'ils mangent des プチパステル",
-              "Artist": "Kurokotei",
-              "artist_unicode": "黒皇帝",
-              "Author": {
-                "OnlineID": 15664628,
-                "Username": "Aerousea",
-                "CountryString": "Unknown"
-              },
-              "Source": "",
-              "tags": "arushii09 j-core schranz hardcore breakcore mashcore remix mashup core electronic instrumental footcore footwork juke shoecompilationfive shoe compilation 5 breaktrax shintakarajima shin takarajima sakanaction sanayui not your kitty justaleaf tity cocoyu lurumic ralsricat local hero enon kawatani gesu no kiwami otome. watashi igai watashi ja nai no ryouseibai japanese",
+              "Source": "ブルーアーカイブ -Blue Archive-",
+              "tags": "ブルアカ future bass instrumental electronic video game yostar nat games simple tech ost 61 vgm original sound track soundtrack kudou chitose mrrrk midorijeon",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
@@ -176,35 +176,35 @@
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/2021678/covers/cover@2x.jpg?1725281479",
-              "card@2x": "https://assets.ppy.sh/beatmaps/2021678/covers/card@2x.jpg?1725281479",
-              "list@2x": "https://assets.ppy.sh/beatmaps/2021678/covers/list@2x.jpg?1725281479"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/1953422/covers/cover@2x.jpg?1683571848",
+              "card@2x": "https://assets.ppy.sh/beatmaps/1953422/covers/card@2x.jpg?1683571848",
+              "list@2x": "https://assets.ppy.sh/beatmaps/1953422/covers/list@2x.jpg?1683571848"
             }
           }
         },
         {
-          "ID": 4846752,
+          "ID": 4887761,
           "Mods": "NM",
           "BeatmapInfo": {
-            "OnlineID": 4846752,
-            "DifficultyName": "Rainbow",
-            "BPM": 210.0,
-            "Length": 110000.0,
-            "StarRating": 5.21,
-            "EndTimeObjectCount": 191,
-            "TotalObjectCount": 508,
+            "OnlineID": 4887761,
+            "DifficultyName": "FrenZ's Insane",
+            "BPM": 222.22,
+            "Length": 257000.0,
+            "StarRating": 5.32,
+            "EndTimeObjectCount": 519,
+            "TotalObjectCount": 997,
             "Metadata": {
-              "Title": "pastel planet",
-              "title_unicode": "pastel planet",
-              "Artist": "AAAA",
-              "artist_unicode": "ああああ",
+              "Title": "FREEDOM DiVE",
+              "title_unicode": "FREEDOM DiVE↓",
+              "Artist": "xi",
+              "artist_unicode": "xi",
               "Author": {
-                "OnlineID": 1949710,
-                "Username": "Misure",
+                "OnlineID": 9022451,
+                "Username": "Bloxi",
                 "CountryString": "Unknown"
               },
-              "Source": "",
-              "tags": "mp5 s21 nm5 tournament custom electronic instrumental bitpop fa featured artist",
+              "Source": "MAXBEAT",
+              "tags": "featured artist fa mappers' guild mpg video game electronic instrumental parousia bms happy hardcore glorious crown heavenly blast nhlx nihil raikozen crystalsuicune onosakihito ioexception deadcode momothx wrn81056398 wrn81056 kolikiscool kojio paradogi sstari visionary camo chizu-kun baker mayfield ciyus miapah fort frenz frenz396 elchxyrlia lahphnya arlequin91",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
@@ -213,82 +213,124 @@
               "DrainRate": 5.0,
               "CircleSize": 4.0,
               "OverallDifficulty": 8.0,
-              "ApproachRate": 9.2,
+              "ApproachRate": 9.1,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/2274662/covers/cover@2x.jpg?1730634150",
-              "card@2x": "https://assets.ppy.sh/beatmaps/2274662/covers/card@2x.jpg?1730634150",
-              "list@2x": "https://assets.ppy.sh/beatmaps/2274662/covers/list@2x.jpg?1730634150"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2237410/covers/cover@2x.jpg?1736838465",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2237410/covers/card@2x.jpg?1736838465",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2237410/covers/list@2x.jpg?1736838465"
             }
           }
         },
         {
-          "ID": 4341641,
+          "ID": 4327655,
           "Mods": "HD",
           "BeatmapInfo": {
-            "OnlineID": 4341641,
-            "DifficultyName": "INSANE OVERDOSE",
+            "OnlineID": 4327655,
+            "DifficultyName": "Lancien's Insane",
+            "BPM": 165.0,
+            "Length": 265000.0,
+            "StarRating": 4.83,
+            "EndTimeObjectCount": 386,
+            "TotalObjectCount": 959,
+            "Metadata": {
+              "Title": "Shukusei!! Loli-Kami Requiem*",
+              "title_unicode": "粛聖!! ロリ神レクイエム☆",
+              "Artist": "Shigure Ui (9-sai)",
+              "artist_unicode": "しぐれうい（9さい）",
+              "Author": {
+                "OnlineID": 8257675,
+                "Username": "Vararaup",
+                "CountryString": "Unknown"
+              },
+              "Source": "",
+              "tags": "loli god mada ame wa yamanai the rain doesn't stop yet japanese pop jpop j-pop 9 sai 9sai years old iosys まろん maron d.watt ががめ gagame utsugame 犬山たまき inuyama tamaki 丸岡詩織 studio msr 片田浩史 sony music studios tokyo lancien keywee deppyforce gorou wanpachi",
+              "PreviewTime": -1,
+              "AudioFile": "",
+              "BackgroundFile": ""
+            },
+            "Difficulty": {
+              "DrainRate": 5.0,
+              "CircleSize": 4.0,
+              "OverallDifficulty": 8.0,
+              "ApproachRate": 9.0,
+              "SliderMultiplier": 1.4,
+              "SliderTickRate": 1.0
+            },
+            "Covers": {
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2066239/covers/cover@2x.jpg?1698693826",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2066239/covers/card@2x.jpg?1698693826",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2066239/covers/list@2x.jpg?1698693826"
+            }
+          }
+        },
+        {
+          "ID": 4671191,
+          "Mods": "HD",
+          "BeatmapInfo": {
+            "OnlineID": 4671191,
+            "DifficultyName": "ykcarrot's Hyper",
+            "BPM": 173.0,
+            "Length": 111000.0,
+            "StarRating": 4.48,
+            "EndTimeObjectCount": 129,
+            "TotalObjectCount": 374,
+            "Metadata": {
+              "Title": "LOVE B.B.B",
+              "title_unicode": "LOVE B.B.B",
+              "Artist": "SWAN K feat. Asuka M",
+              "artist_unicode": "SWAN K feat. Asuka M",
+              "Author": {
+                "OnlineID": 12416885,
+                "Username": "Rita Summers",
+                "CountryString": "Unknown"
+              },
+              "Source": "beatmania IIDX 19 Lincle",
+              "tags": "rho z1085684963 kiryu rhythmical velia subahibi kleune kyrian xytoper dksslqj nakagawa-kanon muya ykcarrot sure attendant ruiz duchamp drum'n'bass dnb d&b drum and bass video game electronic instrumental bbb b.b.b.",
+              "PreviewTime": -1,
+              "AudioFile": "",
+              "BackgroundFile": ""
+            },
+            "Difficulty": {
+              "DrainRate": 6.0,
+              "CircleSize": 4.0,
+              "OverallDifficulty": 6.0,
+              "ApproachRate": 8.0,
+              "SliderMultiplier": 1.4,
+              "SliderTickRate": 1.0
+            },
+            "Covers": {
+              "cover@2x": "https://assets.ppy.sh/beatmaps/1693764/covers/cover@2x.jpg?1721670423",
+              "card@2x": "https://assets.ppy.sh/beatmaps/1693764/covers/card@2x.jpg?1721670423",
+              "list@2x": "https://assets.ppy.sh/beatmaps/1693764/covers/list@2x.jpg?1721670423"
+            }
+          }
+        },
+        {
+          "ID": 4828527,
+          "Mods": "HR",
+          "BeatmapInfo": {
+            "OnlineID": 4828527,
+            "DifficultyName": "Laurier's Insane",
             "BPM": 185.0,
-            "Length": 228000.0,
-            "StarRating": 4.87,
-            "EndTimeObjectCount": 356,
-            "TotalObjectCount": 799,
+            "Length": 172000.0,
+            "StarRating": 4.77,
+            "EndTimeObjectCount": 327,
+            "TotalObjectCount": 621,
             "Metadata": {
-              "Title": "INTERNET YAMERO",
-              "title_unicode": "INTERNET YAMERO",
-              "Artist": "Aiobahn feat. KOTOKO",
-              "artist_unicode": "Aiobahn feat. KOTOKO",
+              "Title": "Tenchi-Kaibyaku",
+              "title_unicode": "天地開闢",
+              "Artist": "Kagetora.",
+              "artist_unicode": "影虎。",
               "Author": {
-                "OnlineID": 9351565,
-                "Username": "Ducky-",
+                "OnlineID": 7660383,
+                "Username": "Arsalan",
                 "CountryString": "Unknown"
               },
-              "Source": "NEEDY GIRL OVERDOSE",
-              "tags": "big data iljaaz anxient gorou wanpachi tohru mitsuhashi 前田地生 まろん maron iosys eurobeat rawstyle speedcore extratone ame-chan amechan wss playground overdose synthpop arcaea にゃるら nyalra nyarura xemono maeda chisei as_chisei インターネットやめろ electronic japanese pop jpop j-pop female vocal vocalist ft. featuring videogame video game music vgm denpa hardstyle techno hardcore synthwave streamer overload ame kangel omgkawaiiangel angel p-chan pchan tenshi muse dash fa featured artist",
-              "PreviewTime": -1,
-              "AudioFile": "",
-              "BackgroundFile": ""
-            },
-            "Difficulty": {
-              "DrainRate": 4.0,
-              "CircleSize": 3.5,
-              "OverallDifficulty": 8.0,
-              "ApproachRate": 9.0,
-              "SliderMultiplier": 1.4,
-              "SliderTickRate": 1.0
-            },
-            "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/2074198/covers/cover@2x.jpg?1712413435",
-              "card@2x": "https://assets.ppy.sh/beatmaps/2074198/covers/card@2x.jpg?1712413435",
-              "list@2x": "https://assets.ppy.sh/beatmaps/2074198/covers/list@2x.jpg?1712413435"
-            }
-          }
-        },
-        {
-          "ID": 1412812,
-          "Mods": "HD",
-          "BeatmapInfo": {
-            "OnlineID": 1412812,
-            "DifficultyName": "Cheesecake & Jace's Insane",
-            "BPM": 100.0,
-            "Length": 175000.0,
-            "StarRating": 4.26,
-            "EndTimeObjectCount": 332,
-            "TotalObjectCount": 508,
-            "Metadata": {
-              "Title": "Compass",
-              "title_unicode": "Compass",
-              "Artist": "Lady Antebellum",
-              "artist_unicode": "Lady Antebellum",
-              "Author": {
-                "OnlineID": 3700647,
-                "Username": "Cheesecake",
-                "CountryString": "Unknown"
-              },
-              "Source": "",
-              "tags": "english country golden deluxe edition syph hikaru rose schoolboy jace",
+              "Source": "Badly Wood Cup 2024",
+              "tags": "semifinals fm3 bwc midorijeon coppertine venerablenyanta kagetora kensuke laurier acnozei anafra another flower electronic instrumental featured artist fa mappers' guild mpg mg sf freemod free mod oriental",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
@@ -297,130 +339,130 @@
               "DrainRate": 5.0,
               "CircleSize": 4.0,
               "OverallDifficulty": 8.0,
-              "ApproachRate": 8.3,
-              "SliderMultiplier": 1.4,
-              "SliderTickRate": 1.0
-            },
-            "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/667741/covers/cover@2x.jpg?1650667553",
-              "card@2x": "https://assets.ppy.sh/beatmaps/667741/covers/card@2x.jpg?1650667553",
-              "list@2x": "https://assets.ppy.sh/beatmaps/667741/covers/list@2x.jpg?1650667553"
-            }
-          }
-        },
-        {
-          "ID": 4041002,
-          "Mods": "HR",
-          "BeatmapInfo": {
-            "OnlineID": 4041002,
-            "DifficultyName": "Light Insane",
-            "BPM": 190.0,
-            "Length": 197000.0,
-            "StarRating": 4.75,
-            "EndTimeObjectCount": 337,
-            "TotalObjectCount": 709,
-            "Metadata": {
-              "Title": "PROMISiNG",
-              "title_unicode": "PROMISiNG",
-              "Artist": "Sakura Yuno",
-              "artist_unicode": "咲良ゆの",
-              "Author": {
-                "OnlineID": 896613,
-                "Username": "Lasse",
-                "CountryString": "Unknown"
-              },
-              "Source": "",
-              "tags": "futurize me japanese pop rock amelia",
-              "PreviewTime": -1,
-              "AudioFile": "",
-              "BackgroundFile": ""
-            },
-            "Difficulty": {
-              "DrainRate": 5.0,
-              "CircleSize": 4.0,
-              "OverallDifficulty": 7.0,
               "ApproachRate": 9.0,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/1950038/covers/cover@2x.jpg?1678825075",
-              "card@2x": "https://assets.ppy.sh/beatmaps/1950038/covers/card@2x.jpg?1678825075",
-              "list@2x": "https://assets.ppy.sh/beatmaps/1950038/covers/list@2x.jpg?1678825075"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2265132/covers/cover@2x.jpg?1735218982",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2265132/covers/card@2x.jpg?1735218982",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2265132/covers/list@2x.jpg?1735218982"
             }
           }
         },
         {
-          "ID": 3616922,
+          "ID": 4166450,
           "Mods": "HR",
           "BeatmapInfo": {
-            "OnlineID": 3616922,
-            "DifficultyName": "A Fairy Tale For Saplings",
-            "BPM": 97.0,
-            "Length": 204000.0,
-            "StarRating": 4.07,
-            "EndTimeObjectCount": 351,
-            "TotalObjectCount": 484,
+            "OnlineID": 4166450,
+            "DifficultyName": "Insane",
+            "BPM": 172.0,
+            "Length": 207000.0,
+            "StarRating": 4.35,
+            "EndTimeObjectCount": 301,
+            "TotalObjectCount": 659,
             "Metadata": {
-              "Title": "Let Me Stay Here",
-              "title_unicode": "Let Me Stay Here",
-              "Artist": "Ceres Fauna",
-              "artist_unicode": "Ceres Fauna",
+              "Title": "What's It Gonna Be?",
+              "title_unicode": "What's It Gonna Be?",
+              "Artist": "Shura",
+              "artist_unicode": "Shura",
               "Author": {
-                "OnlineID": 13466351,
-                "Username": "Gweon Sua",
+                "OnlineID": 3170401,
+                "Username": "-Kemsyt",
                 "CountryString": "Unknown"
               },
-              "Source": "",
-              "tags": "セレス・ファウナ hololive production ホロライブプロダクション 2nd second gen generation council virtual youtuber vtuber japanese english en pop jpop lullaby xahlt kuon- jazz bossa nova samba track shibayan shibayanrecords",
+              "Source": "Heartstopper",
+              "tags": "english pop netflix ost original soundtrack gay transgender lgbtq+ plus pride queer alice oseman what is going to pride month nothing's nothings whats is real trust",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 5.0,
-              "CircleSize": 5.0,
+              "DrainRate": 5.3,
+              "CircleSize": 4.7,
               "OverallDifficulty": 8.0,
               "ApproachRate": 8.7,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/1766945/covers/cover@2x.jpg?1653993806",
-              "card@2x": "https://assets.ppy.sh/beatmaps/1766945/covers/card@2x.jpg?1653993806",
-              "list@2x": "https://assets.ppy.sh/beatmaps/1766945/covers/list@2x.jpg?1653993806"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2003500/covers/cover@2x.jpg?1701602131",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2003500/covers/card@2x.jpg?1701602131",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2003500/covers/list@2x.jpg?1701602131"
             }
           }
         },
         {
-          "ID": 944104,
+          "ID": 5015923,
           "Mods": "DT",
           "BeatmapInfo": {
-            "OnlineID": 944104,
-            "DifficultyName": "Natsu's Insane",
-            "BPM": 150.0,
-            "Length": 196000.0,
-            "StarRating": 3.97,
-            "EndTimeObjectCount": 265,
-            "TotalObjectCount": 609,
+            "OnlineID": 5015923,
+            "DifficultyName": "Insane",
+            "BPM": 140.0,
+            "Length": 217000.0,
+            "StarRating": 3.98,
+            "EndTimeObjectCount": 282,
+            "TotalObjectCount": 651,
             "Metadata": {
-              "Title": "Bang Bang",
-              "title_unicode": "Bang Bang",
-              "Artist": "Jessie J, Ariana Grande, Nicki Minaj",
-              "artist_unicode": "Jessie J, Ariana Grande, Nicki Minaj",
+              "Title": "Yaranaika",
+              "title_unicode": "やらないか",
+              "Artist": "ISAJI",
+              "artist_unicode": "いさじ",
               "Author": {
-                "OnlineID": 3896865,
-                "Username": "Euny",
+                "OnlineID": 6149313,
+                "Username": "Pata-Mon",
                 "CountryString": "Unknown"
               },
-              "Source": "",
-              "tags": "stefan come[back]home natsu thenutritiousguy tng cbh",
+              "Source": "きらりん☆レボリューション",
+              "tags": "dt1 ニコニコ動画 nico niconico douga japanese バラライカ balalaika anime op opening 久住小春 kusumi koharu 月島きらり tsukishima kirari kirarin revolution bl gay くそみそテクニック kuso miso technique shit soup",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 6.0,
+              "DrainRate": 5.0,
+              "CircleSize": 3.7,
+              "OverallDifficulty": 7.0,
+              "ApproachRate": 8.0,
+              "SliderMultiplier": 1.4,
+              "SliderTickRate": 1.0
+            },
+            "Covers": {
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2336453/covers/cover@2x.jpg?1741526033",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2336453/covers/card@2x.jpg?1741526033",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2336453/covers/list@2x.jpg?1741526033"
+            }
+          }
+        },
+        {
+          "ID": 167963,
+          "Mods": "DT",
+          "BeatmapInfo": {
+            "OnlineID": 167963,
+            "DifficultyName": "Hana",
+            "BPM": 140.0,
+            "Length": 159000.0,
+            "StarRating": 3.98,
+            "EndTimeObjectCount": 199,
+            "TotalObjectCount": 497,
+            "Metadata": {
+              "Title": "Ganbare! Koi no Hana",
+              "title_unicode": "Ganbare! Koi no Hana",
+              "Artist": "Hatsuki Yura",
+              "artist_unicode": "Hatsuki Yura",
+              "Author": {
+                "OnlineID": 26507,
+                "Username": "Kotone",
+                "CountryString": "Unknown"
+              },
+              "Source": "Ganbare! Memekochan",
+              "tags": "la pucelle seifuu meigetsu seifuumeigetsu fanzhen0019 karenying kioukiou",
+              "PreviewTime": -1,
+              "AudioFile": "",
+              "BackgroundFile": ""
+            },
+            "Difficulty": {
+              "DrainRate": 8.0,
               "CircleSize": 4.0,
               "OverallDifficulty": 7.0,
               "ApproachRate": 8.0,
@@ -428,967 +470,713 @@
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/436523/covers/cover@2x.jpg?1650640119",
-              "card@2x": "https://assets.ppy.sh/beatmaps/436523/covers/card@2x.jpg?1650640119",
-              "list@2x": "https://assets.ppy.sh/beatmaps/436523/covers/list@2x.jpg?1650640119"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/55359/covers/cover@2x.jpg?1650614142",
+              "card@2x": "https://assets.ppy.sh/beatmaps/55359/covers/card@2x.jpg?1650614142",
+              "list@2x": "https://assets.ppy.sh/beatmaps/55359/covers/list@2x.jpg?1650614142"
             }
           }
         },
         {
-          "ID": 3664501,
+          "ID": 1863217,
           "Mods": "DT",
           "BeatmapInfo": {
-            "OnlineID": 3664501,
-            "DifficultyName": "Basen & Pincus' Hard",
-            "BPM": 142.0,
-            "Length": 200000.0,
-            "StarRating": 3.78,
-            "EndTimeObjectCount": 200,
-            "TotalObjectCount": 570,
+            "OnlineID": 1863217,
+            "DifficultyName": "pishi's Hard",
+            "BPM": 160.0,
+            "Length": 169000.0,
+            "StarRating": 3.66,
+            "EndTimeObjectCount": 209,
+            "TotalObjectCount": 494,
             "Metadata": {
-              "Title": "God-ish",
-              "title_unicode": "神っぽいな",
-              "Artist": "philo",
-              "artist_unicode": "フィロ",
+              "Title": "Fallen Angel",
+              "title_unicode": "Fallen Angel",
+              "Artist": "HyuN feat. JeeE",
+              "artist_unicode": "HyuN feat. JeeE",
               "Author": {
-                "OnlineID": 11655886,
-                "Username": "Basensorex",
+                "OnlineID": 2204515,
+                "Username": "Mao",
                 "CountryString": "Unknown"
               },
               "Source": "",
-              "tags": "kirishima- pincus alevi vanya2 ermi nymphe modding queue kiyoshi guarden gazimal brain exe kamippoi kami ppoi na godish japanese pop j-pop jpop vocaloid ボーカ utaite cover female strong vocals vocalist pinocchiop hatsune miku",
+              "tags": "featured artist fa mappers' guild mg pishifat zetera sala- myxomatosis desperate-kun hinsvar noffy okoratu okorin",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 4.0,
-              "CircleSize": 3.5,
-              "OverallDifficulty": 5.8,
-              "ApproachRate": 8.0,
-              "SliderMultiplier": 1.4,
-              "SliderTickRate": 1.0
-            },
-            "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/1722410/covers/cover@2x.jpg?1667853953",
-              "card@2x": "https://assets.ppy.sh/beatmaps/1722410/covers/card@2x.jpg?1667853953",
-              "list@2x": "https://assets.ppy.sh/beatmaps/1722410/covers/list@2x.jpg?1667853953"
-            }
-          }
-        },
-        {
-          "ID": 4331268,
-          "Mods": "DT",
-          "BeatmapInfo": {
-            "OnlineID": 4331268,
-            "DifficultyName": "Ag's Hard",
-            "BPM": 166.0,
-            "Length": 204000.0,
-            "StarRating": 3.62,
-            "EndTimeObjectCount": 311,
-            "TotalObjectCount": 676,
-            "Metadata": {
-              "Title": "Silhouette Dance",
-              "title_unicode": "影色舞",
-              "Artist": "MyGO!!!!!",
-              "artist_unicode": "MyGO!!!!!",
-              "Author": {
-                "OnlineID": 74937,
-                "Username": "kiddly",
-                "CountryString": "Unknown"
-              },
-              "Source": "",
-              "tags": "bang dream! it's mygo!!!!! bandori 高松燈 千早愛音 要楽奈 長崎そよ 椎名立希 羊宮妃那 立石凛 青木陽菜 小日向美香 林鼓子 tomori takamatsu anon chihaya rāna kaname soyo nagasaki taki shiina hina youmiya rin tateishi aoki mika kohinata koko hayashi [hatsune miku] __ag yf_bmp japanese pop rock remapper _lai",
-              "PreviewTime": -1,
-              "AudioFile": "",
-              "BackgroundFile": ""
-            },
-            "Difficulty": {
-              "DrainRate": 4.0,
+              "DrainRate": 5.0,
               "CircleSize": 4.0,
-              "OverallDifficulty": 7.0,
+              "OverallDifficulty": 6.5,
               "ApproachRate": 8.0,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/2066973/covers/cover@2x.jpg?1700743829",
-              "card@2x": "https://assets.ppy.sh/beatmaps/2066973/covers/card@2x.jpg?1700743829",
-              "list@2x": "https://assets.ppy.sh/beatmaps/2066973/covers/list@2x.jpg?1700743829"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/891335/covers/cover@2x.jpg?1650672723",
+              "card@2x": "https://assets.ppy.sh/beatmaps/891335/covers/card@2x.jpg?1650672723",
+              "list@2x": "https://assets.ppy.sh/beatmaps/891335/covers/list@2x.jpg?1650672723"
             }
           }
         },
         {
-          "ID": 136186,
+          "ID": 4274105,
           "Mods": "FM",
           "BeatmapInfo": {
-            "OnlineID": 136186,
-            "DifficultyName": "Insane",
-            "BPM": 215.0,
-            "Length": 194000.0,
-            "StarRating": 4.75,
-            "EndTimeObjectCount": 318,
-            "TotalObjectCount": 677,
+            "OnlineID": 4274105,
+            "DifficultyName": "zyoi's Insane.",
+            "BPM": 220.0,
+            "Length": 200000.0,
+            "StarRating": 4.71,
+            "EndTimeObjectCount": 311,
+            "TotalObjectCount": 577,
             "Metadata": {
-              "Title": "Dreadnought",
-              "title_unicode": "ドレッドノート",
-              "Artist": "paraoka feat. haru*nya",
-              "artist_unicode": "paraoka feat. haru*nya",
+              "Title": "Tsukiyo no Ongakukai",
+              "title_unicode": "月夜の音楽会",
+              "Artist": "Shikata Akiko",
+              "artist_unicode": "志方あきこ",
               "Author": {
-                "OnlineID": 369956,
-                "Username": "AndreasHD",
+                "OnlineID": 4086497,
+                "Username": "Plus4j",
                 "CountryString": "Unknown"
               },
-              "Source": "",
-              "tags": "kouji machi yousan kan",
+              "Source": "嘘つき姫と盲目王子",
+              "tags": "moumoku ouji action adventure full version long getsuya nippon1software 日本一 usotsuki hime to momoku oji the liar princess and the blind prince moonlit night concert japanese video game folk sanayui enjoy -_e_n_j_u_- zyoi momochy kalibe lu^3 hey lululu hey_lululu not your kitty not_your_kitty",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 6.0,
-              "CircleSize": 4.0,
+              "DrainRate": 5.0,
+              "CircleSize": 3.8,
               "OverallDifficulty": 8.0,
               "ApproachRate": 9.0,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/43392/covers/cover@2x.jpg?1622052950",
-              "card@2x": "https://assets.ppy.sh/beatmaps/43392/covers/card@2x.jpg?1622052950",
-              "list@2x": "https://assets.ppy.sh/beatmaps/43392/covers/list@2x.jpg?1622052950"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/1966309/covers/cover@2x.jpg?1723747671",
+              "card@2x": "https://assets.ppy.sh/beatmaps/1966309/covers/card@2x.jpg?1723747671",
+              "list@2x": "https://assets.ppy.sh/beatmaps/1966309/covers/list@2x.jpg?1723747671"
             }
           }
         },
         {
-          "ID": 1522867,
+          "ID": 4686313,
           "Mods": "FM",
           "BeatmapInfo": {
-            "OnlineID": 1522867,
-            "DifficultyName": "Gabe's Insane",
-            "BPM": 188.0,
-            "Length": 133000.0,
-            "StarRating": 4.59,
-            "EndTimeObjectCount": 218,
-            "TotalObjectCount": 364,
+            "OnlineID": 4686313,
+            "DifficultyName": "Insane",
+            "BPM": 128.0,
+            "Length": 136000.0,
+            "StarRating": 4.55,
+            "EndTimeObjectCount": 191,
+            "TotalObjectCount": 602,
             "Metadata": {
-              "Title": "Excelsia",
-              "title_unicode": "Excelsia",
-              "Artist": "ak+q",
-              "artist_unicode": "ak+q",
+              "Title": "flat by second",
+              "title_unicode": "flat by second",
+              "Artist": "connsome",
+              "artist_unicode": "connsome",
               "Author": {
-                "OnlineID": 4452992,
-                "Username": "Sotarks",
+                "OnlineID": 53378,
+                "Username": "ktgster",
                 "CountryString": "Unknown"
               },
-              "Source": "BMS",
-              "tags": "fbc french beatmapping contest bouyaaa irreversible pachiru kyuukai yaleufeu realazy gabe veus bofu2017 of fighters ultimate renaissance breaks chronologia ajkora",
+              "Source": "THE BMS OF FIGHTERS 2009 - revolutionary battles -",
+              "tags": "instrumental electronic sunset beat guna maki bof owc2021gffm2 jagdblume",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 5.7,
+              "DrainRate": 5.0,
               "CircleSize": 4.3,
               "OverallDifficulty": 7.0,
-              "ApproachRate": 8.6,
+              "ApproachRate": 8.3,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/694200/covers/cover@2x.jpg?1650658137",
-              "card@2x": "https://assets.ppy.sh/beatmaps/694200/covers/card@2x.jpg?1650658137",
-              "list@2x": "https://assets.ppy.sh/beatmaps/694200/covers/list@2x.jpg?1650658137"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/1633261/covers/cover@2x.jpg?1723524104",
+              "card@2x": "https://assets.ppy.sh/beatmaps/1633261/covers/card@2x.jpg?1723524104",
+              "list@2x": "https://assets.ppy.sh/beatmaps/1633261/covers/list@2x.jpg?1723524104"
             }
           }
         },
         {
-          "ID": 3403189,
+          "ID": 532958,
           "Mods": "TB",
           "BeatmapInfo": {
-            "OnlineID": 3403189,
-            "DifficultyName": "Sweet Romance",
-            "BPM": 186.0,
-            "Length": 342000.0,
-            "StarRating": 5.11,
-            "EndTimeObjectCount": 664,
-            "TotalObjectCount": 1039,
+            "OnlineID": 532958,
+            "DifficultyName": "Moon",
+            "BPM": 173.0,
+            "Length": 313000.0,
+            "StarRating": 5.29,
+            "EndTimeObjectCount": 412,
+            "TotalObjectCount": 1235,
             "Metadata": {
-              "Title": "Tiny Little Adiantum",
-              "title_unicode": "タイニーリトル・アジアンタム",
-              "Artist": "Shibayan feat. 3L",
-              "artist_unicode": "Shibayan feat. 3L",
+              "Title": "Drivi'n greedy - Nhato Remix -",
+              "title_unicode": "Drivi'n greedy - Nhato Remix -",
+              "Artist": "Hatsuki Yura",
+              "artist_unicode": "葉月ゆら",
               "Author": {
-                "OnlineID": 12012218,
-                "Username": "kelinimo",
+                "OnlineID": 2041350,
+                "Username": "Kamio Misuzu",
                 "CountryString": "Unknown"
               },
-              "Source": "東方花映塚　～ Phantasmagoria of Flower View.",
-              "tags": "touhou 9 kazami yuuka video game japanese elevator music shibayanrecords milka 3l 今昔幻想郷　～ flower land gensokyo past and present ~ wenect wenet kaeizuka toho bossa nova 2 swing jazz theme 風見 幽香 j-pop jpop pop th9",
+              "Source": "Touhou",
+              "tags": "c86 東方地霊殿 死体旅行 ～ be of good cheer! esquaria xeno blaze kaenbyou rin corpse voyage subterranean animism th11",
               "PreviewTime": -1,
               "AudioFile": "",
               "BackgroundFile": ""
             },
             "Difficulty": {
-              "DrainRate": 4.5,
+              "DrainRate": 6.0,
               "CircleSize": 4.5,
-              "OverallDifficulty": 8.2,
-              "ApproachRate": 9.0,
+              "OverallDifficulty": 8.0,
+              "ApproachRate": 9.2,
               "SliderMultiplier": 1.4,
               "SliderTickRate": 1.0
             },
             "Covers": {
-              "cover@2x": "https://assets.ppy.sh/beatmaps/1464714/covers/cover@2x.jpg?1641500367",
-              "card@2x": "https://assets.ppy.sh/beatmaps/1464714/covers/card@2x.jpg?1641500367",
-              "list@2x": "https://assets.ppy.sh/beatmaps/1464714/covers/list@2x.jpg?1641500367"
+              "cover@2x": "https://assets.ppy.sh/beatmaps/228955/covers/cover@2x.jpg?1622079197",
+              "card@2x": "https://assets.ppy.sh/beatmaps/228955/covers/card@2x.jpg?1622079197",
+              "list@2x": "https://assets.ppy.sh/beatmaps/228955/covers/list@2x.jpg?1622079197"
             }
           }
         }
       ],
-      "StartDate": "2024-11-04T08:22:10.8424769+00:00",
+      "StartDate": "2025-03-09T13:40:58.3331053+00:00",
       "Matches": []
     }
   ],
   "Teams": [
     {
-      "FullName": "追忆的性价比队伍",
+      "FullName": "只要舒服的都是爱丽丝",
       "FlagName": "A",
       "Acronym": "A",
       "SeedingResults": [],
       "Seed": "",
       "LastYearPlacing": 0,
-      "AverageRank": 97631.16666666667,
+      "AverageRank": 111041.5,
       "Players": [
         {
           "id": 24365691,
           "Username": "zhuiyi_crane",
           "country_code": "HK",
-          "Rank": 97838,
+          "Rank": 86411,
           "CoverUrl": "https://assets.ppy.sh/user-cover-presets/4/2fd772ad175c5687370e0aab50799a84adef7d0fff3f97dccfa5c94384ebb8af.jpeg"
         },
         {
-          "id": 33407560,
-          "Username": "Asatsuki Sakura",
+          "id": 27608705,
+          "Username": "fufuOwO",
           "country_code": "CN",
-          "Rank": 101918,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/33407560/0b1407dd81f91b78677739efcf15f359b64260f82b3bc7729c2df67b6b653bed.jpeg"
-        },
-        {
-          "id": 20384257,
-          "Username": "eric1388",
-          "country_code": "CN",
-          "Rank": 68810,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/2/f5142b64b60002f6314b22c775195950105908e149037f4de78efc0e0f28d442.jpeg"
-        },
-        {
-          "id": 30595368,
-          "Username": "Paraliesa",
-          "country_code": "CN",
-          "Rank": 113195,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/30595368/d2235e1e3a5de08ea4209f3da495ef8e6289e13ea03104c628c821145c317029.png"
+          "Rank": 91767,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/27608705/b287e6eb0fc9cc57acded6b8e346087067e8afa4f655cb54664158ece16d31d3.jpeg"
         },
         {
           "id": 24131577,
           "Username": "ArmorFlash",
           "country_code": "CN",
-          "Rank": 114574,
+          "Rank": 85426,
           "CoverUrl": "https://assets.ppy.sh/user-profile-covers/24131577/0a4a8be7fb6daed1991c62e0d8b488d5e37fe3204e3ba55d08d65f7ffcd4e4f1.png"
-        },
-        {
-          "id": 19367494,
-          "Username": "Lunequin",
-          "country_code": "CN",
-          "Rank": 89452,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/7/4a0ccb7b7fdd5c4238b11f0e7c686760fe2c99c6472b19400e82d1a8ff503e31.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "你先开的",
-      "FlagName": "B",
-      "Acronym": "B",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 116288.0,
-      "Players": [
-        {
-          "id": 3820761,
-          "Username": "Romen",
-          "country_code": "CN",
-          "Rank": 90742,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/2/f5142b64b60002f6314b22c775195950105908e149037f4de78efc0e0f28d442.jpeg"
-        },
-        {
-          "id": 27492576,
-          "Username": "- Ayaka -",
-          "country_code": "HK",
-          "Rank": 121613,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/27492576/91c2ccb496efb836e0a5ba816a9e7a76decdb194e26e76b706d1208c6972e3c1.jpeg"
-        },
-        {
-          "id": 19285677,
-          "Username": "yaddrx2",
-          "country_code": "CN",
-          "Rank": 85559,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/19285677/92518637ad01e7f081e17feb993091291119723d97393c4789f8240aa40dfd83.png"
-        },
-        {
-          "id": 13003552,
-          "Username": "Spell",
-          "country_code": "JP",
-          "Rank": 132064,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/13003552/d4997665bae84293b67d91692a233608e2ae5ed2ae6319122abd59b3158b8839.jpeg"
-        },
-        {
-          "id": 986714,
-          "Username": "sodarose",
-          "country_code": "CN",
-          "Rank": 147280,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/986714/a6b1f98e9895d8ca12196fb5205952df60e6dc23d29ea8ebd6878332ee1fd642.png"
-        },
-        {
-          "id": 16416029,
-          "Username": "MyAngelYuzu_",
-          "country_code": "CN",
-          "Rank": 120470,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/16416029/6e298945ccaeada0d5b33b000ea1623d3009cd7b38b42c5172ba18b5a5610b5b.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "22时，草神说话中",
-      "FlagName": "C",
-      "Acronym": "C",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 96871.83333333333,
-      "Players": [
-        {
-          "id": 13863127,
-          "Username": "TomCh",
-          "country_code": "CN",
-          "Rank": 63874,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/13863127/2452d25545eb799af66f43c554a314df397a2fc6875343da1e8e1532587833d2.png"
-        },
-        {
-          "id": 15154497,
-          "Username": "MyAngelMizuki_",
-          "country_code": "CN",
-          "Rank": 87029,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15154497/9a2e81a536db9fbe8082cfd9f8eeeef7f2f072df8a0db83c086c7f05ca2758f0.png"
-        },
-        {
-          "id": 32609690,
-          "Username": "Avogadoll",
-          "country_code": "CN",
-          "Rank": 77324,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32609690/58a4390c50bf675d1cbfbe65e18978375fde8450478f376248224ae063adc119.png"
-        },
-        {
-          "id": 12724618,
-          "Username": "ASTOP",
-          "country_code": "CN",
-          "Rank": 142228,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/7/4a0ccb7b7fdd5c4238b11f0e7c686760fe2c99c6472b19400e82d1a8ff503e31.jpeg"
-        },
-        {
-          "id": 30314890,
-          "Username": "Naaahida",
-          "country_code": "CN",
-          "Rank": 118543,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/2/f5142b64b60002f6314b22c775195950105908e149037f4de78efc0e0f28d442.jpeg"
-        },
-        {
-          "id": 16849347,
-          "Username": "qimengxunkong",
-          "country_code": "CN",
-          "Rank": 92233,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/16849347/7ba6e61f6402f9e33b2b73b0f657ad9d4e161db0831f8c121cc51567aaeba046.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "鸡肉蛋沙拉打叠卷",
-      "FlagName": "D",
-      "Acronym": "D",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 87475.83333333333,
-      "Players": [
-        {
-          "id": 16378561,
-          "Username": "Pouxba",
-          "country_code": "CN",
-          "Rank": 85451,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/16378561/d7363f4caebdd8e5a86334c7fa5c191865fb4da7265226b0ab2151a1ba3c6029.png"
-        },
-        {
-          "id": 7440794,
-          "Username": "1 zero",
-          "country_code": "CN",
-          "Rank": 74172,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/7440794/9399a5f5a7d8b7e5758632dcc61aaa43448189768a119620394fde6cfa7c9832.jpeg"
-        },
-        {
-          "id": 3885055,
-          "Username": "ssd1048576",
-          "country_code": "CN",
-          "Rank": 86666,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/8/eda177e3c4eb0889e24f58c454af47708b0acd612bff984f6ac295e8427681c5.jpeg"
-        },
-        {
-          "id": 20889481,
-          "Username": "Asteroian",
-          "country_code": "CN",
-          "Rank": 89535,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/20889481/4bcf56cec40c5f70bcea66c0cd3a34e9ea3645fdd306562b8244d9fa35292654.jpeg"
-        },
-        {
-          "id": 30894174,
-          "Username": "6dl_",
-          "country_code": "HK",
-          "Rank": 100676,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/23/04927e4e6c1dc01f04294596b852b44790272f8f30b86bf0170d74625b01913a.jpeg"
-        },
-        {
-          "id": 13685762,
-          "Username": "dogdog_OwO",
-          "country_code": "TW",
-          "Rank": 88355,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/13685762/2d4af29c9c48df869742e5f987552c8c33f2d8dcb6f9672ef292f961aefd5cd8.png"
-        }
-      ]
-    },
-    {
-      "FullName": "晚安大伙",
-      "FlagName": "E",
-      "Acronym": "E",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 98092.66666666667,
-      "Players": [
-        {
-          "id": 8652006,
-          "Username": "Neko Reset",
-          "country_code": "CN",
-          "Rank": 105815,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/8652006/8d1f880c3de018013c488ab9cdffa241f783d3da6305dbc2b8dc7ee5a1285b0f.jpeg"
-        },
-        {
-          "id": 4671020,
-          "Username": "ImbaDylan",
-          "country_code": "CN",
-          "Rank": 74131,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/21/4e70615c027f579b2a887ec492857fb342fc0fc7f5586db62a9a67f115638c94.jpeg"
-        },
-        {
-          "id": 24684205,
-          "Username": "Atahana",
-          "country_code": "CN",
-          "Rank": 118215,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/24684205/761477941c9185da2378fa8288a9a129c00a4cadb2563b80d8e47d98712cd9c3.gif"
-        },
-        {
-          "id": 19465414,
-          "Username": "[Curo]",
-          "country_code": "CN",
-          "Rank": 101715,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/19465414/da8a7eed881a7e4c8d682b4ca732607da6049bf7a71723816c1aeedf29411bdd.jpeg"
-        },
-        {
-          "id": 20543308,
-          "Username": "-sussycat-",
-          "country_code": "HK",
-          "Rank": 121620,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/20543308/ed20655d0be77bd041a8c1c64b5b509727c86f0b60a4e955cdcfd068b4ed3dbc.jpeg"
-        },
-        {
-          "id": 31443365,
-          "Username": "hiesimo",
-          "country_code": "CN",
-          "Rank": 67060,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/31443365/af5132e1eb440f2d38251619bd21de8fdc77c42685bd6ed29ff293c4bc1c1541.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "一碗赌上屙屎生涯的饭",
-      "FlagName": "F",
-      "Acronym": "F",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 105693.5,
-      "Players": [
-        {
-          "id": 6535559,
-          "Username": "Ink_Sakura",
-          "country_code": "CN",
-          "Rank": 97562,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/6535559/ae28b598dbe56f58ee1647eb1e3967f3a09070bf595e1a3f16b3d5e3071d1f12.jpeg"
-        },
-        {
-          "id": 8368247,
-          "Username": "JunMoyan",
-          "country_code": "CN",
-          "Rank": 74163,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/8368247/d482552efd010f7c2028b5897c6992bcde86823c0fab2fb59e57d7d882a4aa06.jpeg"
-        },
-        {
-          "id": 32605070,
-          "Username": "LukeWarmSuiPiss",
-          "country_code": "US",
-          "Rank": 83177,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32605070/fd2119545ae913707a9b993e0648e300dda1ccf6599d8adf1c0af7d64c82a603.jpeg"
-        },
-        {
-          "id": 1005446,
-          "Username": "xiao ming",
-          "country_code": "CN",
-          "Rank": 119939,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/7/4a0ccb7b7fdd5c4238b11f0e7c686760fe2c99c6472b19400e82d1a8ff503e31.jpeg"
-        },
-        {
-          "id": 15436106,
-          "Username": "mike233333",
-          "country_code": "CN",
-          "Rank": 141470,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15436106/805d42d7b5c798f9ef99b384cb6b0024bfe0d330a2aa29c8b046d58ae2acbb6e.png"
-        },
-        {
-          "id": 18118155,
-          "Username": "cd20200816",
-          "country_code": "CN",
-          "Rank": 117850,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/4/2fd772ad175c5687370e0aab50799a84adef7d0fff3f97dccfa5c94384ebb8af.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "未完成小队",
-      "FlagName": "G",
-      "Acronym": "G",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 98976.16666666667,
-      "Players": [
-        {
-          "id": 8844222,
-          "Username": "l2883119",
-          "country_code": "CN",
-          "Rank": 82964,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/7/4a0ccb7b7fdd5c4238b11f0e7c686760fe2c99c6472b19400e82d1a8ff503e31.jpeg"
-        },
-        {
-          "id": 6781503,
-          "Username": "AeCw",
-          "country_code": "CN",
-          "Rank": 63135,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/6781503/44363bc08c2b73a1c76d9eb6a1d06cbd1549c67617e03ee7133ee6d3496809af.png"
-        },
-        {
-          "id": 32723927,
-          "Username": "Mukisa",
-          "country_code": "HK",
-          "Rank": 89139,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32723927/42c1a5e9f3dd706b83736af0bc3fd46f7e8484f259b9754a8bc862ca6f4300e9.jpeg"
-        },
-        {
-          "id": 18215806,
-          "Username": "Claiseumy",
-          "country_code": "CN",
-          "Rank": 117444,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/18215806/bde1991ed5b1cd7818a641c03174e927ed9b9a433828344c83402d423c06d6b1.png"
-        },
-        {
-          "id": 15012640,
-          "Username": "Lzq12345",
-          "country_code": "CN",
-          "Rank": 135500,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15012640/c3ed4bc842373d328b322de2d01dfaabb192bf317d57f89dec20c6f81eac3be9.png"
-        },
-        {
-          "id": 34907673,
-          "Username": "gangkun1414",
-          "country_code": "HK",
-          "Rank": 105675,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/34907673/43694794acd8e4bc19f3696b70e8c8dd0eba408bf632b8f016a135cf32a13c18.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "看GBC看的",
-      "FlagName": "H",
-      "Acronym": "H",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 127434.0,
-      "Players": [
-        {
-          "id": 32452774,
-          "Username": "Nana Sakura",
-          "country_code": "CN",
-          "Rank": 165186,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32452774/2e3780271364ffdd70ef4c186a279416a2b33674c2ee78aa722a2b374c8afb82.jpeg"
-        },
-        {
-          "id": 29314927,
-          "Username": "Gensokyo_Ori",
-          "country_code": "CN",
-          "Rank": 75143,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/29314927/da3a0c4fc91a7e7e5b8e049eee2297996b20d211ef4237c19edb421fcb35828c.png"
-        },
-        {
-          "id": 23110197,
-          "Username": "dorchadasK",
-          "country_code": "CN",
-          "Rank": 68709,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/23110197/56f1ef80f881efca58cc7727467f8dc1a97821b77457c70d91d626812d749e97.png"
-        },
-        {
-          "id": 20746713,
-          "Username": "BBQ_Wheat",
-          "country_code": "CN",
-          "Rank": 95982,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/20746713/a9edd9aa532081b2c1ec46deb51968f6f4792e76d825077a56276420f21f59b2.png"
-        },
-        {
-          "id": 30512018,
-          "Username": "Doubi_wert",
-          "country_code": "CN",
-          "Rank": 138005,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/30512018/54649f48a8dfa48f93cdc9ccc6961050954c9181e243d830ed84f7558bf867e9.png"
-        },
-        {
-          "id": 13329421,
-          "Username": "White_Sheep",
-          "country_code": "CN",
-          "Rank": 221579,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/8/eda177e3c4eb0889e24f58c454af47708b0acd612bff984f6ac295e8427681c5.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "震撼猫猫.jpg",
-      "FlagName": "I",
-      "Acronym": "I",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 114883.16666666667,
-      "Players": [
-        {
-          "id": 32701801,
-          "Username": "Akari Date",
-          "country_code": "CN",
-          "Rank": 128566,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32701801/b6a51ed7592e4572c43052812caa7ea2bbd7528106f1968293b632e7dcdaff44.jpeg"
-        },
-        {
-          "id": 4330427,
-          "Username": "Kousaka Kirino",
-          "country_code": "CN",
-          "Rank": 64692,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/4/2fd772ad175c5687370e0aab50799a84adef7d0fff3f97dccfa5c94384ebb8af.jpeg"
-        },
-        {
-          "id": 16054558,
-          "Username": "___eric___",
-          "country_code": "CN",
-          "Rank": 87631,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/2/f5142b64b60002f6314b22c775195950105908e149037f4de78efc0e0f28d442.jpeg"
-        },
-        {
-          "id": 8678443,
-          "Username": "[W]hiteRBQ 033",
-          "country_code": "CN",
-          "Rank": 91823,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/8678443/b827cbba18db7a7a67c2fe7318dd2967b10d60320c7e0716edd6120d35a3f401.jpeg"
-        },
-        {
-          "id": 28568560,
-          "Username": "H4ppy_n3w_y34r",
-          "country_code": "CN",
-          "Rank": 110339,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/1/df28696b58541a9e67f6755918951d542d93bdf1da41720fcca2fd2c1ea8cf51.jpeg"
-        },
-        {
-          "id": 4634831,
-          "Username": "Dimago",
-          "country_code": "CN",
-          "Rank": 206248,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/8/eda177e3c4eb0889e24f58c454af47708b0acd612bff984f6ac295e8427681c5.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "MP5之最后一5",
-      "FlagName": "J",
-      "Acronym": "J",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 94783.83333333333,
-      "Players": [
-        {
-          "id": 1814662,
-          "Username": "X Light",
-          "country_code": "CN",
-          "Rank": 67921,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/3/32ddb3eb261e38a82067f9ef4ea96c12f6abf8bd228e6413330f9d351420301b.jpeg"
-        },
-        {
-          "id": 24533023,
-          "Username": "touhou chef",
-          "country_code": "TW",
-          "Rank": 97750,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/24533023/d7fd8ed687139e8f596e438093a3d96151399baa4aad2afcdaa6f91992cf8a9a.jpeg"
-        },
-        {
-          "id": 34504424,
-          "Username": "ciaIIo",
-          "country_code": "CN",
-          "Rank": 86810,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/34504424/0dc9b2a06112228740cd29389bdf04ae6b2fff369dbc23fe7df9969a9c615f47.png"
-        },
-        {
-          "id": 32630602,
-          "Username": "SzZzC",
-          "country_code": "AE",
-          "Rank": 144586,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32630602/c93311156359a1e9b80a09ae787fe2552a44979472d730591694494b14a79f7e.jpeg"
-        },
-        {
-          "id": 10822106,
-          "Username": "Luminis",
-          "country_code": "CN",
-          "Rank": 76755,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/10822106/d237bd7da1d565a0a1f208d9a8fb8a9d1625ea56b57487f9b887f47fba42d281.jpeg"
-        },
-        {
-          "id": 22940035,
-          "Username": "Limax2371",
-          "country_code": "HK",
-          "Rank": 94881,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/1/df28696b58541a9e67f6755918951d542d93bdf1da41720fcca2fd2c1ea8cf51.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "我有腱鞘炎",
-      "FlagName": "K",
-      "Acronym": "K",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 128706.83333333333,
-      "Players": [
-        {
-          "id": 33418980,
-          "Username": "Mimori",
-          "country_code": "MO",
-          "Rank": 59717,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/33418980/e57964c42151e849b68f69224ad49a8eccccdb7257a61effcb656a44566b94e7.jpeg"
-        },
-        {
-          "id": 14947596,
-          "Username": "PhantoMPaiN",
-          "country_code": "CN",
-          "Rank": 187814,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/14947596/3bf0b7d4ce60fb246181cc871f82cb598ddb2180265c495bb898f11fc67af6bb.jpeg"
-        },
-        {
-          "id": 16528410,
-          "Username": "pip233",
-          "country_code": "CN",
-          "Rank": 71888,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/16528410/aaf2fdc624280ae08bb5ce8f8ee69f8d076707fe3142886b8db5a8dcaa313961.jpeg"
-        },
-        {
-          "id": 10483107,
-          "Username": "[mogezi]",
-          "country_code": "CN",
-          "Rank": 92482,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/8/eda177e3c4eb0889e24f58c454af47708b0acd612bff984f6ac295e8427681c5.jpeg"
-        },
-        {
-          "id": 30629671,
-          "Username": "xX_DeSu_Xx",
-          "country_code": "HK",
-          "Rank": 155245,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/21/4e70615c027f579b2a887ec492857fb342fc0fc7f5586db62a9a67f115638c94.jpeg"
         },
         {
           "id": 31174220,
           "Username": "Eurika",
           "country_code": "CN",
-          "Rank": 205095,
+          "Rank": 139477,
           "CoverUrl": "https://assets.ppy.sh/user-cover-presets/5/395c011121ca45b2ab30bd6fdd5d12483acca063bfb75ccae96d88da4304a1fb.jpeg"
+        },
+        {
+          "id": 28319612,
+          "Username": "GalaxySpeaker",
+          "country_code": "CN",
+          "Rank": 103952,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/28319612/b1f00d54dcdcc6f07274c71321a6cbfb5aadae93d041648fb8e0e0165474e519.png"
+        },
+        {
+          "id": 264989,
+          "Username": "Eucliwood",
+          "country_code": "CN",
+          "Rank": 159216,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/6/a7d51a05cb3c08a43531dfa8dc99c2fc7fe0d8cfce2756c340f11b3683b5d3bf.jpeg"
         }
       ]
     },
     {
-      "FullName": "大明王朝1566",
-      "FlagName": "L",
-      "Acronym": "L",
+      "FullName": "liliaceae213",
+      "FlagName": "B",
+      "Acronym": "B",
       "SeedingResults": [],
       "Seed": "",
       "LastYearPlacing": 0,
-      "AverageRank": 153881.83333333334,
+      "AverageRank": 109269.33333333333,
       "Players": [
         {
-          "id": 25767690,
-          "Username": "Yoizuki",
+          "id": 18215806,
+          "Username": "Claiseumy",
           "country_code": "CN",
-          "Rank": 198323,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/25767690/92effb2f9be0511861d4548ad63cfc5c7fae367796fe977f91a830cd55786d90.jpeg"
+          "Rank": 97059,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/18215806/b4433132b8162592c78df6116630846a1e6c50716450ec3a9b99965810cb0b13.jpeg"
         },
         {
-          "id": 15875646,
-          "Username": "ToumaKazusa",
+          "id": 15154497,
+          "Username": "MyAngelMizuki_",
           "country_code": "CN",
-          "Rank": 127637,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15875646/6af50e503bb511ff43d7294261d962a19a2ef055da02ac709f14c1f683b52acc.jpeg"
+          "Rank": 68925,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15154497/9a2e81a536db9fbe8082cfd9f8eeeef7f2f072df8a0db83c086c7f05ca2758f0.png"
         },
         {
-          "id": 11483018,
-          "Username": "MizusawaMatsuri",
+          "id": 24533023,
+          "Username": "touhou chef",
+          "country_code": "TW",
+          "Rank": 72379,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/24533023/d7fd8ed687139e8f596e438093a3d96151399baa4aad2afcdaa6f91992cf8a9a.jpeg"
+        },
+        {
+          "id": 17908675,
+          "Username": "-Hokusai-",
           "country_code": "CN",
-          "Rank": 140323,
+          "Rank": 118223,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/17908675/d925bd4c218fa26d7002eb45056caa9b0cdf86edbbd4223c7e73a0336ce4fb07.png"
+        },
+        {
+          "id": 34456633,
+          "Username": "Axeria",
+          "country_code": "TW",
+          "Rank": 172840,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/34456633/1957e8d9a0d8d9266c3ccc3a77807bee5e45b34bc4cde51243f2df1bc0fe8d2e.gif"
+        },
+        {
+          "id": 31956000,
+          "Username": "CooRia",
+          "country_code": "HK",
+          "Rank": 126190,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/31956000/6081acedb691f2fdaa42c36bbe11f7771a621d7f57b0dbac4898184917978244.png"
+        }
+      ]
+    },
+    {
+      "FullName": "弱队",
+      "FlagName": "C",
+      "Acronym": "C",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 98603.0,
+      "Players": [
+        {
+          "id": 30329943,
+          "Username": "Nosenso",
+          "country_code": "CN",
+          "Rank": 72436,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/30329943/5e8142825f0a56f33783e1aa11dc9051b3ad675a8ec4a934e7ca68912628b3a1.jpeg"
+        },
+        {
+          "id": 3820761,
+          "Username": "Romen",
+          "country_code": "CN",
+          "Rank": 81877,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/2/f5142b64b60002f6314b22c775195950105908e149037f4de78efc0e0f28d442.jpeg"
+        },
+        {
+          "id": 18118155,
+          "Username": "cd20200816",
+          "country_code": "CN",
+          "Rank": 92593,
           "CoverUrl": "https://assets.ppy.sh/user-cover-presets/4/2fd772ad175c5687370e0aab50799a84adef7d0fff3f97dccfa5c94384ebb8af.jpeg"
+        },
+        {
+          "id": 33887163,
+          "Username": "kitakore",
+          "country_code": "CN",
+          "Rank": 107635,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/33887163/bc0227d96fd66752a92a8b1384b441bd39f0d10f5895ab014626fe4421a5cec2.png"
+        },
+        {
+          "id": 31851821,
+          "Username": "Konno Yuuki",
+          "country_code": "CN",
+          "Rank": 104397,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/6/a7d51a05cb3c08a43531dfa8dc99c2fc7fe0d8cfce2756c340f11b3683b5d3bf.jpeg"
+        },
+        {
+          "id": 30895664,
+          "Username": "Dr_Shindo",
+          "country_code": "CN",
+          "Rank": 132680,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/30895664/691215f0c47bf8ad210fe5c3f4f3dace6a6567ef47b6b059147cee6a006af4c0.png"
+        }
+      ]
+    },
+    {
+      "FullName": "我是躺赢狗",
+      "FlagName": "D",
+      "Acronym": "D",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 112410.5,
+      "Players": [
+        {
+          "id": 28315585,
+          "Username": "Koko_",
+          "country_code": "CN",
+          "Rank": 170496,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/28315585/bbb2a93611874a280af8f0c02ccb519dd98101d7048e584e50a94f1372426598.jpeg"
+        },
+        {
+          "id": 19465414,
+          "Username": "A10sh1",
+          "country_code": "CN",
+          "Rank": 75903,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/19465414/0864920b6f2d43308f98180216a58b50e089af84ea3a40e38bf342772c2e7c60.jpeg"
         },
         {
           "id": 6796076,
           "Username": "-Capgras-",
           "country_code": "CN",
-          "Rank": 140885,
+          "Rank": 85124,
           "CoverUrl": "https://assets.ppy.sh/user-profile-covers/6796076/e112e81a5f4785948c3e27c9fe9c9299d6e7e0ebc9496339487c623d1272c9ce.png"
         },
         {
-          "id": 8120040,
-          "Username": "feschen",
+          "id": 15436106,
+          "Username": "mike233333",
           "country_code": "CN",
-          "Rank": 85195,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/8120040/3fcea994a3629a51f490228a8e6b0f5e65b4e2255b218c039b3e625d5e83a2dd.jpeg"
-        },
-        {
-          "id": 28315585,
-          "Username": "Koko_",
-          "country_code": "CN",
-          "Rank": 230928,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/28315585/7e21cc5bc98fc15ad28f6a503dc04eefb2e49394fe691bff1987a28db344c647.jpeg"
-        }
-      ]
-    },
-    {
-      "FullName": "指望另一队",
-      "FlagName": "M",
-      "Acronym": "M",
-      "SeedingResults": [],
-      "Seed": "",
-      "LastYearPlacing": 0,
-      "AverageRank": 142425.33333333334,
-      "Players": [
-        {
-          "id": 7681096,
-          "Username": "songwangfu",
-          "country_code": "CN",
-          "Rank": 82200,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/3/32ddb3eb261e38a82067f9ef4ea96c12f6abf8bd228e6413330f9d351420301b.jpeg"
-        },
-        {
-          "id": 1862358,
-          "Username": "Phirida",
-          "country_code": "CN",
-          "Rank": 106499,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/1862358/a9733e4519b683d9051a5426d0de33bde8bcd05eda6ff1a41a1fb862cbf7f254.jpeg"
-        },
-        {
-          "id": 9527178,
-          "Username": "mura sama",
-          "country_code": "CN",
-          "Rank": 131417,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/9527178/1f818fa2c8a1750d95f652ba1b2e4ded0007243579d3faefd427dc649e5e82e7.jpeg"
-        },
-        {
-          "id": 26411283,
-          "Username": "miaoha",
-          "country_code": "CN",
-          "Rank": 146805,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/22/fe7e6dce2328b292d15b03ada3df83064ff58eb77f0ec6d97fb0d8193d8e7de2.jpeg"
-        },
-        {
-          "id": 18672193,
-          "Username": "404E",
-          "country_code": "CN",
-          "Rank": 172230,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/8/eda177e3c4eb0889e24f58c454af47708b0acd612bff984f6ac295e8427681c5.jpeg"
+          "Rank": 114099,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15436106/805d42d7b5c798f9ef99b384cb6b0024bfe0d330a2aa29c8b046d58ae2acbb6e.png"
         },
         {
           "id": 33102208,
           "Username": "Reincarnation13",
           "country_code": "CN",
-          "Rank": 215401,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/33102208/345c6266cb232571199329868e4e33142a1767d7ec3096017e90e98c9301c6a4.jpeg"
+          "Rank": 143785,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/33102208/87227627c865b0b34a39c7cfaad3253be7d9d33885e2d377c753567bdc904c02.jpeg"
+        },
+        {
+          "id": 26357944,
+          "Username": "0723",
+          "country_code": "CN",
+          "Rank": 85056,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/24/5a5264eff92d34688b237087c355ca0e57dab4e6f66305660cca1a0c4f2405c9.jpeg"
         }
       ]
     },
     {
-      "FullName": "小米su7",
-      "FlagName": "N",
-      "Acronym": "N",
+      "FullName": "Drankers",
+      "FlagName": "E",
+      "Acronym": "E",
       "SeedingResults": [],
       "Seed": "",
       "LastYearPlacing": 0,
-      "AverageRank": 153968.0,
+      "AverageRank": 100836.83333333333,
       "Players": [
         {
-          "id": 32901756,
-          "Username": "madlife_AA",
-          "country_code": "JP",
-          "Rank": 102521,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32901756/f3e6d22ee17092a1dc3ca446f1ef938e10a1a2ce621403205180bca50849e4e2.jpeg"
+          "id": 25767690,
+          "Username": "Yoizuki",
+          "country_code": "CN",
+          "Rank": 135819,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/25767690/92effb2f9be0511861d4548ad63cfc5c7fae367796fe977f91a830cd55786d90.jpeg"
         },
+        {
+          "id": 32630602,
+          "Username": "SzZzC",
+          "country_code": "AE",
+          "Rank": 98087,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32630602/c93311156359a1e9b80a09ae787fe2552a44979472d730591694494b14a79f7e.jpeg"
+        },
+        {
+          "id": 30314890,
+          "Username": "Naaahida",
+          "country_code": "CN",
+          "Rank": 107229,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/24/5a5264eff92d34688b237087c355ca0e57dab4e6f66305660cca1a0c4f2405c9.jpeg"
+        },
+        {
+          "id": 28034232,
+          "Username": "qwqpwp",
+          "country_code": "CN",
+          "Rank": 71932,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/28034232/76e08e7dc7c43b470021f6edacaee3edee75bc043079cc5b96fb402f94d6d8f6.jpeg"
+        },
+        {
+          "id": 25710736,
+          "Username": "Llitttefoxy",
+          "country_code": "CN",
+          "Rank": 115760,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/25710736/31ff1feacc1a5e466f8d979bacfebb7685f4ad22d99d2dd7ec79b931ec25e85c.png"
+        },
+        {
+          "id": 27321919,
+          "Username": "Aokreti",
+          "country_code": "CN",
+          "Rank": 76194,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/27321919/7cb90e740db834e6b947b0da91d47ba39d63d46c6c9f37fa60675b1527acee53.jpeg"
+        }
+      ]
+    },
+    {
+      "FullName": "TGW Group",
+      "FlagName": "F",
+      "Acronym": "F",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 98228.0,
+      "Players": [
+        {
+          "id": 13248033,
+          "Username": "ovovocjj",
+          "country_code": "CN",
+          "Rank": 82386,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/13248033/11c88e5a3a78b88aaa6bfbc8c5a02ab99403c7c27e1b903911580af505177cbe.jpeg"
+        },
+        {
+          "id": 19061410,
+          "Username": "-XiAoyu",
+          "country_code": "CN",
+          "Rank": 84593,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/19061410/aa69d3556eafbaaf12e64f4d39652ef2eeaa50b0a359b6725eba70abf208378f.jpeg"
+        },
+        {
+          "id": 36553659,
+          "Username": "newton1",
+          "country_code": "HK",
+          "Rank": 77250,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/36553659/9456665874a444b8fedd93199af43ff539742411f2a37c9d33023c0360c1164b.jpeg"
+        },
+        {
+          "id": 26885692,
+          "Username": "In the future",
+          "country_code": "CN",
+          "Rank": 126275,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/29/fce0517b1879df78357e3fd54478afeda91ce9e6254642ee17f429e06389dace.jpeg"
+        },
+        {
+          "id": 16416029,
+          "Username": "MyAngelYuzu_",
+          "country_code": "CN",
+          "Rank": 111603,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/16416029/6e298945ccaeada0d5b33b000ea1623d3009cd7b38b42c5172ba18b5a5610b5b.jpeg"
+        },
+        {
+          "id": 18097583,
+          "Username": "YKBEF",
+          "country_code": "HK",
+          "Rank": 107261,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/18097583/d4a3b8adbcdd923cdb6986b2f3809d881819c3882a5e66c2721a561f28544c47.jpeg"
+        }
+      ]
+    },
+    {
+      "FullName": "22S 5dW",
+      "FlagName": "G",
+      "Acronym": "G",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 98302.5,
+      "Players": [
+        {
+          "id": 28568560,
+          "Username": "H4ppy_n3w_y34r",
+          "country_code": "CN",
+          "Rank": 89615,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/1/df28696b58541a9e67f6755918951d542d93bdf1da41720fcca2fd2c1ea8cf51.jpeg"
+        },
+        {
+          "id": 3885055,
+          "Username": "ssd1048576",
+          "country_code": "CN",
+          "Rank": 81681,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/8/eda177e3c4eb0889e24f58c454af47708b0acd612bff984f6ac295e8427681c5.jpeg"
+        },
+        {
+          "id": 20543308,
+          "Username": "-sussycat-",
+          "country_code": "HK",
+          "Rank": 112253,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/20543308/ed20655d0be77bd041a8c1c64b5b509727c86f0b60a4e955cdcfd068b4ed3dbc.jpeg"
+        },
+        {
+          "id": 15875646,
+          "Username": "ToumaKazusa",
+          "country_code": "CN",
+          "Rank": 81174,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15875646/6af50e503bb511ff43d7294261d962a19a2ef055da02ac709f14c1f683b52acc.jpeg"
+        },
+        {
+          "id": 36097722,
+          "Username": "rainbow03",
+          "country_code": "CN",
+          "Rank": 131422,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/36097722/a49860e0ab0f83a7fbe52633b2ccd0399b60e6a9c4764dcaaa63d7d0e1c90eaf.png"
+        },
+        {
+          "id": 13859320,
+          "Username": "Momoyaya",
+          "country_code": "CN",
+          "Rank": 93670,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/13859320/2420c7dd421b4c83dcc7d768a0e1ba035110a2ae6221d125cb41cf9f75349eec.gif"
+        }
+      ]
+    },
+    {
+      "FullName": "Maschinenpistole 5",
+      "FlagName": "H",
+      "Acronym": "H",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 105056.33333333333,
+      "Players": [
+        {
+          "id": 35404573,
+          "Username": "eiqmy",
+          "country_code": "CN",
+          "Rank": 140192,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/35404573/e59b5011a72a67c281dc1415c14c18227b0b1138f2a325b581e02cf08a7a9b1e.jpeg"
+        },
+        {
+          "id": 10822106,
+          "Username": "Luminis",
+          "country_code": "CN",
+          "Rank": 63875,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/10822106/d237bd7da1d565a0a1f208d9a8fb8a9d1625ea56b57487f9b887f47fba42d281.jpeg"
+        },
+        {
+          "id": 35475253,
+          "Username": "AiXing1145134",
+          "country_code": "CN",
+          "Rank": 103975,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/35475253/f67b3ae2e9fe42c4b418f699747e969740d7efa639e99003da535060dc05177e.gif"
+        },
+        {
+          "id": 1005446,
+          "Username": "xiao ming",
+          "country_code": "CN",
+          "Rank": 110458,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/7/4a0ccb7b7fdd5c4238b11f0e7c686760fe2c99c6472b19400e82d1a8ff503e31.jpeg"
+        },
+        {
+          "id": 18374414,
+          "Username": "dream_wolf",
+          "country_code": "CN",
+          "Rank": 102391,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/18374414/9664b3f99a075ce903aa6539406e83f13acf86aa66faf6ea63d79fcec33d5699.png"
+        },
+        {
+          "id": 31936448,
+          "Username": "Cup of Chino",
+          "country_code": "CN",
+          "Rank": 109447,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/1/df28696b58541a9e67f6755918951d542d93bdf1da41720fcca2fd2c1ea8cf51.jpeg"
+        }
+      ]
+    },
+    {
+      "FullName": "我不知道",
+      "FlagName": "I",
+      "Acronym": "I",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 103545.66666666667,
+      "Players": [
+        {
+          "id": 15349720,
+          "Username": "NaughtyChas",
+          "country_code": "CN",
+          "Rank": 67213,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15349720/89bb400ddccbfceb6aa4bd643a62d4007206bc6abddf047e3bb1f926420c4e2b.jpeg"
+        },
+        {
+          "id": 5935141,
+          "Username": "hgxcxdg",
+          "country_code": "CN",
+          "Rank": 72085,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/5935141/89143d4a80b1b837aca68b16625795b978a68926beef49fab0ff480f3c16c05b.jpeg"
+        },
+        {
+          "id": 16054558,
+          "Username": "___eric___",
+          "country_code": "CN",
+          "Rank": 83673,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/2/f5142b64b60002f6314b22c775195950105908e149037f4de78efc0e0f28d442.jpeg"
+        },
+        {
+          "id": 5935383,
+          "Username": "FreakMao_plum",
+          "country_code": "CN",
+          "Rank": 93586,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/5935383/06bf99627bd199e48ad1c5fc47a9c47bbe12e98c3af04e74733fd74adc51184d.jpeg"
+        },
+        {
+          "id": 32823926,
+          "Username": "Rui23",
+          "country_code": "CN",
+          "Rank": 148753,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/32823926/256098735bd7066174da259122f7764b7638ef049dbedc7242e83c0d6c34b8af.png"
+        },
+        {
+          "id": 14970885,
+          "Username": "wings_wacr",
+          "country_code": "CN",
+          "Rank": 155964,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/6/a7d51a05cb3c08a43531dfa8dc99c2fc7fe0d8cfce2756c340f11b3683b5d3bf.jpeg"
+        }
+      ]
+    },
+    {
+      "FullName": "老头乐",
+      "FlagName": "J",
+      "Acronym": "J",
+      "SeedingResults": [],
+      "Seed": "",
+      "LastYearPlacing": 0,
+      "AverageRank": 102067.66666666667,
+      "Players": [
         {
           "id": 17701156,
           "Username": "Misnel_233",
           "country_code": "CN",
-          "Rank": 70565,
+          "Rank": 69492,
           "CoverUrl": "https://assets.ppy.sh/user-profile-covers/17701156/53fa05420d4db04f5e19376f33c202f4d5f9ddfadc4abc5f597aa752e769a5a6.jpeg"
         },
         {
-          "id": 8471476,
-          "Username": "fate80016",
-          "country_code": "TW",
-          "Rank": 108895,
-          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/5/395c011121ca45b2ab30bd6fdd5d12483acca063bfb75ccae96d88da4304a1fb.jpeg"
+          "id": 4217398,
+          "Username": "[-Black Sky-]",
+          "country_code": "CN",
+          "Rank": 72998,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/4217398/fac8a79a26a5896bde54c05d9360925d177b7c48842d269a5af7e262a06ba5d8.jpeg"
         },
         {
-          "id": 13960834,
-          "Username": "astro angelfish",
+          "id": 18803592,
+          "Username": "qiao_liang",
           "country_code": "CN",
-          "Rank": 171276,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/13960834/20007cf582ad0f553cf53d5313673a87200014840fb22808bce20eb708765084.png"
+          "Rank": 86603,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/12/6e8d3402c8080c2d9549a98321e1bff111dd9c94603ccdb237597479cab6e8a7.jpeg"
         },
         {
-          "id": 11746900,
-          "Username": "nullable",
+          "id": 15624611,
+          "Username": "ZileNums",
           "country_code": "CN",
-          "Rank": 188892,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/11746900/dc04750f035add8ea13320615bd0df01ff265fb8505e19c25f37de8ade599354.jpeg"
+          "Rank": 101314,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15624611/ee28a1025b9d1b39548d91163c4b8a14196b4cf11335e12b85a9cba5f8a9e6c1.png"
         },
         {
-          "id": 33794305,
-          "Username": "Tusk1527",
+          "id": 15012640,
+          "Username": "Lzq12345",
           "country_code": "CN",
-          "Rank": 281659,
-          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/33794305/c88e46760f0c6046138cfaf0081b12cf904e142667295e6f52ae69b885788fe4.jpeg"
+          "Rank": 108642,
+          "CoverUrl": "https://assets.ppy.sh/user-profile-covers/15012640/c3ed4bc842373d328b322de2d01dfaabb192bf317d57f89dec20c6f81eac3be9.png"
+        },
+        {
+          "id": 17027628,
+          "Username": "shuaiyue",
+          "country_code": "CN",
+          "Rank": 173357,
+          "CoverUrl": "https://assets.ppy.sh/user-cover-presets/29/fce0517b1879df78357e3fd54478afeda91ce9e6254642ee17f429e06389dace.jpeg"
         }
       ]
     }
