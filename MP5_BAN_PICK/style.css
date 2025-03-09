@@ -660,8 +660,8 @@ body {
 
 /* 使用CSS变量定义不同状态按钮的颜色 */
 :root {
-    --border-color-nm: #1eafed;
-    --border-color-hd: #FFE699;
+    --border-color-nm: #B1C2C4;
+    --border-color-hd: #FFB347;
     --border-color-hr: #FF6D6D;
     --border-color-dt: #CCA4F4;
     --border-color-fm: #7FB7E9;
