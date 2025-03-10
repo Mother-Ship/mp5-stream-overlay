@@ -489,7 +489,7 @@ function deactivateButtons(...buttonIds) {
 }
 
 document.getElementById("button-match-qf").addEventListener("click", () => {
-    matchRound.innerText = "瑞士轮";
+    matchRound.innerText = "小组赛";
 
     activateButton("button-match-qf");
 
