@@ -7,17 +7,20 @@
         }
     },
     {
-        "criterion": "曲名罗马音",
+        "criterion": "romanized title, 全字匹配",
         "values": {
             "mod": "DT",
             "index": "9",
             "metadata": {
-                "artistUnicode": "这些东西可以强制修改",
-                "artist": "test artist",
-                "titleUnicode": "这是一张定制图",
-                "title": "123",
-                "diff": "难度名",
-                "creator": "麻婆"
+                "artistUnicode": "这里填写的数据会被覆盖到正常解析的谱面信息中",
+                "artist": "数据格式可以参考 osuParser 的返回格式",
+                "titleUnicode": "difficulty 和 beatmap 部分也可以改",
+                "title": "但是如果图的元数据正确那为什么要改呢",
+                "diff": "这个功能的主要目的还是指定离线图的 slot, 比如上面的 DT9",
+                "creator": "因为 bracket.json 是 Lazer 格式, UI 直接按照 bracket 里谱面出现的顺序分配 slot 编号",
+                "tags": "所以离线图需要在里面对应的位置放一个空白占位符(比如 BID=0)",
+                "source": "然后在这里指定它的 slot (mod 与 index), metadata 正常情况下不需要修改",
+                "bid": "index 从 1 开始, 对应比赛图池的一般排序方法"
             }
         }
     }
