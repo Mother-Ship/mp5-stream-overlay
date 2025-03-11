@@ -133,7 +133,10 @@ async function doAutoPick(team, bid, type) {
     if (!isMapPicked) {
         console.log(beatmap);
         applyOperationToDOM(team, beatmap.ID, type);
-        // [TODO] modify control panel
+        applyOperationStyles(document.getElementById(beatmap.ID), {
+            team: team === TEAM_RED ? "Red" : "Blue",
+            type: type.charAt(0).toUpperCase() + type.slice(1),
+        });
         console.log('自动 BP 操作: ' + beatmap);
     }
     toggleAllowAutoPick(false);
