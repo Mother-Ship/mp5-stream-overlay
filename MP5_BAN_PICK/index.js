@@ -6,7 +6,6 @@ import {
     getFullBeatmapFromBracketById,
     getModNameAndIndexById,
     getStoredBeatmap,
-    getStoredBeatmapById,
     storeBeatmapSelection,
 } from "../COMMON/lib/bracket.js";
 
@@ -197,12 +196,14 @@ async function applyOperationToDOM(team, bid, type, animate = true) {
             type: type.charAt(0).toUpperCase() + type.slice(1),
             beatmapId: bid.toString(),
         });
-
-        setTimeout(function () {
-            operation.classList.add("shown");
-        }, 1000);
         if (animate) {
+            setTimeout(function () {
+                operation.classList.add("shown");
+            }, 1000);
             operation.classList.add("animated");
+        }
+        else {
+            operation.classList.add("shown");
         }
 
         operationContainer.appendChild(operation);
@@ -541,12 +542,6 @@ function onCurrentRoundChange() {
                 currentMod.toLocaleLowerCase();
             map.id = `${beatmap.ID}`;
 
-            // 从Localstorage找回本场谱面操作
-            const operation = getStoredBeatmapById(beatmap.ID.toString());
-            if (operation !== null) {
-                applyOperationStyles(map, operation);
-            }
-
             // 生成HTML
             map.innerText = currentMod + (index + 1);
             mod.appendChild(map);
@@ -562,6 +557,7 @@ function onCurrentRoundChange() {
 
         // 统计mod下map的数量，如果大于4 则添加map-pool-wide类
         countMapsAndAddWideClass();
+        reloadOperationStyles();
     });
 
     toggleAllowAutoPick(false);
@@ -588,16 +584,9 @@ function setupMapListeners(map) {
                 ...currentOperation,
                 beatmapId: beatmapId,
             };
-            // 存储操作到Localstorage
-            // storeBeatmapSelection(currentOperation);
-
-            // 修改控制台按钮样式
-            applyOperationStyles(map, currentOperation);
-
-            // 向上方追加操作
-            //appendOperation(beatmap);
 
             applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), true);
+            applyOperationStyles(map, currentOperation);
         }
 
         currentOperation = null;
@@ -639,7 +628,28 @@ function setupMapListeners(map) {
     });
 }
 
+/**
+ * 将选图情况更新至控制台
+ * 目前的实现很脏而且效率很低
+ * @param {Element} map 发起选图的控制台按钮
+ * @param {*} operation
+ */
 function applyOperationStyles(map, operation) {
+    if (operation.type === "Blank") {
+        return;
+    }
+    if(!operation) {
+        return;
+    }
+    if(cache.pickedMaps.includes(map.id)) {
+        return;
+    }
+    // 清除所有样式
+    map.classList.remove("map-pool-button-a-pick");
+    map.classList.remove("map-pool-button-a-ban");
+    map.classList.remove("map-pool-button-b-pick");
+    map.classList.remove("map-pool-button-b-ban");
+    // 添加对应的样式
     if (operation.team === "Red") {
         if (operation.type === "Pick") {
             map.classList.add("map-pool-button-a-pick");
@@ -656,6 +666,43 @@ function applyOperationStyles(map, operation) {
             map.classList.add("map-pool-button-b-ban");
         }
     }
+}
+
+/**
+ * 从 localStorage 找回所有选图记录并更新到控制台按钮
+ */
+function reloadOperationStyles() {
+    let pickHistory = getStoredBeatmap() || new Map([]);
+    console.log(pickHistory);
+    Array.from(document.getElementsByClassName("map-pool-mod")).forEach(mod => {
+        Array.from(mod.getElementsByClassName("map-pool-button-base")).forEach(m => {
+            m.classList.remove("map-pool-button-a-pick");
+            m.classList.remove("map-pool-button-a-ban");
+            m.classList.remove("map-pool-button-b-pick");
+            m.classList.remove("map-pool-button-b-ban");
+
+            if (pickHistory.has(m.id)) {
+                let operation = pickHistory.get(m.id);
+                console.log(operation);
+                if (operation.team === "Red") {
+                    if (operation.type === "Pick") {
+                        m.classList.add("map-pool-button-a-pick");
+                    }
+                    if (operation.type === "Ban") {
+                        m.classList.add("map-pool-button-a-ban");
+                    }
+                }
+                if (operation.team === "Blue") {
+                    if (operation.type === "Pick") {
+                        m.classList.add("map-pool-button-b-pick");
+                    }
+                    if (operation.type === "Ban") {
+                        m.classList.add("map-pool-button-b-ban");
+                    }
+                }
+            }
+        });
+    });
 }
 
 function countMapsAndAddWideClass() {
