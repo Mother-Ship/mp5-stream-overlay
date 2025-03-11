@@ -140,9 +140,7 @@ async function doAutoPick(team, bid, type) {
 }
 
 /**
- * Visually display a ban/pick in operation containers
- * Since we don't actually store operations (yet, but why?) most side effects can be ignored.
- * e.g. pick status on the control panel, restored picks don't care either though
+ * 将一次选图显示到 UI 上，并保存到 cache.pickedMaps 和 localStorage
  * @param {Number} team constant TEAM_RED or TEAM_BLUE
  * @param {Number|String} bid BID of said map
  * @param {String} type "pick", "ban" or "blank", lowercase
