@@ -50,13 +50,21 @@ jobs:
       run: |
         cd /tmp/target/static/bracket_downloader
         GOOS=windows GOARCH=amd64 go build -o ../../更新bracket.exe bracket.go
+        GOOS=linux GOARCH=amd64 go build -o ../../更新bracket-linux bracket.go
+
+    - name: 尝试更新 bracket
+      run: |
+        cd /tmp/target
+        ./更新bracket-linux
 
     - name: 移动 PowerShell bracket 下载器
       run: |
         mv /tmp/target/static/bracket_downloader/更新bracket.ps1 /tmp/target/
 
-    - name: 删除下载器源码
-      run: rm -rf /tmp/target/static/bracket_downloader
+    - name: 删除下载器源码及临时ELF程序
+      run: |
+        rm -rf /tmp/target/static/bracket_downloader
+        rm -f /tmp/target/更新bracket-linux
 
     - name: 获取当前日期
       id: date
