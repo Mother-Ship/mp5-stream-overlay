@@ -49,7 +49,7 @@ jobs:
     - name: 构建 Go bracket 下载器
       run: |
         cd /tmp/target/static/bracket_downloader
-        GOOS=windows GOARCH=amd64 go build -o ../../更新bracket.exe bracket.go
+        GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -trimpath -o ../../更新bracket.exe bracket.go
         GOOS=linux GOARCH=amd64 go build -o ../../更新bracket-linux bracket.go
 
     - name: 尝试更新 bracket
