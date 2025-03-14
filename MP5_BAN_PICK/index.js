@@ -415,7 +415,7 @@ document
                 document.getElementById("team-a-operation").innerHTML = "";
                 document.getElementById("team-b-operation").innerHTML = "";
                 document.getElementById("map-pool-mod-container").innerHTML = "";
-                localStorage.setItem("beatmapSelections", JSON.stringify(new Map()));
+                localStorage.setItem("beatmapSelections", JSON.stringify([]));
                 currentOperation = null;
                 onCurrentRoundChange();
 
