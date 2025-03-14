@@ -225,6 +225,12 @@ socket.api_v1(async ({ menu, tourney }) => {
             cache.md5 = md5;
 
             cache.mapChoosed = false;
+            document.getElementById("map-info-container").classList.remove("picked-by-team-b")
+            document.getElementById("map-mod-container").classList.remove("team-b-map-mod-container")
+            document.getElementById("map-mod").classList.remove("team-b-map-mod")
+            document.getElementById("map-info-container").classList.remove("picked-by-team-a")
+            document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
+            document.getElementById("map-mod").classList.remove("team-a-map-mod")
 
             let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
 
