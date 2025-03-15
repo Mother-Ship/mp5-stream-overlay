@@ -138,8 +138,8 @@ async function doAutoPick(team, bid, type) {
             type: type.charAt(0).toUpperCase() + type.slice(1),
         });
         console.log('自动 BP 操作: ' + beatmap);
+        toggleAllowAutoPick(false);
     }
-    toggleAllowAutoPick(false);
 }
 
 /**
