@@ -100,6 +100,102 @@
     },
     "sources": [
         {
+            "prev_ver": 503316482,
+            "name": "LIVE_BRACKET",
+            "uuid": "ba34650f-b969-4619-8fdf-9835081e3a55",
+            "id": "browser_source",
+            "versioned_id": "browser_source",
+            "settings": {
+                "css": "",
+                "is_local_file": false,
+                "url": "https://mp5tournament.github.io/live",
+                "width": 1920,
+                "height": 1080
+            },
+            "mixers": 255,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": [],
+                "ObsBrowser.Refresh": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "private_settings": {},
+            "filters": [
+                {
+                    "prev_ver": 503316482,
+                    "name": "色值",
+                    "uuid": "485dc108-2a14-4738-93cd-00bac092c016",
+                    "id": "color_key_filter",
+                    "versioned_id": "color_key_filter_v2",
+                    "settings": {
+                        "key_color": 4294374900,
+                        "key_color_type": "custom",
+                        "similarity": 1,
+                        "smoothness": 1
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "private_settings": {}
+                },
+                {
+                    "prev_ver": 503316482,
+                    "name": "色值 2",
+                    "uuid": "37c11220-2e35-4801-ba3f-f116583f2525",
+                    "id": "color_key_filter",
+                    "versioned_id": "color_key_filter_v2",
+                    "settings": {
+                        "key_color_type": "custom",
+                        "similarity": 1,
+                        "smoothness": 1,
+                        "key_color": 4294440435
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "private_settings": {}
+                }
+            ]
+        },
+        {
             "prev_ver": 503447555,
             "name": "弹幕",
             "uuid": "0b084246-21ae-417a-8a34-980a7d521fd0",
@@ -996,6 +1092,44 @@
                         "private_settings": {}
                     },
                     {
+                        "name": "LIVE_BRACKET",
+                        "source_uuid": "ba34650f-b969-4619-8fdf-9835081e3a55",
+                        "visible": true,
+                        "locked": true,
+                        "rot": 0.0,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 6,
+                        "group_item_backup": false,
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 0
+                        },
+                        "hide_transition": {
+                            "duration": 0
+                        },
+                        "private_settings": {}
+                    },
+                    {
                         "name": "POSTER_LIST",
                         "source_uuid": "7124025a-b57c-4fcd-b89e-bdda9390ef28",
                         "visible": true,
@@ -1106,8 +1240,14 @@
                         "value": "./OBS Assets/poster3.png",
                         "selected": false,
                         "hidden": false
+                    },
+                    {
+                        "value": "./OBS Assets/poster4.png",
+                        "selected": false,
+                        "hidden": false
                     }
-                ]
+                ],
+                "playback_behavior": "stop_restart"
             },
             "mixers": 0,
             "sync": 0,
