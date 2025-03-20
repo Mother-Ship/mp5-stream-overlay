@@ -221,7 +221,7 @@ socket.api_v1(async ({ menu, tourney }) => {
         // 歌曲信息
         var md5 = menu.bm.md5;
         if (md5 !== cache.md5) {
-            document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+            document.getElementById("map-cover").src = "http://localhost:24050/Songs/" + encodeURIComponent(menu.bm.path.folder) + "/" + encodeURIComponent(menu.bm.path.bg);
             cache.md5 = md5;
 
             cache.mapChoosed = false;
@@ -232,7 +232,7 @@ socket.api_v1(async ({ menu, tourney }) => {
             document.getElementById("map-mod-container").classList.remove("team-a-map-mod-container")
             document.getElementById("map-mod").classList.remove("team-a-map-mod")
 
-            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
+            let parsed = await p.parse(`http://${location.host}/Songs/${encodeURIComponent(menu.bm.path.folder)}/${encodeURIComponent(menu.bm.path.file)}`);
 
             let modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
             parsed.mod = modNameAndIndex.modName;

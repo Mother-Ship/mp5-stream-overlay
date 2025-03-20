@@ -179,6 +179,10 @@ async function applyOperationToDOM(team, bid, type, animate = true) {
             operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
         }
         const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
+        // [FIXME] 这里 beatmap.BeatmapInfo.Covers["card@2x"] 可能需要考虑文件名带 # 时的转义问题
+        // 暂时还没测试
+        // 比较脏的办法是 URL.parse(...) 后取 path 和 hash 手动拼接
+        // 拼接后分段做 encodeURIComponent 再拼出完整的 URL
         operation.innerHTML = `  
     <div class="${classPrefix}-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">                      
         <img class="${classPrefix}-map-cover"

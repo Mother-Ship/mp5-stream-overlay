@@ -66,7 +66,7 @@ socket.api_v1( async ({menu}) => {
         if (md5 !== cache.md5) {
             cache.md5 = md5;
 
-            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
+            let parsed = await p.parse(`http://${location.host}/Songs/${encodeURIComponent(menu.bm.path.folder)}/${encodeURIComponent(menu.bm.path.file)}`);
 
             const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
             parsed.mod = modNameAndIndex.modName;
@@ -89,7 +89,7 @@ socket.api_v1( async ({menu}) => {
                 + " By " + parsed.modded.metadata.creator;
 
             document.getElementById("map-data-container").style.display = 'flex';
-            document.getElementById("map-bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+            document.getElementById("map-bg").src = "http://localhost:24050/Songs/" + encodeURIComponent(menu.bm.path.folder) + "/" + encodeURIComponent(menu.bm.path.bg);
 
 
             mapAr.update(parseFloat(parsed.modded.difficulty.ar).toFixed(1));
