@@ -567,8 +567,8 @@ body {
     justify-content: center;
     align-content: center;
 
-    /*用#5e684b填充这个div*/
-    background-color: #5e684b;
+    /*用#9bdb22填充这个div*/
+    background-color: #9bdb22;
     border-radius: 21px 0px 21px 0px;
     z-index: 2;
 }
