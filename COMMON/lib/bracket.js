@@ -160,6 +160,17 @@ export function deleteBeatmapSelectionById(beatmapID) {
     localStorage.setItem(key, JSON.stringify(Array.from(beatmapSelections.entries())));
 }
 
+export function getIsMatchStageAdvancing() {
+    const key = 'isMatchStageAdvancing';
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : false;
+}
+
+export function setIsMatchStageAdvancing(isAdvancing) {
+    const key = 'isMatchStageAdvancing';
+    localStorage.setItem(key, JSON.stringify(isAdvancing));
+}
+
 const modEnum = {
     'NM': 0,
     'HD': 8,

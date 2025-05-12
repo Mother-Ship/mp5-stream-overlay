@@ -1,0 +1,66 @@
+[
+    {
+        "type": "Ban",
+        "team": "A"
+    },
+    {
+        "type": "Ban",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "A"
+    },
+    {
+        "type": "Ban",
+        "team": "A"
+    },
+    {
+        "type": "Ban",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "A"
+    },
+    {
+        "type": "Pick",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "A"
+    },
+    {
+        "type": "Pick",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "A"
+    },
+    {
+        "type": "Pick",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "A"
+    },
+    {
+        "type": "Pick",
+        "team": "B"
+    },
+    {
+        "type": "Pick",
+        "team": "A"
+    }
+]

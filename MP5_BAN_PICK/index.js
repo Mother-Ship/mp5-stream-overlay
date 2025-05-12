@@ -4,15 +4,23 @@ import {
     getAllRound,
     getBeatmapListByRoundName,
     getFullBeatmapFromBracketById,
+    getIsMatchStageAdvancing,
     getModNameAndIndexById,
     getStoredBeatmap,
+    setIsMatchStageAdvancing,
     storeBeatmapSelection,
 } from "../COMMON/lib/bracket.js";
 
 import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
+import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
+
+console.log(MatchStages);
 
 const socket = new WebSocketManager('127.0.0.1:24050');
+
+const TEAM_RED = "Red";
+const TEAM_BLUE = "Blue";
 
 const cache = {
     leftTeam: "",
@@ -20,7 +28,6 @@ const cache = {
     chat: [],
     md5: "",
     // auto BP only works for first beatmap change (or manual pick) after streamer manually chooses pick/ban side.
-    // [TODO] auto-rotate pick/ban teams
     // [TODO] detect OBS scene change for fully automatic B/P
     canAutoPick: false,
     // mapChoosed 存储 canAutoPick 为假后谱面是否变动
@@ -29,8 +36,21 @@ const cache = {
 
     // list of BIDs of picked/banned maps
     pickedMaps: [],
+
+    // 存储当前比赛阶段
+    currentMatchStageIndex: -1,
+    currentMatchStage: null,
+    currentOperationTeam: null,
+    switchSidesInterval: null,
+
+    // 先 ban 方在 match stages 中记为 Team A
+    matchStageTeams: {
+        A: null,
+        B: null,
+    }
 };
 
+let currentOperation = null;
 let isAutoPick = true;
 
 // [TODO] OBS-based automatic pick/ban rotating
@@ -56,6 +76,79 @@ if (window.obsstudio) {
     document.getElementById("button-auto-picks").style.display = "none";
 }
 */
+
+/**
+ * 判断是否打完一张图, 打完了则轮换操作方
+ * 虽然用在 setInterval 里, 但实际上每次操作都会重置, 不用担心读到错误的全局状态变量
+ */
+function tryAdvanceMatchStage() {
+    if (getIsMatchStageAdvancing()) {
+        setIsMatchStageAdvancing(0);
+        currentOperation = {
+            team: cache.currentOperationTeam,
+            type: cache.currentMatchStage.type,
+        }
+        console.log('轮换操作方, 当前操作: ' + currentOperation.team + ' ' + currentOperation.type);
+        clearInterval(cache.switchSidesInterval);
+        cache.switchSidesInterval = null;
+        updateOperationDisplay();
+        toggleAllowAutoPick(true);
+        tryAutoPick();
+    }
+}
+
+/**
+ * 根据 matchstages.json 处理比赛阶段, 设置操作方, 设置 currentOperation 并处理选图方自动轮换
+ */
+function handleMatchStageChange() {
+    // 使用选过的图的数量作为当前比赛阶段，避免额外存状态变量
+    cache.currentMatchStageIndex = cache.pickedMaps.length;
+    cache.currentMatchStage = MatchStages[cache.currentMatchStageIndex];
+    if (cache.currentMatchStage === null || cache.currentMatchStage === undefined) {
+        console.error("Invalid match stage");
+        return;
+    }
+
+    if (currentOperation.type === 'Ban' || currentOperation.type === 'Blank') {
+        // 如果当前操作是 ban 或 blank, 则直接进入下一阶段
+        setIsMatchStageAdvancing(1);
+    }
+
+    // 根据当前操作方计算先 ban 方
+    // 先 ban 方在 match stages 中记为 Team A
+    // 执行到此处时, currentOperation 为刚进行的操作的操作方, match stage 为下一个操作
+    // 对比上一个 match stage 与当前操作方, 下面的异或成立说明 A 对应 Red
+    let lastStageTeamIsB = MatchStages[cache.currentMatchStageIndex - 1].team === 'B';
+    let currentOperationTeamIsRed = currentOperation.team === 'Red';
+    if (lastStageTeamIsB ^ currentOperationTeamIsRed) {
+        cache.matchStageTeams['A'] = TEAM_RED;
+        cache.matchStageTeams['B'] = TEAM_BLUE;
+    }
+    else {
+        cache.matchStageTeams['A'] = TEAM_BLUE;
+        cache.matchStageTeams['B'] = TEAM_RED;
+    }
+    cache.currentOperationTeam = cache.matchStageTeams[cache.currentMatchStage.team];
+
+    // 处理当前比赛阶段
+    console.log("当前比赛阶段: " + cache.currentMatchStageIndex);
+    switch (cache.currentMatchStage.type) {
+        case "Pick":
+            console.log("当前比赛阶段: 选图");
+            console.log("当前操作方: " + cache.currentOperationTeam);
+            break;
+        case "Ban":
+            console.log("当前比赛阶段: 禁图");
+            console.log("当前操作方: " + cache.currentOperationTeam);
+            break;
+        default:
+            console.error("未知比赛阶段");
+    }
+
+    clearInterval(cache.switchSidesInterval);
+    cache.switchSidesInterval = setInterval(tryAdvanceMatchStage, 200);
+    tryAdvanceMatchStage();
+}
 
 function toggleAllowAutoPick(isAllow) {
     console.log('允许自动 BP: ' + isAllow);
@@ -139,6 +232,11 @@ async function doAutoPick(team, bid, type) {
         });
         console.log('自动 BP 操作: ' + beatmap);
         toggleAllowAutoPick(false);
+        // ban 操作不需要等打图，直接进入下一阶段
+        if (type == 'ban') {
+            setIsMatchStageAdvancing(1);
+        }
+        setTimeout(handleMatchStageChange, 100);
     }
 }
 
@@ -273,27 +371,46 @@ function tryAutoPick() {
     cache.lastChangedMapBid = null;
 }
 
-
-let currentOperation = null;
-
-document.getElementById("button-a-ban").addEventListener("click", function () {
-    // 激活自己，熄灭其他ban pick按钮
+function updateOperationDisplay() {
     deactivateButtons(
         "button-a-ban",
         "button-a-pick",
         "button-b-ban",
         "button-b-pick",
     );
-    activateButton("button-a-ban");
-    //去除team-a元素的background-color
-    document.getElementById("team-a").style.backgroundColor = "#824242";
-    //给team-b元素加上background-color
-    document.getElementById("team-b").style.backgroundColor = "#202d45";
+    switch (currentOperation.team) {
+        case "Red":
+            // 高亮 team-a
+            document.getElementById("team-a").style.backgroundColor = "#824242";
+            document.getElementById("team-b").style.backgroundColor = "#202d45";
+            if (currentOperation.type === "Pick") {
+                activateButton("button-a-pick");
+            }
+            else if (currentOperation.type === "Ban") {
+                activateButton("button-a-ban");
+            }
+            break;
+        case "Blue":
+            // 高亮 team-b
+            document.getElementById("team-a").style.backgroundColor = "#412121";
+            document.getElementById("team-b").style.backgroundColor = "#415a8a";
+            if (currentOperation.type === "Pick") {
+                activateButton("button-b-pick");
+            }
+            else if (currentOperation.type === "Ban") {
+                activateButton("button-b-ban");
+            }
+            break;
+    }
+}
+
+document.getElementById("button-a-ban").addEventListener("click", function () {
     // 准备好全局变量，类似于{ "team": "Red", "type": "Pick", "beatmapID": 2194138 }，只不过没有beatmapId
     currentOperation = {
         team: "Red",
         type: "Ban",
     };
+    updateOperationDisplay();
 
     toggleAllowAutoPick(true);
     tryAutoPick();
@@ -301,68 +418,35 @@ document.getElementById("button-a-ban").addEventListener("click", function () {
 document
     .getElementById("button-a-pick")
     .addEventListener("click", function () {
-        // 激活自己，熄灭其他ban pick按钮
-        deactivateButtons(
-            "button-a-ban",
-            "button-a-pick",
-            "button-b-ban",
-            "button-b-pick",
-        );
-        activateButton("button-a-pick");
-        //去除team-a元素的background-color
-        document.getElementById("team-a").style.backgroundColor = "#824242";
-        //给team-b元素加上background-color
-        document.getElementById("team-b").style.backgroundColor = "#202d45";
         currentOperation = {
             team: "Red",
             type: "Pick",
         };
 
+        updateOperationDisplay();
         toggleAllowAutoPick(true);
         tryAutoPick();
     });
 
 document.getElementById("button-b-ban").addEventListener("click", function () {
-    // 激活自己，熄灭其他ban pick按钮
-    deactivateButtons(
-        "button-a-ban",
-        "button-a-pick",
-        "button-b-ban",
-        "button-b-pick",
-    );
-    activateButton("button-b-ban");
-    //去除team-b元素的background-color
-    document.getElementById("team-b").style.backgroundColor = "#415a8a";
-    //给team-a元素加上background-color
-    document.getElementById("team-a").style.backgroundColor = "#412121";
     currentOperation = {
         team: "Blue",
         type: "Ban",
     };
 
+    updateOperationDisplay();
     toggleAllowAutoPick(true);
     tryAutoPick();
 });
 document
     .getElementById("button-b-pick")
     .addEventListener("click", function () {
-        // 激活自己，熄灭其他ban pick按钮
-        deactivateButtons(
-            "button-a-ban",
-            "button-a-pick",
-            "button-b-ban",
-            "button-b-pick",
-        );
-        activateButton("button-b-pick");
-        //去除team-b元素的background-color
-        document.getElementById("team-b").style.backgroundColor = "#415a8a";
-        //给team-a元素加上background-color
-        document.getElementById("team-a").style.backgroundColor = "#412121";
         currentOperation = {
             team: "Blue",
             type: "Pick",
         };
 
+        updateOperationDisplay();
         toggleAllowAutoPick(true);
         tryAutoPick();
     });
@@ -377,6 +461,12 @@ document
                 type: "Blank",
                 beatmapId: "RED_BLANK",
             });
+            currentOperation = {
+                team: "Red",
+                type: "Blank",
+            };
+            cache.pickedMaps.push("RED_BLANK");
+            handleMatchStageChange();
         }
     });
 document
@@ -390,6 +480,12 @@ document
                 type: "Blank",
                 beatmapId: "BLUE_BLANK",
             });
+            currentOperation = {
+                team: "Blue",
+                type: "Blank",
+            };
+            cache.pickedMaps.push("BLUE_BLANK");
+            handleMatchStageChange();
         }
     });
 
@@ -472,10 +568,6 @@ function toggleEnableAutoPick(isEnable) {
     }
 }
 
-
-const TEAM_RED = "Red";
-const TEAM_BLUE = "Blue";
-
 /**
  * 轮次切换时触发，从Localstorage找回所有之前的Ban Pick操作，并显示在界面上
  */
@@ -496,20 +588,6 @@ function restoreBeatmapSelection() {
             })
         }
     }
-}
-
-/**
- * 追加一个对谱面的操作到上方
- *
- * 这两个if块可以提取共通逻辑，后续优化
- * @param beatmap
- * @param mods
- */
-function appendOperation(beatmap) {
-    // Ensure auto pick only works for the current operation
-    toggleAllowAutoPick(false);
-
-    applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), { animate: true })
 }
 
 function onCurrentRoundChange() {
@@ -592,9 +670,13 @@ function setupMapListeners(map) {
 
             applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), true);
             applyOperationStyles(map, currentOperation);
-        }
 
-        currentOperation = null;
+            if (currentOperation.type === 'Ban' || currentOperation.type === 'Blank') {
+                setIsMatchStageAdvancing(1);
+            }
+
+            setTimeout(handleMatchStageChange, 100);
+        }
     });
 
     // 删除操作
@@ -643,10 +725,10 @@ function applyOperationStyles(map, operation) {
     if (operation.type === "Blank") {
         return;
     }
-    if(!operation) {
+    if (!operation) {
         return;
     }
-    if(cache.pickedMaps.includes(map.id)) {
+    if (cache.pickedMaps.includes(map.id)) {
         return;
     }
     // 清除所有样式

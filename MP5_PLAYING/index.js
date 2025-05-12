@@ -2,10 +2,13 @@
 import WebSocketManager from '../COMMON/lib/socket.js';
 
 import {
+    fetchBracketData,
     getModEnumFromModString,
     getModNameAndIndexById,
     getStoredBeatmapById,
-    getTeamFullInfoByName
+    getTeamFullInfoByName,
+    setIsMatchStageAdvancing,
+    getIsMatchStageAdvancing
 } from "../COMMON/lib/bracket.js";
 import { CountUp } from '../COMMON/lib/countUp.min.js';
 import { Odometer } from '../COMMON/lib/odometer-countup.js';
@@ -173,6 +176,16 @@ function handleIpcStateChange(state) {
             cache.stateTimer = setTimeout(() => {
                 toggleChat(true);
             }, 10000);
+
+            // 设置比赛进程更新 flag
+            let currentMatchAdvanceCount = getIsMatchStageAdvancing();
+            if (currentMatchAdvanceCount === 0 || currentMatchAdvanceCount === false) {
+                setIsMatchStageAdvancing(1);
+                console.log('设置比赛进程更新 flag');
+            } else {
+                setIsMatchStageAdvancing(currentMatchAdvanceCount + 1);
+                console.warn('比赛进程更新计数非零，是否有未操作的选图？');
+            }
             break;
     }
 }
