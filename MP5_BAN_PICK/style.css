@@ -37,8 +37,8 @@ body {
     --text-color: #ffffff;
     --font-family-han: 'Resource-Han-Rounded-CN-Regular', sans-serif;
     --font-family-torus: 'TorusNotched-Regular', sans-serif;
-    --gap: 20px;
-    --player-avatar-size: 101px;
+    --gap: 10px;
+    --player-avatar-size: 50px;
     --team-avatar-width: 121px;
     --team-avatar-height: 88px;
 
@@ -114,24 +114,24 @@ body {
     flex-direction: column;
     gap: var(--gap);
     width: 400px;
-    height: 1000px;
+    height: 500px;
     position: absolute;
 }
 
 #team-a-player-list {
     left: 28px;
-    top: 280px;
+    top: 240px;
 }
 
 #team-b-player-list {
     right: 28px;
-    top: 280px;
+    top: 240px;
 }
 
 
 .team-a-player, .team-b-player {
     position: relative;
-    height: 101px;
+    height: 60px;
     width: 400px;
     display: flex;
     align-items: center; /* 让内容在纵向上居中 */
@@ -150,21 +150,21 @@ body {
 
 .team-a-player-name, .team-b-player-name {
     font-family: var(--font-family-torus);
-    font-size: 35px;
+    font-size: 30px;
     color: var(--text-color);
     position: absolute;
     width: 300px;
-    height: 35px;
+    height: 30px;
 }
 
 .team-a-player-name {
-    left: 120px;
-    top: 30px;
+    left: 90px;
+    top: 15px;
 }
 
 .team-b-player-name {
-    right: 120px;
-    top: 30px;
+    right: 90px;
+    top: 15px;
     text-align: right;
 }
 
