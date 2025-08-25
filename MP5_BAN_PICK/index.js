@@ -17,7 +17,7 @@ import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
 
 console.log(MatchStages);
 
-const socket = new WebSocketManager('127.0.0.1:24050');
+const socket = new WebSocketManager(`${window.location.hostname}:24050`);
 
 const TEAM_RED = "Red";
 const TEAM_BLUE = "Blue";
@@ -638,8 +638,6 @@ function onCurrentRoundChange() {
         // 将文档片段添加到DOM中
         mapPool.appendChild(fragment);
 
-        // 统计mod下map的数量，如果大于4 则添加map-pool-wide类
-        countMapsAndAddWideClass();
         reloadOperationStyles();
     });
 
@@ -710,14 +708,14 @@ function setupMapListeners(map) {
 
         // 从localstorage删除操作
         deleteBeatmapSelectionById(beatmapId);
+        handleMatchStageChange();
 
         event.preventDefault();
     });
 }
 
 /**
- * 将选图情况更新至控制台
- * 目前的实现很脏而且效率很低
+ * 将选图情况更新至控制台, [FIXME] 目前的实现很脏而且效率很低
  * @param {Element} map 发起选图的控制台按钮
  * @param {*} operation
  */
@@ -792,17 +790,6 @@ function reloadOperationStyles() {
     });
 }
 
-function countMapsAndAddWideClass() {
-    const mods = document.getElementsByClassName("map-pool-mod");
-    for (let i = 0; i < mods.length; i++) {
-        const mod = mods[i];
-        const maps = mod.getElementsByClassName("map-pool-button-base");
-        if (maps.length > 4) {
-            mod.classList.add("map-pool-wide");
-        }
-    }
-}
-
 let locked = false;
 
 document
@@ -866,3 +853,19 @@ document.getElementById("lock").addEventListener("click", function () {
 document.addEventListener("contextmenu", function (event) {
     event.preventDefault();
 });
+
+const debug = true;
+
+if (debug) {
+    drawTeamAndPlayerInfo({
+        manager: {
+            teamName: {
+                left: 'liliaceae213',
+                right: '22S 5dW'
+            }
+        }
+    }, {
+        leftTeam: '',
+        rightTeam: '',
+    })
+}

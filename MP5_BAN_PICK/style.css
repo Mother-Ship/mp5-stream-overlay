@@ -50,20 +50,20 @@ body {
 #team-a, #team-b {
     position: absolute;
     width: 451px;
-    height: 1328px;
+    height: 1113px;
     border-radius: 40px;
 
 }
 
 #team-a {
-    top: 56px;
+    top: 26px;
     left: 39px;
     background-color: #412121;
 }
 
 #team-b {
-    top: 56px;
-    right: 53px;
+    top: 26px;
+    right: 39px;
     background-color: #202d45;
 }
 
@@ -114,7 +114,7 @@ body {
     flex-direction: column;
     gap: var(--gap);
     width: 400px;
-    height: 500px;
+    height: 650px;
     position: absolute;
 }
 
@@ -203,7 +203,7 @@ body {
 
 #operation-container {
     position: absolute;
-    width: 1419px;
+    width: 1433px;
     height: 1101px;
     left: 557px;
     top: 26px;
@@ -266,6 +266,7 @@ body {
     width: 602px;
     height: 100px;
     border-radius: 35px;
+    z-index: 20;
 }
 
 
@@ -610,9 +611,8 @@ body {
 
 .map-pool-control {
     position: absolute;
-    right: 50px;
-
-    top: 45px;
+    left: 50px;
+    bottom: 273px;
 }
 
 .ban-pick-control {
@@ -629,19 +629,12 @@ body {
 }
 
 .map-pool-mod {
-    /*用height控制4行*/
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    height: 180px;
-    justify-content: center;
+    height: 250px;
     gap: 15px;
-
-}
-
-.map-pool-wide {
-    /*fking obs issue*/
-    width: 310px;
+    justify-content: end;
 }
 
 #map-pool-mod-container {
@@ -651,7 +644,7 @@ body {
 
 .map-pool-button-base {
     border-radius: 8px;
-    width: 150px;
+    width: 80px;
     height: 28px;
     background-color: transparent;
     color: #FFFFFF;
@@ -735,4 +728,77 @@ body {
 .map-pool-button-b-ban {
     background-color: #64cafd;
     filter: brightness(0.5);
+}
+
+.content-cross {
+    content: "×";
+}
+
+.content-tick {
+    content: "√"
+}
+
+.grow-bg-red::after {
+    background-color: #824242;
+}
+
+.grow-bg-blue::after {
+    background-color: #415a8a;
+}
+
+.grow-left::after {
+    content: "⭐";
+    right: calc(100% - 40px);
+    position: absolute;
+    top: 0;
+    width: 67px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 35px 0 0 35px;
+    z-index: -1; 
+    box-sizing: border-box;
+    padding-right: 15px;
+    animation: slide-left 1s; 
+}
+
+.grow-right::after {
+    content: "⭐";
+    left: calc(100% - 40px);
+    position: absolute;
+    top: 0;
+    width: 67px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 0 35px 35px 0;
+    z-index: -1; 
+    box-sizing: border-box;
+    padding-left: 15px;
+    animation: slide-right 1s; 
+}
+
+@keyframes slide-right {
+    0% {
+        left: calc(100% - 75px);
+    }
+    
+    100% {
+        left: calc(100% - 40px);
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        right: calc(100% - 75px);
+    }
+
+    100% {
+        right: calc(100% - 40px);
+    }
 }
