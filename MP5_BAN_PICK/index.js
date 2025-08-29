@@ -263,6 +263,7 @@ async function applyOperationToDOM(team, bid, type, animate = true) {
 
         if (type === "blank") {
             operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
+            animate && operation.classList.add('animated');
             operationContainer.appendChild(operation);
             return operation;
         }
@@ -455,7 +456,10 @@ document
     .addEventListener("click", function () {
         // 如果没有ID为team-a-blank的子元素则创建
         if (!document.getElementById("team-a-blank")) {
-            applyOperationToDOM(TEAM_RED, -1, "blank", false);
+            this.classList.remove('button-active');
+            this.classList.add('button-inactive');
+
+            applyOperationToDOM(TEAM_RED, -1, "blank", true);
             storeBeatmapSelection({
                 team: "Red",
                 type: "Blank",
@@ -474,7 +478,10 @@ document
     .addEventListener("click", function () {
         // 如果没有ID为team-b-blank的子元素则创建
         if (!document.getElementById("team-b-blank")) {
-            applyOperationToDOM(TEAM_BLUE, -1, "blank", false);
+            this.classList.remove('button-active');
+            this.classList.add('button-inactive');
+
+            applyOperationToDOM(TEAM_BLUE, -1, "blank", true);
             storeBeatmapSelection({
                 team: "Blue",
                 type: "Blank",
@@ -526,6 +533,12 @@ document
 
                 toggleAllowAutoPick(false);
                 cache.pickedMaps = [];
+
+                // [TODO] 将空操作按键状态抽象成单一的函数
+                document.getElementById('button-a-blank').classList.remove('button-inactive');
+                document.getElementById('button-b-blank').classList.remove('button-inactive');
+                document.getElementById('button-a-blank').classList.add('button-active');
+                document.getElementById('button-b-blank').classList.add('button-active');
         };
     });
 
@@ -537,6 +550,9 @@ document
         operationContainer.removeChild(document.getElementById("team-a-blank"));
         // 从localstorage删除操作
         deleteBeatmapSelectionById("RED_BLANK");
+
+        this.classList.remove('button-inactive');
+        this.classList.add('button-active');
     });
 document
     .getElementById("button-b-blank")
@@ -546,6 +562,9 @@ document
         operationContainer.removeChild(document.getElementById("team-b-blank"));
         // 从localstorage删除操作
         deleteBeatmapSelectionById("BLUE_BLANK");
+
+        this.classList.remove('button-inactive');
+        this.classList.add('button-active');
     });
 document
     .getElementById("button-auto-picks")
@@ -585,6 +604,16 @@ function restoreBeatmapSelection() {
             beatmapSelections.forEach(operation => {
                 const { team, type } = operation;
                 applyOperationToDOM(team, Number(operation.beatmapId), type.toLocaleLowerCase(), false);
+
+                if (type === 'Blank') {
+                    let el = document.getElementById(
+                        team === TEAM_RED ? 
+                        'button-a-blank' :
+                        'button-b-blank'
+                    );
+                    el.classList.remove('button-active');
+                    el.classList.add('button-inactive');
+                }
             })
         }
     }

@@ -249,6 +249,7 @@ body {
     position: relative;
     width: 602px;
     height: 100px;
+    background-image: url('../COMMON/img/pick_blank.png');
 }
 
 /*单个Ban选图*/
