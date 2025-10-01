@@ -35,44 +35,85 @@ export function getTeamFullInfoByName(teamName) {
     });
 }
 
-export function getModNameAndIndexById(bid) {
+function getBeatmapListGroupedByRoundAndMods() {
     return fetchBracketData().then(data => {
-        let findedMap = null;
-        let mods = '';
-        let index = 1;
+        const structured = {};
+        for (const round of data.Rounds) {
+            if (Array.isArray(round.Beatmaps)) {
+                structured[round.Name] = {};
+                for (const beatmap of round.Beatmaps) {
+                    if (!structured[round.Name][beatmap.Mods]) {
+                        structured[round.Name][beatmap.Mods] = [];
+                    }
+                    structured[round.Name][beatmap.Mods].push(beatmap);
+                }
+            }
+        }
+        return structured;
+    });
+}
+
+export function getStructuredBeatmapsByRound(roundName) {
+    return getBeatmapListGroupedByRoundAndMods().then(data => data[roundName] || {});
+}
+
+export function getBeatmapLookupByBeatmapID() {
+    // This implementation doesn't work when the same beatmap is present multiple times, or in multiple rounds
+    return fetchBracketData().then(data => {
+        const reverseLookup = {};
         for (const round of data.Rounds) {
             if (Array.isArray(round.Beatmaps)) {
                 for (const beatmap of round.Beatmaps) {
-                    if (beatmap.Mods !== mods) {
-                        index = 1;
-                    }
-                    mods = beatmap.Mods;
-                    if (beatmap.ID === bid) {
-                        findedMap = beatmap;
-                        // 退出2层循环
-                        break;
-                    }
-                    index++;
+                    reverseLookup[beatmap.ID] = beatmap;
                 }
             }
-            if (findedMap) {
+        }
+        return reverseLookup;
+    });
+}
+
+export function getModNameAndIndexById(bid) {
+    return getBeatmapListGroupedByRoundAndMods().then(data => {
+        console.log('Searching for bid:', bid);
+        let foundMap = null;
+        let mods = '';
+        let index = '';
+        for (const roundName in data) {
+            const round = data[roundName];
+            for (const modName in round) {
+                const beatmaps = round[modName];
+                for (let i = 0; i < beatmaps.length; i++) {
+                    const beatmap = beatmaps[i];
+                    if (beatmap.ID === bid) {
+                        foundMap = beatmap;
+                        mods = modName;
+                        index = round[modName].length > 1 ? (i + 1) : ''; // 序号通常从1开始计数
+                        break;
+                    }
+                }
+                if (foundMap) {
+                    break;
+                }
+            }
+            if (foundMap) {
                 break;
             }
         }
-        if (findedMap) {
+        if (foundMap) {
             return {
-                modName: findedMap.Mods,
-                index: index // 序号通常从1开始计数
+                modName: mods,
+                index: index
             };
         } else {
-            // throw new Error(`Beatmap with ID ${bid} not found.`);
+            console.warn(`Beatmap with ID ${bid} not found.`);
             return {
-                modName: "00",
-                index: 0,
-            } 
+                modName: "UN",
+                index: -1,
+            };
         }
     });
 }
+
 
 export function getFullBeatmapFromBracketById(bid) {
     return fetchBracketData().then(data => {
