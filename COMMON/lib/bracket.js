@@ -107,8 +107,8 @@ export function getModNameAndIndexById(bid) {
         } else {
             console.warn(`Beatmap with ID ${bid} not found.`);
             return {
-                modName: "UN",
-                index: -1,
+                modName: "",
+                index: "",
             };
         }
     });
