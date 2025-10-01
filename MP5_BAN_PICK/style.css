@@ -73,6 +73,7 @@ body {
     width: var(--team-avatar-width);
     height: var(--team-avatar-height);
     object-fit: contain;
+    border-radius: 10px;
 }
 
 #team-a-avatar {
