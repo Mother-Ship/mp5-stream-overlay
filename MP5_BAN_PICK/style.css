@@ -630,6 +630,13 @@ body {
     gap: 6px;
 }
 
+.undo-control {
+    position: absolute;
+    left: 1350px;
+    top: 45px;
+    width: 300px;
+}
+
 .map-pool-mod {
     display: flex;
     flex-wrap: wrap;

@@ -3,6 +3,7 @@ import {
     deleteBeatmapSelectionById,
     getAllRound,
     getBeatmapListByRoundName,
+    getStructuredBeatmapsByRound,
     getFullBeatmapFromBracketById,
     getIsMatchStageAdvancing,
     getModNameAndIndexById,
@@ -103,6 +104,10 @@ function tryAdvanceMatchStage() {
 function handleMatchStageChange() {
     // 使用选过的图的数量作为当前比赛阶段，避免额外存状态变量
     cache.currentMatchStageIndex = cache.pickedMaps.length;
+    if (cache.currentMatchStageIndex <= 0) {
+        console.warn('是否已经清空所有操作？');
+        return;
+    }
     cache.currentMatchStage = MatchStages[cache.currentMatchStageIndex];
     if (cache.currentMatchStage === null || cache.currentMatchStage === undefined) {
         console.error("Invalid match stage");
@@ -607,9 +612,9 @@ function restoreBeatmapSelection() {
 
                 if (type === 'Blank') {
                     let el = document.getElementById(
-                        team === TEAM_RED ? 
-                        'button-a-blank' :
-                        'button-b-blank'
+                        team === TEAM_RED ?
+                            'button-a-blank' :
+                            'button-b-blank'
                     );
                     el.classList.remove('button-active');
                     el.classList.add('button-inactive');
@@ -627,7 +632,7 @@ function onCurrentRoundChange() {
     restoreBeatmapSelection();
 
     // 根据场次名称找到本场谱面
-    getBeatmapListByRoundName(currentRoundName).then((beatmaps) => {
+    getStructuredBeatmapsByRound(currentRoundName).then(async beatmaps => {
         // 填充map-pool-mod-container
         const mapPool = document.getElementById("map-pool-mod-container");
         mapPool.innerHTML = "";
@@ -639,13 +644,18 @@ function onCurrentRoundChange() {
         // 创建一个文档片段
         const fragment = document.createDocumentFragment();
 
-        beatmaps.forEach((beatmap) => {
-            if (beatmap.Mods !== currentMod) {
-                currentMod = beatmap.Mods;
+        let flattenedBeatmaps = [];
+        for (let i of Object.values(beatmaps)) {
+            flattenedBeatmaps = flattenedBeatmaps.concat(i);
+        }
+
+        for (let beatmap of flattenedBeatmaps) {
+            let { modName, index } = await getModNameAndIndexById(beatmap.ID);
+            if (modName !== currentMod) {
+                currentMod = modName;
                 mod = document.createElement("div");
                 mod.className = "map-pool-mod";
                 fragment.appendChild(mod);
-                index = 0;
             }
 
             const map = document.createElement("button");
@@ -655,14 +665,14 @@ function onCurrentRoundChange() {
             map.id = `${beatmap.ID}`;
 
             // 生成HTML
-            map.innerText = currentMod + (index + 1);
+            map.innerText = currentMod + String(index);
             mod.appendChild(map);
 
             // 为map元素添加事件监听器
             setupMapListeners(map);
 
-            index++;
-        });
+            console.log(`appending map: ${map.id}`);
+        };
 
         // 将文档片段添加到DOM中
         mapPool.appendChild(fragment);
@@ -706,39 +716,7 @@ function setupMapListeners(map) {
         }
     });
 
-    // 删除操作
     map.addEventListener("contextmenu", (event) => {
-        console.log(beatmapId);
-        // 更新上方BanPick容器 删除对当前谱面的操作
-        const operationElements = [
-            document.getElementById("team-a-operation"),
-            document.getElementById("team-b-operation"),
-        ];
-
-        operationElements.forEach((element) => {
-            element
-                .querySelectorAll(`div[id="${beatmapId}"]`)
-                .forEach((operation) => {
-                    operation.classList.add("fade-out");
-                    setTimeout(function () {
-                        operation.remove();
-                    }, 500);
-                });
-        });
-
-        // 清理 pickedMaps 中的条目
-        cache.pickedMaps = cache.pickedMaps.filter((pickedBID) => pickedBID != beatmapId.toString());
-
-        // 删除控制台里的样式
-        map.classList.remove("map-pool-button-a-pick");
-        map.classList.remove("map-pool-button-a-ban");
-        map.classList.remove("map-pool-button-b-pick");
-        map.classList.remove("map-pool-button-b-ban");
-
-        // 从localstorage删除操作
-        deleteBeatmapSelectionById(beatmapId);
-        handleMatchStageChange();
-
         event.preventDefault();
     });
 }
@@ -819,6 +797,47 @@ function reloadOperationStyles() {
     });
 }
 
+function undoBeatmapSelection() {
+    let beatmapId = cache.pickedMaps.pop();
+    if (beatmapId) {
+        console.log("撤销操作: " + beatmapId);
+        // 更新上方BanPick容器 删除对当前谱面的操作
+        const operationElements = [
+            document.getElementById("team-a-operation"),
+            document.getElementById("team-b-operation"),
+        ];
+
+        operationElements.forEach((element) => {
+            element
+                .querySelectorAll(`div[id="${beatmapId}"]`)
+                .forEach((operation) => {
+                    operation.classList.add("fade-out");
+                    setTimeout(function () {
+                        operation.remove();
+                    }, 500);
+                });
+        });
+
+        // 清理 pickedMaps 中的条目
+        cache.pickedMaps = cache.pickedMaps.filter((pickedBID) => pickedBID != beatmapId.toString());
+
+        const map = document.getElementsByClassName('map-pool-button-base').namedItem(beatmapId);
+        console.log(map);
+        if (!map) {
+            console.warn("找不到对应的控制台按钮");
+        }
+        // 删除控制台里的样式
+        map.classList.remove("map-pool-button-a-pick");
+        map.classList.remove("map-pool-button-a-ban");
+        map.classList.remove("map-pool-button-b-pick");
+        map.classList.remove("map-pool-button-b-ban");
+
+        // 从localstorage删除操作
+        deleteBeatmapSelectionById(beatmapId);
+        handleMatchStageChange();
+    }
+}
+
 let locked = false;
 
 document
@@ -882,6 +901,8 @@ document.getElementById("lock").addEventListener("click", function () {
 document.addEventListener("contextmenu", function (event) {
     event.preventDefault();
 });
+
+document.getElementById("button-undo").addEventListener("click", undoBeatmapSelection);
 
 const debug = true;
 
