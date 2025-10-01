@@ -125,6 +125,16 @@ socket.api_v1(async ({menu}) => {
             mapLength.update(parsed.modded.beatmap.length);
             mapBpm.update(parsed.modded.beatmap.bpm.mostly); 
             mapStar.update(parsed.modded.difficulty.sr.toFixed(2));
+
+            if(['nm', 'hd', 'hr', 'dt', 'fm', 'tb'].includes(modNameAndIndex.modName.toLowerCase())) {
+                document.getElementById('map-slot-container').style.display = 'block';
+                document.getElementById('map-slot-label').innerText = modNameAndIndex.modName.toUpperCase() + modNameAndIndex.index;
+                document.getElementById('map-slot-label').style.color = `var(--mod-color-${modNameAndIndex.modName.toLowerCase()})`;
+            }
+            else {
+                document.getElementById('map-slot-container').style.display = 'none';
+                document.getElementById('map-slot-label').innerText = '';
+            }
         }
 
     } catch (error) {

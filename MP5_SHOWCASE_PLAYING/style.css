@@ -3,6 +3,15 @@
     src: url('../COMMON/font/ResourceHanRoundedCN-Regular.ttf');
 }
 
+:root {
+    --mod-color-nm: #B1C2C4;
+    --mod-color-hd: #FFB347;
+    --mod-color-hr: #FF6D6D;
+    --mod-color-dt: #CCA4F4;
+    --mod-color-fm: #7FB7E9;
+    --mod-color-tb: #8EDC76;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -165,4 +174,24 @@ body {
     mask: url(../COMMON/img/logo2.png) no-repeat;
     mask-size: 100% 100%;
     opacity: 0.62;
+}
+
+#map-slot-container {
+    position:absolute;
+    width: 90px;
+    height: 45px;
+    left: 0;
+    top: 0;
+    border-radius: 34px 5px 34px 5px;
+    background-color: #2f2b28;
+    z-index: 100;
+}
+
+#map-slot-label {
+    font-family: "Resource-Han-Rounded-CN-Regular", sans-serif;
+    font-size: 25px;
+    color: #ffffff;
+    line-height: 45px;
+    text-align: center;
+    display: block;
 }
