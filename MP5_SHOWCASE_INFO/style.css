@@ -7,6 +7,15 @@
     src: url('../COMMON/font/TorusNotched-Regular.ttf');
 }
 
+:root {
+    --mod-color-nm: #B1C2C4;
+    --mod-color-hd: #FFB347;
+    --mod-color-hr: #FF6D6D;
+    --mod-color-dt: #CCA4F4;
+    --mod-color-fm: #7FB7E9;
+    --mod-color-tb: #8EDC76;
+}
+
 body {
     margin: 0;
     padding: 0;
