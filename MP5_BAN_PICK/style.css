@@ -739,28 +739,11 @@ body {
     filter: brightness(0.5);
 }
 
-.content-cross {
-    content: "×";
-}
-
-.content-tick {
-    content: "√"
-}
-
-.grow-bg-red::after {
-    background-color: #824242;
-}
-
-.grow-bg-blue::after {
-    background-color: #415a8a;
-}
-
 .grow-left::after {
-    content: "⭐";
     right: calc(100% - 40px);
     position: absolute;
     top: 0;
-    width: 67px;
+    width: 70px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -771,14 +754,15 @@ body {
     box-sizing: border-box;
     padding-right: 15px;
     animation: slide-left 1s; 
+    content: attr(grow-winner-content);
+    background-color: #7f7f7f;
 }
 
 .grow-right::after {
-    content: "⭐";
     left: calc(100% - 40px);
     position: absolute;
     top: 0;
-    width: 67px;
+    width: 70px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -790,6 +774,8 @@ body {
     box-sizing: border-box;
     padding-left: 15px;
     animation: slide-right 1s; 
+    content: attr(grow-winner-content);
+    background-color: #7f7f7f;
 }
 
 @keyframes slide-right {

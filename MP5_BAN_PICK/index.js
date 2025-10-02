@@ -3,6 +3,7 @@ import {
     deleteBeatmapSelectionById,
     getAllRound,
     getBeatmapListByRoundName,
+    getStoredBeatmapById,
     getStructuredBeatmapsByRound,
     getFullBeatmapFromBracketById,
     getIsMatchStageAdvancing,
@@ -10,11 +11,13 @@ import {
     getStoredBeatmap,
     setIsMatchStageAdvancing,
     storeBeatmapSelection,
+    clearBeatmapSelections,
 } from "../COMMON/lib/bracket.js";
 
 import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
 import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
+import { getMatchStats, getMatchStatsById, setMatchStats } from "../COMMON/lib/mapStats.js";
 
 console.log(MatchStages);
 
@@ -37,6 +40,7 @@ const cache = {
 
     // list of BIDs of picked/banned maps
     pickedMaps: [],
+    mapWinners: {},
 
     // 存储当前比赛阶段
     currentMatchStageIndex: -1,
@@ -48,7 +52,10 @@ const cache = {
     matchStageTeams: {
         A: null,
         B: null,
-    }
+    },
+
+    leftStars: 0,
+    rightStars: 0,
 };
 
 let currentOperation = null;
@@ -904,7 +911,33 @@ document.addEventListener("contextmenu", function (event) {
 
 document.getElementById("button-undo").addEventListener("click", undoBeatmapSelection);
 
-const debug = true;
+async function updateMapWinners () {
+    const stats = getMatchStats();
+    if (!stats) return;
+    const beatmapSelectionDisplayElements = Array.from(document.querySelectorAll('.team-a-pick, .team-b-pick'));
+
+    Object.values(beatmapSelectionDisplayElements).forEach((el) => {
+        const bid = el.id;
+        const mapStats = stats[bid];
+        el.classList.remove('grow-left', 'grow-right');
+        let winnerDisplayContent = mapStats?.winner === TEAM_RED ? "🟥" : mapStats?.winner === TEAM_BLUE ? "🟦" : "";
+        el.setAttribute('grow-winner-content', winnerDisplayContent);
+        if (!winnerDisplayContent) return;
+        if (el.classList.contains('team-a-pick')) {
+            el.classList.add('grow-right');
+        }
+        else if (el.classList.contains('team-b-pick')) {
+            el.classList.add('grow-left');
+        }
+    });
+}
+
+function getReqParam(param) {
+    let url = new URL(window.location.href);
+    return url.searchParams.get(param);
+}
+
+const debug = getReqParam('debug') === 'true' || false;
 
 if (debug) {
     drawTeamAndPlayerInfo({
@@ -918,4 +951,56 @@ if (debug) {
         leftTeam: '',
         rightTeam: '',
     })
+
+    setInterval(() => {
+        let stats = getMatchStatsById('4274105');
+        stats = stats || {};
+        if (stats?.winner) {
+            stats.winner = null;
+        }
+        else {
+            stats.winner = TEAM_RED;
+        }
+        setMatchStats('4274105', stats);
+    }, 1000);
+    setMatchStats('5015923', { winner: TEAM_BLUE });
+    setMatchStats('4686313', { winner: TEAM_BLUE });
 }
+
+const updateMapWinnersInterval = setInterval(updateMapWinners, 200);
+updateMapWinners();
+
+function onStarChanged(team, oldStar, newStar) {
+    const starDiff = newStar - oldStar;
+    let currentStars = cache.leftStars + cache.rightStars;
+    const operations = getStoredBeatmap();
+    const pickOperations = Array.from(operations.values()).filter(op => op.type === 'Pick');
+
+    if (starDiff === 1) {
+        let stats = getMatchStatsById(pickOperations[currentStars]?.beatmapId);
+        stats = stats || {};
+        stats.winner = team;
+        setMatchStats(pickOperations[currentStars]?.beatmapId, stats);
+    }
+    else if (starDiff === -1) {
+        for(let i = currentStars - 1; i < pickOperations.length; i++) {
+            let stats = getMatchStatsById(pickOperations[i]?.beatmapId);
+            if (stats?.winner) {
+                delete stats.winner;
+                setMatchStats(pickOperations[i]?.beatmapId, stats);
+                break;
+            }
+        }
+    }
+}
+
+socket.api_v1(async ({ tourney }) => {
+    if(tourney.manager.stars.left != cache.leftStars) {
+        onStarChanged(TEAM_RED, cache.leftStars, tourney.manager.stars.left);
+        cache.leftStars = tourney.manager.stars.left;
+    }
+    if(tourney.manager.stars.right != cache.rightStars) {
+        onStarChanged(TEAM_BLUE, cache.rightStars, tourney.manager.stars.right);
+        cache.rightStars = tourney.manager.stars.right;
+    }
+});
