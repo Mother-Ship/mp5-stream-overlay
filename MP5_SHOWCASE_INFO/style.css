@@ -110,6 +110,7 @@ body {
 #map-icon-container img{
     width: 80px;
     height: 80px;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.5));
 }
 
 #map-data-container {
