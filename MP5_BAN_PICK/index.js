@@ -18,10 +18,15 @@ import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
 import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
 import { getMatchStats, getMatchStatsById, setMatchStats } from "../COMMON/lib/mapStats.js";
+import { BPOrderStore } from "./BPOrderStore.js";
 
 console.log(MatchStages);
 
 const socket = new WebSocketManager(`${window.location.hostname}:24050`);
+const BPOrderStoreInst = new BPOrderStore({
+    btnFirstBanRed: document.getElementById('button-first-ban-red'),
+    btnFirstBanBlue: document.getElementById('button-first-ban-blue'),
+});
 
 const TEAM_RED = "Red";
 const TEAM_BLUE = "Blue";
@@ -47,12 +52,6 @@ const cache = {
     currentMatchStage: null,
     currentOperationTeam: null,
     switchSidesInterval: null,
-
-    // 先 ban 方在 match stages 中记为 Team A
-    matchStageTeams: {
-        A: null,
-        B: null,
-    },
 
     leftStars: 0,
     rightStars: 0,
@@ -133,14 +132,12 @@ function handleMatchStageChange() {
     let lastStageTeamIsB = MatchStages[cache.currentMatchStageIndex - 1].team === 'B';
     let currentOperationTeamIsRed = currentOperation.team === 'Red';
     if (lastStageTeamIsB ^ currentOperationTeamIsRed) {
-        cache.matchStageTeams['A'] = TEAM_RED;
-        cache.matchStageTeams['B'] = TEAM_BLUE;
+        BPOrderStoreInst.setFirstBanTeam(TEAM_RED)
     }
     else {
-        cache.matchStageTeams['A'] = TEAM_BLUE;
-        cache.matchStageTeams['B'] = TEAM_RED;
+        BPOrderStoreInst.setFirstBanTeam(TEAM_BLUE)
     }
-    cache.currentOperationTeam = cache.matchStageTeams[cache.currentMatchStage.team];
+    cache.currentOperationTeam = BPOrderStoreInst.getCurrentMatchStageTeams()[cache.currentMatchStage.team];
 
     // 处理当前比赛阶段
     console.log("当前比赛阶段: " + cache.currentMatchStageIndex);
@@ -205,6 +202,15 @@ socket.api_v1(async ({ menu, tourney }) => {
                 // auto pick is possible, and map changed
                 doAutoPick(currentOperation.team == 'Red' ? TEAM_RED : TEAM_BLUE, menu.bm.id, currentOperation.type.toLowerCase());
             }
+        }
+
+        if (tourney.manager.stars.left != cache.leftStars) {
+            onStarChanged(TEAM_RED, cache.leftStars, tourney.manager.stars.left);
+            cache.leftStars = tourney.manager.stars.left;
+        }
+        if (tourney.manager.stars.right != cache.rightStars) {
+            onStarChanged(TEAM_BLUE, cache.rightStars, tourney.manager.stars.right);
+            cache.rightStars = tourney.manager.stars.right;
         }
     } catch (error) {
         console.log(error);
@@ -635,6 +641,8 @@ function onCurrentRoundChange() {
     document.getElementById("current-match").innerText =
         "当前场次：" + currentRoundName;
 
+    BPOrderStoreInst.clearFirstBanTeam();
+
     // 从Localstorage找回所有上方谱面操作
     restoreBeatmapSelection();
 
@@ -911,7 +919,7 @@ document.addEventListener("contextmenu", function (event) {
 
 document.getElementById("button-undo").addEventListener("click", undoBeatmapSelection);
 
-async function updateMapWinners () {
+async function updateMapWinners() {
     const stats = getMatchStats();
     if (!stats) return;
     const beatmapSelectionDisplayElements = Array.from(document.querySelectorAll('.team-a-pick, .team-b-pick'));
@@ -983,7 +991,7 @@ function onStarChanged(team, oldStar, newStar) {
         setMatchStats(pickOperations[currentStars]?.beatmapId, stats);
     }
     else if (starDiff === -1) {
-        for(let i = currentStars - 1; i < pickOperations.length; i++) {
+        for (let i = currentStars - 1; i < pickOperations.length; i++) {
             let stats = getMatchStatsById(pickOperations[i]?.beatmapId);
             if (stats?.winner) {
                 delete stats.winner;
@@ -994,13 +1002,23 @@ function onStarChanged(team, oldStar, newStar) {
     }
 }
 
-socket.api_v1(async ({ tourney }) => {
-    if(tourney.manager.stars.left != cache.leftStars) {
-        onStarChanged(TEAM_RED, cache.leftStars, tourney.manager.stars.left);
-        cache.leftStars = tourney.manager.stars.left;
+function onBPOrderBtnClick(ev) {
+    if (ev.target.classList.contains('button-active')) {
+        return;
     }
-    if(tourney.manager.stars.right != cache.rightStars) {
-        onStarChanged(TEAM_BLUE, cache.rightStars, tourney.manager.stars.right);
-        cache.rightStars = tourney.manager.stars.right;
+    if (ev.target.id === 'button-first-ban-red') {
+        BPOrderStoreInst.setFirstBanTeam(TEAM_RED);
     }
-});
+    else {
+        BPOrderStoreInst.setFirstBanTeam(TEAM_BLUE);
+    }
+}
+
+// [TODO] 在双方队旗边上显示先 ban / 先 pick
+function onBPOrderChanged(firstBanTeam) {
+}
+
+BPOrderStoreInst.onFirstBanUpdate(onBPOrderChanged);
+
+document.getElementById('button-first-ban-red').addEventListener('click', onBPOrderBtnClick);
+document.getElementById('button-first-ban-blue').addEventListener('click', onBPOrderBtnClick);

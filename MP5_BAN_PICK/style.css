@@ -637,6 +637,13 @@ body {
     width: 300px;
 }
 
+.bp-order-control {
+    position: absolute;
+    left: 1600px;
+    top: 45px;
+    width: 600px;
+}
+
 .map-pool-mod {
     display: flex;
     flex-wrap: wrap;
