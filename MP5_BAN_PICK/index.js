@@ -16,7 +16,8 @@ import {
 
 import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
-import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
+// import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
+const MatchStages = await fetch('../COMMON/data/matchstages.json').then(res => res.json());
 import { getMatchStats, getMatchStatsById, setMatchStats } from "../COMMON/lib/mapStats.js";
 import { BPOrderStore } from "./BPOrderStore.js";
 
@@ -640,6 +641,7 @@ function restoreBeatmapSelection() {
         // 恢复 BP 顺序计算
         if (beatmapSelections.length > 0) {
             let firstOperation = beatmapSelections[0];
+            // [FIXME] 复用更新分数时推测 BP 顺序的逻辑
             if (firstOperation.type === 'Ban') {
                 BPOrderStoreInst.setFirstBanTeam(firstOperation.team);
             }
