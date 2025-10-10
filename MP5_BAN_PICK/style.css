@@ -763,7 +763,7 @@ body {
     padding-right: 15px;
     animation: slide-left 1s; 
     content: attr(grow-winner-content);
-    background-color: #7f7f7f;
+    background-color: rgba(230, 230, 255, 0.15);
 }
 
 .grow-right::after {
@@ -783,7 +783,7 @@ body {
     padding-left: 15px;
     animation: slide-right 1s; 
     content: attr(grow-winner-content);
-    background-color: #7f7f7f;
+    background-color: rgba(230, 230, 255, 0.15);
 }
 
 @keyframes slide-right {
