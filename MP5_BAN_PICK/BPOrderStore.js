@@ -13,10 +13,27 @@ export class BPOrderStore {
     };
     props = {
         firstBanUpdateCallbacks: [],
+        bpimages: {
+            'RB': null,
+            'BB': null,
+            'RP': null,
+            'BP': null,
+        },
+        animationName: 'bp-order-fade-in',
     }
 
     constructor(views) {
         this.views = views;
+
+        // prefetch images
+        this.props.bpimages['RB'] = new Image();
+        this.props.bpimages['RB'].src = '../COMMON/img/icon/BP/RB.png';
+        this.props.bpimages['BB'] = new Image();
+        this.props.bpimages['BB'].src = '../COMMON/img/icon/BP/BB.png';
+        this.props.bpimages['RP'] = new Image();
+        this.props.bpimages['RP'].src = '../COMMON/img/icon/BP/RP.png';
+        this.props.bpimages['BP'] = new Image();
+        this.props.bpimages['BP'].src = '../COMMON/img/icon/BP/BP.png';
     }
 
     updateView() {
@@ -38,6 +55,37 @@ export class BPOrderStore {
             this.views.btnFirstBanBlue.classList.add('button-inactive');
             this.views.btnFirstBanBlue.classList.remove('button-active');
         }
+
+        // handle first ban / first pick display for both teams
+        const viewRed = this.views.imgBPOrderRed;
+        const viewBlue = this.views.imgBPOrderBlue;
+        if (this.states.firstBanTeam === TEAM_RED) {
+            viewRed.src = this.props.bpimages['RB'].src;
+            viewBlue.src = this.props.bpimages['BP'].src;
+            viewRed.style.display = 'block';
+            viewBlue.style.display = 'block';
+        }
+        else if (this.states.firstBanTeam === TEAM_BLUE) {
+            viewRed.src = this.props.bpimages['RP'].src;
+            viewBlue.src = this.props.bpimages['BB'].src;
+            viewRed.style.display = 'block';
+            viewBlue.style.display = 'block';
+        }
+        else {
+            // clear
+            viewRed.src = null;
+            viewBlue.src = null;
+            viewRed.style.display = 'none';
+            viewBlue.style.display = 'none';
+        }
+
+        viewRed.classList.remove(this.props.animationName);
+        viewBlue.classList.remove(this.props.animationName);
+        viewRed.classList.add(this.props.animationName);
+        viewBlue.classList.add(this.props.animationName);
+
+        viewRed.offsetWidth; // force reflow
+        viewBlue.offsetWidth;
     }
 
     setFirstBanTeam(team) {

@@ -74,16 +74,17 @@ body {
     height: var(--team-avatar-height);
     object-fit: contain;
     border-radius: 10px;
+    filter: drop-shadow(0 0 2px black);
 }
 
 #team-a-avatar {
     left: 28px;
-    top: 27px;
+    top: 19px;
 }
 
 #team-b-avatar {
     right: 28px;
-    top: 27px;
+    top: 19px;
 }
 
 
@@ -802,5 +803,34 @@ body {
 
     100% {
         right: calc(100% - 40px);
+    }
+}
+
+#team-a-bp-order {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    filter: drop-shadow(0 0 2px black);
+    border-radius: 40px 0 0 0;
+}
+
+#team-b-bp-order {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    filter: drop-shadow(0 0 2px black);
+    border-radius: 0 40px 0 0;
+}
+
+.bp-order-fade-in {
+    animation: bp-fade-in 0.5s ease;
+}
+
+@keyframes bp-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }
