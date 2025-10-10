@@ -37,8 +37,8 @@ body {
     --text-color: #ffffff;
     --font-family-han: 'Resource-Han-Rounded-CN-Regular', sans-serif;
     --font-family-torus: 'TorusNotched-Regular', sans-serif;
-    --gap: 10px;
-    --player-avatar-size: 50px;
+    --gap: 15px;
+    --player-avatar-size: 60px;
     --team-avatar-width: 121px;
     --team-avatar-height: 88px;
 
@@ -78,13 +78,13 @@ body {
 }
 
 #team-a-avatar {
-    left: 28px;
-    top: 19px;
+    left: 35px;
+    top: 37px;
 }
 
 #team-b-avatar {
-    right: 28px;
-    top: 19px;
+    right: 35px;
+    top: 37px;
 }
 
 
@@ -100,13 +100,13 @@ body {
 
 #team-a-name {
     left: 28px;
-    top: 115px;
+    top: 145px;
     text-align: left; /* 默认左对齐 */
 }
 
 #team-b-name {
     right: 28px;
-    top: 115px;
+    top: 145px;
     text-align: right; /* 右对齐 */
 }
 
@@ -122,12 +122,12 @@ body {
 
 #team-a-player-list {
     left: 28px;
-    top: 270px;
+    top: 300px;
 }
 
 #team-b-player-list {
     right: 28px;
-    top: 270px;
+    top: 300px;
 }
 
 
@@ -160,12 +160,12 @@ body {
 }
 
 .team-a-player-name {
-    left: 90px;
+    left: 85px;
     top: 15px;
 }
 
 .team-b-player-name {
-    right: 90px;
+    right: 85px;
     top: 15px;
     text-align: right;
 }
@@ -808,18 +808,18 @@ body {
 
 #team-a-bp-order {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 20px;
+    left: 20px;
     filter: drop-shadow(0 0 2px black);
-    border-radius: 40px 0 0 0;
+    border-radius: 20px 0 0 20px;
 }
 
 #team-b-bp-order {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 20px;
+    right: 20px;
     filter: drop-shadow(0 0 2px black);
-    border-radius: 0 40px 0 0;
+    border-radius: 0 20px 20px 0;
 }
 
 .bp-order-fade-in {
