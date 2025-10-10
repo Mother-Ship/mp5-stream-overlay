@@ -636,6 +636,14 @@ function restoreBeatmapSelection() {
                 }
             })
         }
+
+        // 恢复 BP 顺序计算
+        if (beatmapSelections.length > 0) {
+            let firstOperation = beatmapSelections[0];
+            if (firstOperation.type === 'Ban') {
+                BPOrderStoreInst.setFirstBanTeam(firstOperation.team);
+            }
+        }
     }
 }
 
