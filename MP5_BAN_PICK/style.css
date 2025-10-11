@@ -815,7 +815,6 @@ body {
     box-sizing: border-box;
     padding-right: 15px;
     animation: slide-left 1s; 
-    content: attr(grow-winner-content);
     background-color: rgba(230, 230, 255, 0.2);
 }
 
@@ -835,8 +834,15 @@ body {
     box-sizing: border-box;
     padding-left: 15px;
     animation: slide-right 1s; 
-    content: attr(grow-winner-content);
     background-color: rgba(230, 230, 255, 0.2);
+}
+
+.grow-winner-red::after {
+    content: "❤️";
+}
+
+.grow-winner-blue::after {
+    content: "💙";
 }
 
 @keyframes slide-right {

@@ -939,10 +939,10 @@ async function updateMapWinners() {
     Object.values(beatmapSelectionDisplayElements).forEach((el) => {
         const bid = el.id;
         const mapStats = stats[bid];
-        el.classList.remove('grow-left', 'grow-right');
-        let winnerDisplayContent = mapStats?.winner === TEAM_RED ? "❤️" : mapStats?.winner === TEAM_BLUE ? "🩵" : "";
-        el.setAttribute('grow-winner-content', winnerDisplayContent);
-        if (!winnerDisplayContent) return;
+        el.classList.remove('grow-left', 'grow-right', 'grow-winner-red', 'grow-winner-blue');
+        let winnerDisplayClass = mapStats?.winner === TEAM_RED ? "grow-winner-red" : mapStats?.winner === TEAM_BLUE ? "grow-winner-blue" : "";
+        if (!winnerDisplayClass) return;
+        el.classList.add(winnerDisplayClass);
         if (el.classList.contains('team-a-pick')) {
             el.classList.add('grow-right');
         }
