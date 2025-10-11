@@ -68,17 +68,17 @@ body {
 }
 
 /* 头像和队名 */
-#team-a-avatar-bg{
+#team-a-avatar-cover{
     top: 20px;
     left: 20px;
 }
 
-#team-b-avatar-bg{
+#team-b-avatar-cover{
     top: 20px;
     right: 20px;
 }
 
-#team-a-avatar-bg, #team-b-avatar-bg {
+#team-a-avatar-cover, #team-b-avatar-cover {
     overflow: hidden;
     height: 140px;
     position: absolute;
@@ -86,7 +86,7 @@ body {
     border-radius: 20px;
 }
 
-#team-a-avatar-bg-inner, #team-b-avatar-bg-inner {
+#team-a-avatar-cover-inner, #team-b-avatar-cover-inner {
     width: 0;
     height: 0;
     border-top: 420px solid transparent;
@@ -97,11 +97,11 @@ body {
     transform: translateY(-50%);
 }
 
-#team-a-avatar-bg-inner {
+#team-a-avatar-cover-inner {
     border-left: 280px solid rgba(255,255,255,0.2);
 }
 
-#team-b-avatar-bg-inner {
+#team-b-avatar-cover-inner {
     border-right: 280px solid rgba(255,255,255,0.2);
 }
 
@@ -111,15 +111,31 @@ body {
     height: var(--team-avatar-height);
     object-fit: contain;
     border-radius: 10px;
+}
+
+#team-a-avatar-bg, #team-b-avatar-bg {
+    position: absolute;
+    width: var(--team-avatar-width);
+    height: var(--team-avatar-height);
+    overflow: hidden;
+    border-radius: 10px;
     filter: drop-shadow(0 0 2px black);
 }
 
-#team-a-avatar {
+#team-a-avatar-bg-inner, #team-b-avatar-bg-inner {
+    width: var(--team-avatar-width);
+    height: var(--team-avatar-height);
+    object-fit: cover;
+    filter: blur(15px);
+    scale: 1.1;
+}
+
+#team-a-avatar, #team-a-avatar-bg {
     left: 40px;
     top: 40px;
 }
 
-#team-b-avatar {
+#team-b-avatar, #team-b-avatar-bg {
     right: 40px;
     top: 40px;
 }

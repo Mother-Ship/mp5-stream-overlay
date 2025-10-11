@@ -58,20 +58,22 @@ function appendPlayersToList(players, listId, teamName) {
 function setLeftTeamAvatar(acronym) {
     var basePath = "../COMMON/img/flag/" + acronym;
     var imgElement = document.getElementById("team-a-avatar");
-    setTeamAvatar(imgElement, basePath);
+    var imgBgElement = document.getElementById("team-a-avatar-bg-inner");
+    setTeamAvatar(imgElement, imgBgElement, basePath);
 }
 
 function setRightTeamAvatar(acronym) {
     var basePath = "../COMMON/img/flag/" + acronym;
     var imgElement = document.getElementById("team-b-avatar");
-    setTeamAvatar(imgElement, basePath);
+    var imgBgElement = document.getElementById("team-b-avatar-bg-inner");
+    setTeamAvatar(imgElement, imgBgElement, basePath);
 }
 
 
 
-function setTeamAvatar(imgElement, basePath) {
+function setTeamAvatar(imgElement, imgBgElement, basePath) {
 
-    var imgFormats = ['jpg', 'jpeg', 'png']; // 支持的格式
+    var imgFormats = ['jpg', 'jpeg', 'png', 'svg']; // 支持的格式
     var found = false;
 
     imgFormats.forEach(function (format) {
@@ -79,7 +81,9 @@ function setTeamAvatar(imgElement, basePath) {
             var imgUrl = basePath + "." + format;
             var img = new Image();
             img.onload = function () {
+                console.log(imgUrl)
                 imgElement.src = imgUrl; // 加载成功，更新图片
+                imgBgElement.src = imgUrl;
                 found = true; // 停止尝试其他格式
             };
             img.onerror = function () {
