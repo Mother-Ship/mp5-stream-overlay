@@ -940,7 +940,7 @@ async function updateMapWinners() {
         const bid = el.id;
         const mapStats = stats[bid];
         el.classList.remove('grow-left', 'grow-right');
-        let winnerDisplayContent = mapStats?.winner === TEAM_RED ? "🟥" : mapStats?.winner === TEAM_BLUE ? "🟦" : "";
+        let winnerDisplayContent = mapStats?.winner === TEAM_RED ? "❤️" : mapStats?.winner === TEAM_BLUE ? "🩵" : "";
         el.setAttribute('grow-winner-content', winnerDisplayContent);
         if (!winnerDisplayContent) return;
         if (el.classList.contains('team-a-pick')) {

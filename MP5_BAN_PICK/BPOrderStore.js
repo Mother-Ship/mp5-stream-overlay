@@ -27,13 +27,13 @@ export class BPOrderStore {
 
         // prefetch images
         this.props.bpimages['RB'] = new Image();
-        this.props.bpimages['RB'].src = '../COMMON/img/icon/BP/RB.png';
+        this.props.bpimages['RB'].src = '../COMMON/img/icon/BP/RB.svg';
         this.props.bpimages['BB'] = new Image();
-        this.props.bpimages['BB'].src = '../COMMON/img/icon/BP/BB.png';
+        this.props.bpimages['BB'].src = '../COMMON/img/icon/BP/BB.svg';
         this.props.bpimages['RP'] = new Image();
-        this.props.bpimages['RP'].src = '../COMMON/img/icon/BP/RP.png';
+        this.props.bpimages['RP'].src = '../COMMON/img/icon/BP/RP.svg';
         this.props.bpimages['BP'] = new Image();
-        this.props.bpimages['BP'].src = '../COMMON/img/icon/BP/BP.png';
+        this.props.bpimages['BP'].src = '../COMMON/img/icon/BP/BP.svg';
     }
 
     updateView() {

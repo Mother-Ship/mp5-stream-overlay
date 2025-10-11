@@ -39,8 +39,8 @@ body {
     --font-family-torus: 'TorusNotched-Regular', sans-serif;
     --gap: 15px;
     --player-avatar-size: 60px;
-    --team-avatar-width: 121px;
-    --team-avatar-height: 88px;
+    --team-avatar-width: 150px;
+    --team-avatar-height: 100px;
 
     --team-a-color: #824242;
     --team-b-color: #415a8a;
@@ -68,6 +68,43 @@ body {
 }
 
 /* 头像和队名 */
+#team-a-avatar-bg{
+    top: 20px;
+    left: 20px;
+}
+
+#team-b-avatar-bg{
+    top: 20px;
+    right: 20px;
+}
+
+#team-a-avatar-bg, #team-b-avatar-bg {
+    overflow: hidden;
+    height: 140px;
+    position: absolute;
+    width: 280px;
+    border-radius: 20px;
+}
+
+#team-a-avatar-bg-inner, #team-b-avatar-bg-inner {
+    width: 0;
+    height: 0;
+    border-top: 420px solid transparent;
+    border-bottom: 420px solid transparent;
+    position: absolute;
+    top: 50%;
+    left: 0; 
+    transform: translateY(-50%);
+}
+
+#team-a-avatar-bg-inner {
+    border-left: 280px solid rgba(255,255,255,0.2);
+}
+
+#team-b-avatar-bg-inner {
+    border-right: 280px solid rgba(255,255,255,0.2);
+}
+
 #team-a-avatar, #team-b-avatar {
     position: absolute;
     width: var(--team-avatar-width);
@@ -78,13 +115,13 @@ body {
 }
 
 #team-a-avatar {
-    left: 35px;
-    top: 37px;
+    left: 40px;
+    top: 40px;
 }
 
 #team-b-avatar {
-    right: 35px;
-    top: 37px;
+    right: 40px;
+    top: 40px;
 }
 
 
@@ -100,13 +137,13 @@ body {
 
 #team-a-name {
     left: 28px;
-    top: 145px;
+    top: 160px;
     text-align: left; /* 默认左对齐 */
 }
 
 #team-b-name {
     right: 28px;
-    top: 145px;
+    top: 160px;
     text-align: right; /* 右对齐 */
 }
 
@@ -122,12 +159,12 @@ body {
 
 #team-a-player-list {
     left: 28px;
-    top: 300px;
+    top: 315px;
 }
 
 #team-b-player-list {
     right: 28px;
-    top: 300px;
+    top: 315px;
 }
 
 
@@ -763,7 +800,7 @@ body {
     padding-right: 15px;
     animation: slide-left 1s; 
     content: attr(grow-winner-content);
-    background-color: rgba(230, 230, 255, 0.15);
+    background-color: rgba(230, 230, 255, 0.2);
 }
 
 .grow-right::after {
@@ -783,7 +820,7 @@ body {
     padding-left: 15px;
     animation: slide-right 1s; 
     content: attr(grow-winner-content);
-    background-color: rgba(230, 230, 255, 0.15);
+    background-color: rgba(230, 230, 255, 0.2);
 }
 
 @keyframes slide-right {
@@ -806,20 +843,22 @@ body {
     }
 }
 
+#team-a-bp-order, #team-b-bp-order {
+    width: 140px;
+    height: auto;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+}
+
 #team-a-bp-order {
     position: absolute;
     top: 20px;
-    left: 20px;
-    filter: drop-shadow(0 0 2px black);
-    border-radius: 20px 0 0 20px;
+    left: 300px;
 }
 
 #team-b-bp-order {
     position: absolute;
     top: 20px;
-    right: 20px;
-    filter: drop-shadow(0 0 2px black);
-    border-radius: 0 20px 20px 0;
+    right: 300px;
 }
 
 .bp-order-fade-in {
