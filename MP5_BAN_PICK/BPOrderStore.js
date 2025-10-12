@@ -37,6 +37,7 @@ export class BPOrderStore {
     }
 
     updateView() {
+        /*
         if (this.states.firstBanTeam === TEAM_RED) {
             this.views.btnFirstBanRed.classList.add('button-active');
             this.views.btnFirstBanRed.classList.remove('button-inactive');
@@ -55,6 +56,22 @@ export class BPOrderStore {
             this.views.btnFirstBanBlue.classList.add('button-inactive');
             this.views.btnFirstBanBlue.classList.remove('button-active');
         }
+        */
+
+        let content = '<span>'
+
+        if (this.states.firstBanTeam === TEAM_RED) {
+            content += '先 Ban 队伍：红队（只读）';
+        }
+        else if (this.states.firstBanTeam === TEAM_BLUE) {
+            content += '先 Ban 队伍：蓝队（只读）';
+        }
+        else {
+            content += '点击第一个操作方以开始自动操作'
+        }
+
+        content += '，若出错请关闭自动 BP，手动重点 BP（可能也需要重点比分）</span>'
+        this.views.labelFirstBan.innerHTML = content;
 
         // handle first ban / first pick display for both teams
         const viewRed = this.views.imgBPOrderRed;

@@ -25,10 +25,11 @@ console.log(MatchStages);
 
 const socket = new WebSocketManager(`${window.location.hostname}:24050`);
 const BPOrderStoreInst = new BPOrderStore({
-    btnFirstBanRed: document.getElementById('button-first-ban-red'),
-    btnFirstBanBlue: document.getElementById('button-first-ban-blue'),
+    // btnFirstBanRed: document.getElementById('button-first-ban-red'),
+    // btnFirstBanBlue: document.getElementById('button-first-ban-blue'),
     imgBPOrderRed: document.getElementById('team-a-bp-order'),
     imgBPOrderBlue: document.getElementById('team-b-bp-order'),
+    labelFirstBan: document.getElementById('label-first-ban'),
 });
 
 const TEAM_RED = "Red";
