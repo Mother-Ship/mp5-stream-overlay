@@ -70,7 +70,7 @@ export class BPOrderStore {
             content += '点击第一个操作方以开始自动操作'
         }
 
-        content += '，若出错请关闭自动 BP，手动重点 BP（可能也需要重点比分）</span>'
+        content += '，若出错请关闭自动 BP，手动重点 BP（可能也需要重点比分）后再重新打开</span>'
         this.views.labelFirstBan.innerHTML = content;
 
         // handle first ban / first pick display for both teams
