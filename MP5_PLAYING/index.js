@@ -466,7 +466,7 @@ function setRightTeamAvatar(acronym) {
 
 function setTeamAvatar(imgElement, basePath) {
 
-    var imgFormats = ['jpg', 'jpeg', 'png']; // 支持的格式
+    var imgFormats = ['jpg', 'jpeg', 'png', 'webp', 'svg']; // 支持的格式
     var found = false;
 
     imgFormats.forEach(function (format) {
