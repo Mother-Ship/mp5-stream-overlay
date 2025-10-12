@@ -108,6 +108,19 @@ function tryAdvanceMatchStage() {
 }
 
 /**
+ * 处理撤销操作时的 match stage 变动
+ */
+function handleMatchStageUndone() {
+    cache.currentMatchStageIndex = Math.max(0, cache.currentMatchStageIndex - 1);
+    cache.currentMatchStage = MatchStages[cache.currentMatchStageIndex];
+    cache.currentOperationTeam = BPOrderStoreInst.getCurrentMatchStageTeams()[cache.currentMatchStage.team];
+    console.log('撤销操作, 当前比赛阶段: ' + cache.currentMatchStageIndex);
+    clearInterval(cache.switchSidesInterval);
+    setIsMatchStageAdvancing(1);
+    tryAdvanceMatchStage();
+}
+
+/**
  * 根据 matchstages.json 处理比赛阶段, 设置操作方, 设置 currentOperation 并处理选图方自动轮换
  */
 function handleMatchStageChange() {
@@ -861,7 +874,7 @@ function undoBeatmapSelection() {
 
         // 从localstorage删除操作
         deleteBeatmapSelectionById(beatmapId);
-        handleMatchStageChange();
+        handleMatchStageUndone();
     }
 }
 
