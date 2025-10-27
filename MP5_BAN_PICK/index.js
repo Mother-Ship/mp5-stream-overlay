@@ -18,7 +18,7 @@ import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
 // import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
 const MatchStages = await fetch('../COMMON/data/matchstages.json').then(res => res.json());
-import { getMatchStats, getMatchStatsById, setMatchStats } from "../COMMON/lib/mapStats.js";
+import { getMatchStats, getMatchStatsById, setMatchStats, clearMatchStats, removeMatchStatsById } from "../COMMON/lib/mapStats.js";
 import { BPOrderStore } from "./BPOrderStore.js";
 
 console.log(MatchStages);
@@ -557,7 +557,8 @@ document
                 document.getElementById("team-a-operation").innerHTML = "";
                 document.getElementById("team-b-operation").innerHTML = "";
                 document.getElementById("map-pool-mod-container").innerHTML = "";
-                localStorage.setItem("beatmapSelections", JSON.stringify([]));
+                clearBeatmapSelections();
+                clearMatchStats();
                 currentOperation = null;
                 onCurrentRoundChange();
 
@@ -875,6 +876,7 @@ function undoBeatmapSelection() {
 
         // 从localstorage删除操作
         deleteBeatmapSelectionById(beatmapId);
+        removeMatchStatsById(beatmapId);
         handleMatchStageUndone();
     }
 }
