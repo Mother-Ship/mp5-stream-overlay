@@ -182,13 +182,19 @@ class OsuParser {
     sectionReg = /^\[([0-9A-Za-z]+)\]$/;
 
     toBeatmap(content) {
+        const SR = this.getSR(content.original, 0);
         let bm = {
             difficulty: {
                 ar: Number(content.ApproachRate) || -1,
                 od: Number(content.OverallDifficulty) || -1,
                 cs: Number(content.CircleSize) || -1,
                 hp: Number(content.HPDrainRate) || -1,
-                sr: this.getSR(content.original, 0),
+                // [FIXME] ppy decided SR is truncated to 2 decimal places ingame
+                // while in the APIs it's rounded instead.
+                // Since map time is consistent with in-game values, stay with in-game values here
+                // but to avoid tinkering with multiple countUp instances, we truncate it here
+                sr: parseInt(SR * 100) / 100 || -1,
+                srCalculated: SR || -1, // keep the original value here. It's not used anywhere for now.
             },
             metadata: {
                 title: content.Title || '',
@@ -222,13 +228,15 @@ class OsuParser {
     };
 
     getModded (bm, mods = 0) {
+        const SR = this.getSR(bm.original, mods);
         let modded = {
             difficulty: {
                 ar: this.calcModdedAr(mods, 0, bm.difficulty.ar),
                 od: this.calcModdedOd(mods, 0, bm.difficulty.od),
                 cs: this.calcModdedCs(mods, 0, bm.difficulty.cs),
                 hp: this.calcModdedHp(mods, 0, bm.difficulty.hp),
-                sr: this.getSR(bm.original, mods),
+                sr: parseInt(SR * 100) / 100 || -1, // [FIXME] same as toBeatmap above
+                srCalculated: SR || -1,
             },
             metadata: bm.metadata,
             beatmap: {
@@ -336,6 +344,7 @@ class OsuParser {
             mostly: -1,
         };
 
+        // bpmList is a map of bpm to the total length of time that bpm lasts.
         let bpmList = {},
             lastBegin = 0, lastBPM = -1;
 
@@ -363,6 +372,7 @@ class OsuParser {
             if (this.DEBUG) {
                 console.log(`bpm list: ${JSON.stringify(bpmList)}`);
             }
+            // Find the most common bpm by duration.
             bpm.mostly = Number(Object.keys(bpmList).reduce((a, b) => bpmList[a] > bpmList[b] ? a : b));
         }
         return bpm;
