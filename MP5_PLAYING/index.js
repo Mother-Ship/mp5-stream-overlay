@@ -15,12 +15,16 @@ import { Odometer } from '../COMMON/lib/odometer-countup.js';
 import OsuParser from '../COMMON/lib/osuParser.js';
 import MapMock from '../COMMON/lib/mock.js';
 import { __wbg_init } from '../COMMON/lib/rosu-pp/rosu_pp.js';
+import { ChatRenderer } from '../COMMON/components/ChatRenderer.js';
 
 
 await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 const socket = new WebSocketManager('127.0.0.1:24050');
 const p = new OsuParser();
 const mock = new MapMock();
+const ChatRendererInst = new ChatRenderer({
+    chatContainer: document.getElementById("chat-content"),
+});
 
 await mock.init();
 
@@ -346,21 +350,7 @@ socket.api_v1(async ({ menu, tourney }) => {
         const chat = tourney.manager.chat;
         if (chat.length !== cache.chat.length) {
             cache.chat = chat;
-            const chatHtml = chat.map(item => {
-                switch (item.team) {
-                    case 'left':
-                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-                    case 'right':
-                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-                    case 'bot':
-                    case 'unknown':
-                        return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`
-
-                }
-            }).join('');
-            document.getElementById("chat-content").innerHTML = chatHtml;
-            var element = document.getElementById("chat-content");
-            element.scrollTop = element.scrollHeight;
+            ChatRendererInst.renderChatMessages(chat);
         }
         handleIpcStateChange(tourney.manager.ipcState || 0);
 
@@ -426,6 +416,12 @@ socket.api_v1(async ({ menu, tourney }) => {
 
 
         // 双边队名 旗帜
+        if (tourney.manager.teamName.left != cache.leftTeamName || tourney.manager.teamName.right != cache.rightTeamName) {
+            ChatRendererInst.updateTeams({
+                left: tourney.manager.teamName.left,
+                right: tourney.manager.teamName.right,
+            });
+        };
         const leftTeamName = tourney.manager.teamName.left;
         if (leftTeamName !== cache.leftTeamName) {
             cache.leftTeamName = leftTeamName;

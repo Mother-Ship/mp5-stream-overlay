@@ -14,6 +14,7 @@ import {
     clearBeatmapSelections,
 } from "../COMMON/lib/bracket.js";
 
+import { ChatRenderer } from "../COMMON/components/ChatRenderer.js";
 import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
 // import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
@@ -30,6 +31,9 @@ const BPOrderStoreInst = new BPOrderStore({
     imgBPOrderRed: document.getElementById('team-a-bp-order'),
     imgBPOrderBlue: document.getElementById('team-b-bp-order'),
     labelFirstBan: document.getElementById('label-first-ban'),
+});
+const ChatRendererInst = new ChatRenderer({
+    chatContainer: document.getElementById("chat-content"),
 });
 
 const TEAM_RED = "Red";
@@ -187,22 +191,13 @@ socket.api_v1(async ({ menu, tourney }) => {
         const chat = tourney.manager.chat;
         if (chat.length !== cache.chat.length) {
             cache.chat = chat;
-            const chatHtml = chat
-                .map((item) => {
-                    switch (item.team) {
-                        case "left":
-                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`;
-                        case "right":
-                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-b-name-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`;
-                        case "bot":
-                        case "unknown":
-                            return `<p><span class="time">${item.time}&nbsp;</span> <span class="unknown-chat">${item.name}:&nbsp;</span>${item.messageBody}</p>`;
-                    }
-                })
-                .join("");
-            document.getElementById("chat-content").innerHTML = chatHtml;
-            var element = document.getElementById("chat-content");
-            element.scrollTop = element.scrollHeight;
+            ChatRendererInst.renderChatMessages(chat);
+        }
+        if (cache.leftTeam != tourney.manager?.teamName.left || cache.rightTeam != tourney.manager?.teamName.right) {
+            ChatRendererInst.updateTeams({
+                left: tourney.manager.teamName.left,
+                right: tourney.manager.teamName.right,
+            });
         }
 
         drawTeamAndPlayerInfo(tourney, cache);
