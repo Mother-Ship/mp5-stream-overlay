@@ -695,7 +695,14 @@ body {
     position: absolute;
     left: 1600px;
     top: 45px;
-    width: 600px;
+    width: 900px;
+}
+
+.bp-order-buttons {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .map-pool-mod {
