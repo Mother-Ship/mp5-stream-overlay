@@ -17,6 +17,9 @@ import MapMock from '../COMMON/lib/mock.js';
 import { __wbg_init } from '../COMMON/lib/rosu-pp/rosu_pp.js';
 import { ChatRenderer } from '../COMMON/components/ChatRenderer.js';
 
+// SDC: player tier list
+import Players from "../COMMON/data/players.json" with { type: "json" };
+
 
 await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 const socket = new WebSocketManager('127.0.0.1:24050');
@@ -583,9 +586,56 @@ function setScoreBars(tourney) {
     const rightClients = tourney.ipcClients.filter(client => client.team === 'right');
     let scoreDiff = 0;
 
+    // Make a copy of the clients array to avoid modifying the original data
+    const leftClientsCopy = leftClients.map(client => ({ ...client }));
+    const rightClientsCopy = rightClients.map(client => ({ ...client }));
 
-    scores.left.score = (leftClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
-    scores.right.score = (rightClients.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
+    // SDC: EZ mod 2X 分数加成
+    leftClientsCopy.forEach(client => {    
+        if (client.gameplay.mods.str.includes("EZ")) {
+            client.gameplay.score *= 2;
+        }
+    })
+    rightClientsCopy.forEach(client => {    
+        if (client.gameplay.mods.str.includes("EZ")) {
+            client.gameplay.score *= 2;
+        }
+    });
+
+    // SDC: 根据选手 tier 计算全队分数加成
+    // 若 tier X 选手分数高于对方 Y 名选手，则全队分数获得 max(0.03 * (X + Y - 4), 0) 倍加成
+    let scoreMultiplier = [1, 1];
+    leftClientsCopy.forEach(client => {
+        const player = Players.find(player => player.uid === client.spectating.UserID);
+        const playerTier = player ? player.tier : 0;
+        let winOverCount = 0;
+        rightClientsCopy.forEach(opponentClient => {
+            if (client.gameplay.score > opponentClient.gameplay.score) {
+                winOverCount += 1;
+            }
+        });
+
+        scoreMultiplier[0] += Math.max(0.03 * (playerTier + winOverCount - 4), 0);
+    })
+    rightClientsCopy.forEach(client => {
+        const player = Players.find(player => player.uid === client.spectating.UserID);
+        const playerTier = player ? player.tier : 0;
+        let winOverCount = 0;
+        leftClientsCopy.forEach(opponentClient => {
+            if (client.gameplay.score > opponentClient.gameplay.score) {
+                winOverCount += 1;
+            }
+        });
+
+        scoreMultiplier[1] += Math.max(0.03 * (playerTier + winOverCount - 4), 0);
+    })
+
+    scores.left.score = (leftClientsCopy.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
+    scores.right.score = (rightClientsCopy.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
+
+    scores.left.score = Math.floor(scores.left.score * scoreMultiplier[0]);
+    scores.right.score = Math.floor(scores.right.score * scoreMultiplier[1]);
+
     scoreDiff = Math.abs(scores.left.score - scores.right.score);
     scores.bar = Math.min(0.4, Math.pow(scoreDiff / 1500000, 0.5) / 2) * 1000 + 100;
 
