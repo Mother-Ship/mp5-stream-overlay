@@ -8,59 +8,59 @@
         "team": "B"
     },
     {
-        "type": "Pick",
+        "type": "Ban",
         "team": "B"
-    },
-    {
-        "type": "Pick",
-        "team": "A"
     },
     {
         "type": "Ban",
         "team": "A"
     },
     {
-        "type": "Ban",
-        "team": "B"
+        "type": "Pick",
+        "team": "C"
     },
     {
         "type": "Pick",
-        "team": "B"
+        "team": "D"
     },
     {
         "type": "Pick",
-        "team": "A"
+        "team": "C"
     },
     {
         "type": "Pick",
-        "team": "B"
+        "team": "D"
     },
     {
         "type": "Pick",
-        "team": "A"
+        "team": "C"
     },
     {
         "type": "Pick",
-        "team": "B"
+        "team": "D"
     },
     {
         "type": "Pick",
-        "team": "A"
+        "team": "C"
     },
     {
         "type": "Pick",
-        "team": "B"
+        "team": "D"
     },
     {
         "type": "Pick",
-        "team": "A"
+        "team": "C"
     },
     {
         "type": "Pick",
-        "team": "B"
+        "team": "D"
     },
     {
         "type": "Pick",
-        "team": "A"
+        "team": "C"
+    },
+    {
+        "type": "Pick",
+        "team": "D"
     }
 ]

@@ -26,8 +26,10 @@ console.log(MatchStages);
 
 const socket = new WebSocketManager(`${window.location.hostname}:24050`);
 const BPOrderStoreInst = new BPOrderStore({
-    // btnFirstBanRed: document.getElementById('button-first-ban-red'),
-    // btnFirstBanBlue: document.getElementById('button-first-ban-blue'),
+    btnFirstBanRed: document.getElementById('button-first-ban-red'),
+    btnFirstBanBlue: document.getElementById('button-first-ban-blue'),
+    btnFirstPickRed: document.getElementById('button-first-pick-red'),
+    btnFirstPickBlue: document.getElementById('button-first-pick-blue'),
     imgBPOrderRed: document.getElementById('team-a-bp-order'),
     imgBPOrderBlue: document.getElementById('team-b-bp-order'),
     labelFirstBan: document.getElementById('label-first-ban'),
@@ -118,12 +120,14 @@ function tryAdvanceMatchStage() {
 function handleMatchStageUndone() {
     cache.currentMatchStageIndex = Math.max(0, cache.currentMatchStageIndex - 1);
     cache.currentMatchStage = MatchStages[cache.currentMatchStageIndex];
-    cache.currentOperationTeam = BPOrderStoreInst.getCurrentMatchStageTeams()[cache.currentMatchStage.team];
+    cache.currentOperationTeam = BPOrderStoreInst.resolveMatchStageTeam(cache.currentMatchStage.team);
     console.log('撤销操作, 当前比赛阶段: ' + cache.currentMatchStageIndex);
     clearInterval(cache.switchSidesInterval);
     setIsMatchStageAdvancing(1);
     tryAdvanceMatchStage();
 }
+
+const usesCDPickOrder = MatchStages.some(s => s.team === 'C' || s.team === 'D');
 
 /**
  * 根据 matchstages.json 处理比赛阶段, 设置操作方, 设置 currentOperation 并处理选图方自动轮换
@@ -135,31 +139,35 @@ function handleMatchStageChange() {
         console.warn('是否已经清空所有操作？');
         return;
     }
+
     cache.currentMatchStage = MatchStages[cache.currentMatchStageIndex];
-    if (cache.currentMatchStage === null || cache.currentMatchStage === undefined) {
+    if (!cache.currentMatchStage) {
         console.error("Invalid match stage");
         return;
     }
 
-    if (currentOperation.type === 'Ban' || currentOperation.type === 'Blank') {
-        // 如果当前操作是 ban 或 blank, 则直接进入下一阶段
+    /*
+    // lock first ban from first completed Ban operation
+    if (!BPOrderStoreInst.getFirstBanTeam() && currentOperation?.type === 'Ban') {
+        BPOrderStoreInst.setFirstBanTeam(currentOperation.team);
+    }
+
+    // for C/D mode, lock first pick from first completed Pick operation
+    if (usesCDPickOrder && !BPOrderStoreInst.getFirstPickTeam() && currentOperation?.type === 'Pick') {
+        BPOrderStoreInst.setFirstPickTeam(currentOperation.team);
+    }
+    */
+
+    if (currentOperation?.type === 'Ban' || currentOperation?.type === 'Blank') {
         setIsMatchStageAdvancing(1);
     }
 
-    // 根据当前操作方计算先 ban 方
-    // 先 ban 方在 match stages 中记为 Team A
-    // 执行到此处时, currentOperation 为刚进行的操作的操作方, match stage 为下一个操作
-    // 对比上一个 match stage 与当前操作方, 下面的异或成立说明 A 对应 Red
-    let lastStageTeamIsB = MatchStages[cache.currentMatchStageIndex - 1].team === 'B';
-    let currentOperationTeamIsRed = currentOperation.team === 'Red';
-    if (lastStageTeamIsB ^ currentOperationTeamIsRed) {
-        BPOrderStoreInst.setFirstBanTeam(TEAM_RED)
+    cache.currentOperationTeam = BPOrderStoreInst.resolveMatchStageTeam(cache.currentMatchStage.team);
+    if (!cache.currentOperationTeam) {
+        console.warn('当前阶段操作方未确定，请先设置先Ban/先Pick队伍');
+        toggleAllowAutoPick(false);
+        return;
     }
-    else {
-        BPOrderStoreInst.setFirstBanTeam(TEAM_BLUE)
-    }
-    cache.currentOperationTeam = BPOrderStoreInst.getCurrentMatchStageTeams()[cache.currentMatchStage.team];
-
     // 处理当前比赛阶段
     console.log("当前比赛阶段: " + cache.currentMatchStageIndex);
     switch (cache.currentMatchStage.type) {
@@ -549,6 +557,8 @@ document
                     "button-b-ban",
                     "button-b-pick",
                 );
+                deactivateButtons("button-first-ban-red", "button-first-ban-blue", "button-first-pick-red", "button-first-pick-blue");
+                BPOrderStoreInst.hardReset();
                 document.getElementById("team-a-operation").innerHTML = "";
                 document.getElementById("team-b-operation").innerHTML = "";
                 document.getElementById("map-pool-mod-container").innerHTML = "";
@@ -627,47 +637,37 @@ function restoreBeatmapSelection() {
         const beatmapSelections = Array.from(beatmapSelectionMap.values());
         const teamAContainer = document.getElementById("team-a-operation");
         const teamBContainer = document.getElementById("team-b-operation");
-        // 确保容器存在
+
         if (teamAContainer && teamBContainer) {
             teamAContainer.innerHTML = "";
             teamBContainer.innerHTML = "";
 
             beatmapSelections.forEach(operation => {
-                const { team, type } = operation;
-                applyOperationToDOM(team, Number(operation.beatmapId), type.toLocaleLowerCase(), false);
+                const { team, type, beatmapId } = operation;
 
                 if (type === 'Blank') {
-                    let el = document.getElementById(
-                        team === TEAM_RED ?
-                            'button-a-blank' :
-                            'button-b-blank'
-                    );
+                    applyOperationToDOM(team, -1, "blank", false);
+                    cache.pickedMaps.push(beatmapId);
+                    let el = document.getElementById(team === TEAM_RED ? 'button-a-blank' : 'button-b-blank');
                     el.classList.remove('button-active');
                     el.classList.add('button-inactive');
+                    return;
                 }
-            })
-        }
 
-        // 恢复 BP 顺序计算
-        if (beatmapSelections.length > 0) {
-            let firstOperation = beatmapSelections[0];
-            // [FIXME] 复用更新分数时推测 BP 顺序的逻辑
-            if (firstOperation.type === 'Ban') {
-                BPOrderStoreInst.setFirstBanTeam(firstOperation.team);
-            }
+                applyOperationToDOM(team, Number(beatmapId), type.toLocaleLowerCase(), false);
+            });
         }
     }
 }
 
 function onCurrentRoundChange() {
-    document.getElementById("current-match").innerText =
-        "当前场次：" + currentRoundName;
+    document.getElementById("current-match").innerText = "当前场次：" + currentRoundName;
 
-    BPOrderStoreInst.clearFirstBanTeam();
+    BPOrderStoreInst.reset();
+    BPOrderStoreInst.loadFirstBanPickFromStorage();
+    updateBPOrderBtnDisplay();
 
-    // 从Localstorage找回所有上方谱面操作
     restoreBeatmapSelection();
-
     // 根据场次名称找到本场谱面
     getStructuredBeatmapsByRound(currentRoundName).then(async beatmaps => {
         // 填充map-pool-mod-container
@@ -1026,14 +1026,42 @@ function onStarChanged(team, oldStar, newStar) {
 }
 
 function onBPOrderBtnClick(ev) {
-    if (ev.target.classList.contains('button-active')) {
-        return;
-    }
     if (ev.target.id === 'button-first-ban-red') {
-        BPOrderStoreInst.setFirstBanTeam(TEAM_RED);
+        BPOrderStoreInst.setFirstBanTeam('Red');
     }
-    else {
-        BPOrderStoreInst.setFirstBanTeam(TEAM_BLUE);
+    else if (ev.target.id === 'button-first-ban-blue') {
+        BPOrderStoreInst.setFirstBanTeam('Blue');
+    }
+    else if (ev.target.id === 'button-first-pick-red') {
+        BPOrderStoreInst.setFirstPickTeam('Red');
+    }
+    else if (ev.target.id === 'button-first-pick-blue') {
+        BPOrderStoreInst.setFirstPickTeam('Blue');
+    }
+
+    updateBPOrderBtnDisplay();
+}
+
+function updateBPOrderBtnDisplay() {
+    const firstBanTeam = BPOrderStoreInst.getFirstBanTeam();
+    const firstPickTeam = BPOrderStoreInst.getFirstPickTeam();
+
+    if (firstBanTeam === 'Red') {
+        activateButton('button-first-ban-red');
+        deactivateButtons('button-first-ban-blue');
+    }
+    else if (firstBanTeam === 'Blue') {
+        activateButton('button-first-ban-blue');
+        deactivateButtons('button-first-ban-red');
+    }
+
+    if (firstPickTeam === 'Red') {
+        activateButton('button-first-pick-red');
+        deactivateButtons('button-first-pick-blue');
+    }
+    else if (firstPickTeam === 'Blue') {
+        activateButton('button-first-pick-blue');
+        deactivateButtons('button-first-pick-red');
     }
 }
 
@@ -1045,3 +1073,5 @@ BPOrderStoreInst.onFirstBanUpdate(onBPOrderChanged);
 
 document.getElementById('button-first-ban-red').addEventListener('click', onBPOrderBtnClick);
 document.getElementById('button-first-ban-blue').addEventListener('click', onBPOrderBtnClick);
+document.getElementById('button-first-pick-red').addEventListener('click', onBPOrderBtnClick);
+document.getElementById('button-first-pick-blue').addEventListener('click', onBPOrderBtnClick);

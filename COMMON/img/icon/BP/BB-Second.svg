@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="140" viewBox="0 0 420 140">
+  <rect x="4" y="4" width="412" height="132" rx="18" fill="#202d45" stroke="#64cafd" stroke-width="8"/>
+  <text x="210" y="62" text-anchor="middle" fill="#ffffff" font-size="30" font-family="Arial, sans-serif" font-weight="700">
+    BLUE
+  </text>
+  <text x="210" y="102" text-anchor="middle" fill="#d7f2ff" font-size="28" font-family="Arial, sans-serif" font-weight="700">
+    BAN SECOND
+  </text>
+</svg>
