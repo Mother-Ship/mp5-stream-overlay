@@ -39,7 +39,7 @@ jobs:
     
     - name: 写入tosu配置
       run: |
-        echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static" > /tmp/target/tsosu.env
+        echo "ENABLE_AUTOUPDATE=false\nSTATIC_FOLDER_PATH=./static\nSHOW_MP_COMMANDS=true" > /tmp/target/tosu.env
     
     - name: 配置 Go 环境
       uses: actions/setup-go@v4
