@@ -606,7 +606,7 @@ function setScoreBars(tourney) {
     // 若除 T1 外 tier X 选手分数高于对方 Y 名选手，则全队分数获得 max(0.03 * (X + Y - 4), 0) 倍加成
     let scoreMultiplier = [1, 1];
     leftClientsCopy.forEach(client => {
-        const player = Players.find(player => player.uid === client.spectating.UserID);
+        const player = Players.players.find(player => player.uid === client.spectating.userID);
         const playerTier = player?.tier > 1 ? player.tier : 0;
         let winOverCount = 0;
         rightClientsCopy.forEach(opponentClient => {
@@ -618,7 +618,7 @@ function setScoreBars(tourney) {
         scoreMultiplier[0] += Math.max(0.03 * (playerTier + winOverCount - 4), 0);
     })
     rightClientsCopy.forEach(client => {
-        const player = Players.find(player => player.uid === client.spectating.UserID);
+        const player = Players.players.find(player => player.uid === client.spectating.userID);
         const playerTier = player?.tier > 1 ? player.tier : 0; // SDC: no bonus for T1, setting to 0 will work
         let winOverCount = 0;
         leftClientsCopy.forEach(opponentClient => {
@@ -629,6 +629,10 @@ function setScoreBars(tourney) {
 
         scoreMultiplier[1] += Math.max(0.03 * (playerTier + winOverCount - 4), 0);
     })
+
+    // SDC: multiplier text stored as data attribute on score bars, update it here
+    document.getElementById('team-a-score').setAttribute('data-score-multiplier', `(${scoreMultiplier[0].toFixed(2)}x)`);
+    document.getElementById('team-b-score').setAttribute('data-score-multiplier', `(${scoreMultiplier[1].toFixed(2)}x)`);
 
     scores.left.score = (leftClientsCopy.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
     scores.right.score = (rightClientsCopy.map(client => client.gameplay.score)).reduce((acc, score) => acc + score, 0);
@@ -676,6 +680,8 @@ function setScoreBars(tourney) {
             document.getElementById('team-a-score-lead').style.visibility = 'hidden';
             document.getElementById('team-b-score-lead').style.visibility = 'visible';
         }
+
+        // compute 
 
         // 分数文字
         teamAScore.update(leftScore);
