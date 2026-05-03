@@ -590,24 +590,24 @@ function setScoreBars(tourney) {
     const leftClientsCopy = leftClients.map(client => ({ ...client }));
     const rightClientsCopy = rightClients.map(client => ({ ...client }));
 
-    // SDC: EZ mod 2X 分数加成
+    // SDC: EZ mod 1.75X 分数加成
     leftClientsCopy.forEach(client => {    
         if (client.gameplay.mods.str.includes("EZ")) {
-            client.gameplay.score *= 2;
+            client.gameplay.score *= 1.75;
         }
     })
     rightClientsCopy.forEach(client => {    
         if (client.gameplay.mods.str.includes("EZ")) {
-            client.gameplay.score *= 2;
+            client.gameplay.score *= 1.75;
         }
     });
 
     // SDC: 根据选手 tier 计算全队分数加成
-    // 若 tier X 选手分数高于对方 Y 名选手，则全队分数获得 max(0.03 * (X + Y - 4), 0) 倍加成
+    // 若除 T1 外 tier X 选手分数高于对方 Y 名选手，则全队分数获得 max(0.03 * (X + Y - 4), 0) 倍加成
     let scoreMultiplier = [1, 1];
     leftClientsCopy.forEach(client => {
         const player = Players.find(player => player.uid === client.spectating.UserID);
-        const playerTier = player ? player.tier : 0;
+        const playerTier = player?.tier > 1 ? player.tier : 0;
         let winOverCount = 0;
         rightClientsCopy.forEach(opponentClient => {
             if (client.gameplay.score > opponentClient.gameplay.score) {
@@ -619,7 +619,7 @@ function setScoreBars(tourney) {
     })
     rightClientsCopy.forEach(client => {
         const player = Players.find(player => player.uid === client.spectating.UserID);
-        const playerTier = player ? player.tier : 0;
+        const playerTier = player?.tier > 1 ? player.tier : 0; // SDC: no bonus for T1, setting to 0 will work
         let winOverCount = 0;
         leftClientsCopy.forEach(opponentClient => {
             if (client.gameplay.score > opponentClient.gameplay.score) {
