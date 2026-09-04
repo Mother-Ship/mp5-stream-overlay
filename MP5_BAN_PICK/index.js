@@ -300,6 +300,36 @@ async function doAutoPick(team, bid, type) {
     }
 }
 
+// ---------------------------------------------------------------
+// 连续同侧真 ban 并排（仅显示层）：
+//  - 一段连续 ban-phase（同队真 ban，可夹隐藏空操作）在某一队列里被渲染成一个
+//    `.bp-run` flex 行：行内最多两张真 ban 各占半宽并排。
+//  - 紧跟某段真 ban 之后的空操作，隐藏（不占行），但仍在 cache.pickedMaps /
+//    localStorage 里，撤销照常。
+//  - 撤销把一个 run 减到剩一张时，run 加 `.single` 让剩余那张占满整行；
+//    减到零张则整行移除。
+// ---------------------------------------------------------------
+function isBanCell(el) {
+    return !!(el && (el.classList.contains('team-a-ban') || el.classList.contains('team-b-ban')));
+}
+function isRunEl(el) {
+    return !!(el && el.classList.contains('bp-run'));
+}
+function runRealCount(run) {
+    return run.querySelectorAll('.team-a-ban, .team-b-ban, .team-a-pick, .team-b-pick').length;
+}
+function wrapIntoRun(container, loneCard) {
+    const run = document.createElement('div');
+    run.className = 'bp-run';
+    container.replaceChild(run, loneCard);
+    run.appendChild(loneCard);
+    refreshRunClass(run);
+    return run;
+}
+function refreshRunClass(run) {
+    run.classList.toggle('single', runRealCount(run) < 2);
+}
+
 /**
  * 将一次选图显示到 UI 上，并保存到 cache.pickedMaps 和 localStorage
  * @param {Number} team constant TEAM_RED or TEAM_BLUE
@@ -324,9 +354,15 @@ function applyOperationToDOM(team, bid, type, animate = true) {
 
     const operation = document.createElement("div");
     operation.id = bidStr;
+    const prev = operationContainer.lastElementChild;
 
     if (type === "blank") {
         console.log(`添加空操作 ${bidStr}`);
+        // 紧跟同队一段真 ban 的空操作：不渲染、不占行（隐藏），
+        // 但仍由调用方 store/push，保证撤销与轮次推进不变。
+        if (prev && (isBanCell(prev) || isRunEl(prev))) {
+            return null;
+        }
         animate && operation.classList.add("animated");
         operation.classList.add(team === TEAM_RED ? "team-a-blank" : "team-b-blank");
         operationContainer.appendChild(operation);
@@ -342,7 +378,22 @@ function applyOperationToDOM(team, bid, type, animate = true) {
 
     // 先同步占位并记录，保证列表位置与 cache.pickedMaps 的 LIFO 撤销顺序
     // 不依赖下方异步获取谱面数据的完成先后（修复刷新后空操作/真图错位、撤销乱序）。
-    operationContainer.appendChild(operation);
+    //
+    // 并排分组：真 ban 若紧跟前一个同队真 ban（裸卡，或一张未满的 run），
+    // 就把两者放进同一个 .bp-run 行（必要时先把前一张裸卡包进 run）。
+    let parent = operationContainer;
+    let joinedRun = false;
+    if (type === "ban" && prev && (isBanCell(prev) || (isRunEl(prev) && runRealCount(prev) < 2))) {
+        let run = isRunEl(prev) ? prev : wrapIntoRun(operationContainer, prev);
+        run.appendChild(operation);
+        refreshRunClass(run);
+        joinedRun = true;
+        if (animate) operation.classList.add("bp-join");
+        parent = run;
+    }
+    else {
+        operationContainer.appendChild(operation);
+    }
     cache.pickedMaps.push(bidStr);
     storeBeatmapSelection({
         team: team === TEAM_RED ? "Red" : "Blue",
@@ -351,7 +402,13 @@ function applyOperationToDOM(team, bid, type, animate = true) {
     });
 
     if (animate) {
-        operation.classList.add("animated");
+        // 并入 run 的第二张卡不做整体闪烁（用 bp-join 淡入），避免一闪
+        if (!joinedRun) {
+            operation.classList.add("animated");
+        }
+        else {
+            operation.classList.add("shown");
+        }
     }
     else {
         operation.classList.add("shown");
@@ -529,50 +586,55 @@ document
 document
     .getElementById("button-a-blank")
     .addEventListener("click", function () {
-        // 20260904 更新：允许多个空操作，复用撤销逻辑
-        
+        // 允许多个空操作：复用撤销逻辑。空操作 id 以 cache.pickedMaps 为准
+        //（隐藏的空操作不在 DOM，故不能用 getElementById 查重）。
         let i;
-        for(i = -1;; i--) {
-            if (!document.getElementById("team-a-blank" + i.toString())) {
-                break;
-            }
+        const seen = new Set(cache.pickedMaps);
+        for (i = -1;; i--) {
+            if (!seen.has("team-a-blank" + i)) break;
         }
+        const blankId = "team-a-blank" + i;
 
-        console.log(`添加空操作 team-a-blank${i}`);
+        console.log(`添加空操作 ${blankId}`);
         currentOperation = {
             team: "Red",
             type: "Blank",
-            beatmapId: "team-a-blank" + i.toString(),
+            beatmapId: blankId,
         };
-        applyOperationToDOM(TEAM_RED, currentOperation.beatmapId, "blank", true);
+        applyOperationToDOM(TEAM_RED, blankId, "blank", true);
         storeBeatmapSelection(currentOperation);
-        cache.pickedMaps.push(currentOperation.beatmapId);
+        cache.pickedMaps.push(blankId);
         handleMatchStageChange();
-        currentOperation = null;
+        // handleMatchStageChange 会把 currentOperation 同步推进到“下一手”并允许自动 BP；
+        // 若已推进（currentOperation 已不是本空操作），就保留它，让随后点图/自动 BP 能进行。
+        if (currentOperation && currentOperation.beatmapId === blankId) {
+            currentOperation = null;
+        }
     });
 document
     .getElementById("button-b-blank")
     .addEventListener("click", function () {
-        // 20260904 更新：允许多个空操作，复用撤销逻辑
-
+        // 允许多个空操作：复用撤销逻辑
         let i;
-        for(i = -1;; i--) {
-            if (!document.getElementById("team-b-blank" + i.toString())) {
-                break;
-            }
+        const seen = new Set(cache.pickedMaps);
+        for (i = -1;; i--) {
+            if (!seen.has("team-b-blank" + i)) break;
         }
+        const blankId = "team-b-blank" + i;
 
-        console.log(`添加空操作 team-b-blank${i}`);
+        console.log(`添加空操作 ${blankId}`);
         currentOperation = {
             team: "Blue",
             type: "Blank",
-            beatmapId: "team-b-blank" + i.toString(),
+            beatmapId: blankId,
         };
-        applyOperationToDOM(TEAM_BLUE, currentOperation.beatmapId, "blank", true);
+        applyOperationToDOM(TEAM_BLUE, blankId, "blank", true);
         storeBeatmapSelection(currentOperation);
-        cache.pickedMaps.push(currentOperation.beatmapId);
+        cache.pickedMaps.push(blankId);
         handleMatchStageChange();
-        currentOperation = null;
+        if (currentOperation && currentOperation.beatmapId === blankId) {
+            currentOperation = null;
+        }
     });
 
 let clearPickStatus = 0,
@@ -891,7 +953,20 @@ function undoBeatmapSelection() {
             element
                 .querySelectorAll(`div[id="${beatmapId}"]`)
                 .forEach((operation) => {
+                    const parentRun = operation.closest('.bp-run');
                     fadeOutAndRemove(operation);
+                    // 若该卡在某并排 run 里：淡出后重新布局该 run
+                    // （剩一张 → 占满整行；清空 → 移除整行）
+                    if (parentRun) {
+                        setTimeout(() => {
+                            if (!parentRun.isConnected) return;
+                            if (runRealCount(parentRun) === 0) {
+                                parentRun.remove();
+                            } else {
+                                refreshRunClass(parentRun);
+                            }
+                        }, 560);
+                    }
                 });
         });
 

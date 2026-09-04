@@ -919,3 +919,133 @@ body {
         opacity: 1;
     }
 }
+
+/* ==========================================================================
+   连续同侧真 ban 并排成一行（总决赛胜者组等 2-ban 场景，仅显示层）
+   追加块：不改动上方任何既有规则。
+   结构：列内某张真 ban 若紧跟同队上一个真 ban，两者会被包进一个 `.bp-run`
+   flex 行；run 内两张卡各占半宽，内层封面/文字随之缩到半卡宽度。
+   run 只剩一张时（撤销另一半）加 `.single`，该卡占满整行。
+   ========================================================================== */
+
+/* 一张 run 占一行（与普通卡同高同宽），内部两张卡左右排布 */
+.bp-run {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    width: 602px;
+    height: 100px;
+    box-sizing: border-box;
+}
+
+/* run 内每张卡：flex 均分宽度，裁掉原来固定的 602 溢出 */
+.bp-run > .team-a-ban,
+.bp-run > .team-b-ban,
+.bp-run > .team-a-pick,
+.bp-run > .team-b-pick {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    height: 100px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 30px;
+}
+
+/* run 内封面外框：半卡尺寸 + 保留 mod 色 5px 边框 */
+.bp-run .team-a-map-cover-border,
+.bp-run .team-b-map-cover-border {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    border-radius: 30px;
+}
+/* 暗色遮罩（ban 卡 ::before 变暗）圆角跟半卡的卡角一致，略收一点 */
+.bp-run > .team-a-ban::before,
+.bp-run > .team-b-ban::before {
+    border-radius: 29px;
+}
+/* 封面图嵌在 mod 色边框内侧（与整宽卡一致：四周留 ~5px），不要把边框盖掉 */
+.bp-run .team-a-map-cover,
+.bp-run .team-b-map-cover {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    top: 5px;
+    left: 5px;
+    right: auto;
+    border-radius: 24px;
+}
+
+/* run 内文字：随半卡收窄，字号略降以保证仍可读（不缩太多）；
+   红队(team-a)卡内右对齐、蓝队(team-b)卡内左对齐，与整宽卡方向一致。 */
+.bp-run .team-a-map-title,
+.bp-run .team-b-map-title,
+.bp-run .team-a-map-artist,
+.bp-run .team-b-map-artist {
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bp-run .team-a-map-title,
+.bp-run .team-b-map-title {
+    font-size: 29px;
+    top: 14px;
+}
+.bp-run .team-a-map-artist,
+.bp-run .team-b-map-artist {
+    font-size: 20px;
+    top: 52px;
+}
+.bp-run .team-a-map-title,
+.bp-run .team-a-map-artist {
+    left: 70px;
+    right: 14px;
+    text-align: right;
+}
+.bp-run .team-b-map-title,
+.bp-run .team-b-map-artist {
+    left: 14px;
+    right: 70px;
+    text-align: left;
+}
+
+/* run 内的 mod 角标贴半卡自己角上 */
+.bp-run .team-a-map-mod-container,
+.bp-run .team-b-map-mod-container {
+    width: 92px;
+    height: 34px;
+}
+.bp-run .team-a-map-mod,
+.bp-run .team-b-map-mod {
+    font-size: 24px;
+}
+
+/* 撤销后 run 里只剩一张时，占满整行 */
+.bp-run.single {
+    gap: 0;
+}
+.bp-run.single > .team-a-ban,
+.bp-run.single > .team-b-ban,
+.bp-run.single > .team-a-pick,
+.bp-run.single > .team-b-pick {
+    flex: none;
+    width: 100%;
+}
+
+/* 第二张真 ban 并入 run 时的淡入 */
+@keyframes bp-run-in {
+    0% {
+        opacity: .25;
+        transform: scale(.94);
+    }
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+.bp-run .bp-join {
+    animation: bp-run-in .45s ease;
+}
