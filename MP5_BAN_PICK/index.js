@@ -18,11 +18,30 @@ import { ChatRenderer } from "../COMMON/components/ChatRenderer.js";
 import WebSocketManager from "../COMMON/lib/socket.js";
 import { drawTeamAndPlayerInfo } from "./teamAndPlayer.js";
 // import MatchStages from "../COMMON/data/matchstages.json" with { type: "json" };
-const MatchStages = await fetch('../COMMON/data/matchstages.json').then(res => res.json());
+const MatchStagesSrc = await fetch('../COMMON/data/matchstages.json').then(res => res.json());
 import { getMatchStats, getMatchStatsById, setMatchStats, clearMatchStats, removeMatchStatsById } from "../COMMON/lib/mapStats.js";
 import { BPOrderStore } from "./BPOrderStore.js";
 
-console.log(MatchStages);
+console.log(MatchStagesSrc);
+// build match stages from json
+// A->first ban, B->second ban, C->first pick, D->second pick
+// Round name matches brackets, defaulting to "default"
+// Each round has a list of strings, "AB", "CP", etc
+// This generates a list of rounds, each round compatible with BPOrderStore
+let MatchStagesRounds = {};
+
+for(let i in MatchStagesSrc) {
+    MatchStagesRounds[i] = MatchStagesSrc[i].map(stage => {
+        return {
+            team: stage[0],
+            type: stage[1] === 'B' ? 'Ban' : 'Pick'
+        }
+    });
+}
+console.log(MatchStagesRounds);
+
+
+let MatchStages = MatchStagesRounds['default']
 
 const socket = new WebSocketManager(`${window.location.hostname}:24050`);
 const BPOrderStoreInst = new BPOrderStore({
@@ -662,6 +681,10 @@ function restoreBeatmapSelection() {
 
 function onCurrentRoundChange() {
     document.getElementById("current-match").innerText = "当前场次：" + currentRoundName;
+
+    // 更新当前轮次的赛程
+    MatchStages = MatchStagesRounds[currentRoundName] || MatchStagesRounds['default'];
+    console.log(`轮次: ${currentRoundName}, 存在自定义赛程： ${MatchStagesRounds.hasOwnProperty(currentRoundName)}, 当前赛程:`, MatchStages);
 
     BPOrderStoreInst.reset();
     BPOrderStoreInst.loadFirstBanPickFromStorage();
