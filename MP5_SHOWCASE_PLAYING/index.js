@@ -126,7 +126,7 @@ socket.api_v1(async ({menu}) => {
             mapBpm.update(parsed.modded.beatmap.bpm.mostly); 
             mapStar.update(parsed.modded.difficulty.sr.toFixed(2));
 
-            if(['nm', 'hd', 'hr', 'dt', 'fm', 'tb'].includes(modNameAndIndex.modName.toLowerCase())) {
+            if(['nm', 'hd', 'hr', 'dt', 'fm', 'tb', 'ca'].includes(modNameAndIndex.modName.toLowerCase())) {
                 document.getElementById('map-slot-container').style.display = 'block';
                 document.getElementById('map-slot-label').innerText = modNameAndIndex.modName.toUpperCase() + modNameAndIndex.index;
                 document.getElementById('map-slot-label').style.color = `var(--mod-color-${modNameAndIndex.modName.toLowerCase()})`;

@@ -219,6 +219,7 @@ const modEnum = {
     'DT': 64,
     'FM': 0,
     'TB': 0,
+    'CA': 0,
 }
 export function getModEnumFromModString(mod) {
     mod = mod || 'NM'; // 默认显示原始数据

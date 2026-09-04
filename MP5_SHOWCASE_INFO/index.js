@@ -103,7 +103,7 @@ socket.api_v1( async ({menu}) => {
             mapSr.update(parsed.modded.difficulty.sr.toFixed(2));
 
             document.getElementById("mods").innerText = modNameAndIndex.modName + modNameAndIndex.index;
-            if (["nm", "hd", "hr", "dt", "fm", "tb"].includes(parsed.mod.toLowerCase())) {
+            if (["nm", "hd", "hr", "dt", "fm", "tb", "ca"].includes(parsed.mod.toLowerCase())) {
                 document.getElementById("mods").style.color = `var(--mod-color-${parsed.mod.toLowerCase()})`;
             }
             else {

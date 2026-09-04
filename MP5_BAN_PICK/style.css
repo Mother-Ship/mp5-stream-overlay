@@ -384,6 +384,10 @@ body {
     border-color: var(--border-color-tb);
 }
 
+.map-border-ca {
+    border-color: var(--border-color-ca);
+}
+
 .team-a-map-cover,
 .team-b-map-cover {
     filter: brightness(0.7);
@@ -435,6 +439,10 @@ body {
 
 .map-mod-container-tb {
     background-color: var(--border-color-tb);
+}
+
+.map-mod-container-ca {
+    background-color: var(--border-color-ca);
 }
 
 .team-a-map-mod,
@@ -721,7 +729,7 @@ body {
 
 .map-pool-button-base {
     border-radius: 8px;
-    width: 80px;
+    width: 70px;
     height: 28px;
     background-color: transparent;
     color: #FFFFFF;
@@ -731,11 +739,12 @@ body {
 /* 使用CSS变量定义不同状态按钮的颜色 */
 :root {
     --border-color-nm: #B1C2C4;
-    --border-color-hd: #FFB347;
-    --border-color-hr: #FF6D6D;
+    --border-color-hd: #FF6D6D;
+    --border-color-hr: #FF3057;
     --border-color-dt: #CCA4F4;
     --border-color-fm: #7FB7E9;
     --border-color-tb: #8EDC76;
+    --border-color-ca: #FFB347;
 }
 
 .map-pool-button-nm {
@@ -787,6 +796,14 @@ body {
 
 .map-pool-button-tb:hover {
     background-color: var(--border-color-tb);
+}
+
+.map-pool-button-ca {
+    border: 3px solid var(--border-color-ca);
+}
+
+.map-pool-button-ca:hover {
+    background-color: var(--border-color-ca);
 }
 
 .map-pool-button-a-pick {

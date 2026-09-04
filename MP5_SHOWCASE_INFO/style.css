@@ -9,11 +9,12 @@
 
 :root {
     --mod-color-nm: #B1C2C4;
-    --mod-color-hd: #FFB347;
-    --mod-color-hr: #FF6D6D;
+    --mod-color-hd: #FF6D6D;
+    --mod-color-hr: #FF3057;
     --mod-color-dt: #CCA4F4;
     --mod-color-fm: #7FB7E9;
     --mod-color-tb: #8EDC76;
+    --mod-color-ca: #FFB347;
 }
 
 body {
