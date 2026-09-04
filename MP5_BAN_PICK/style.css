@@ -299,8 +299,8 @@ body {
     right: 41px;
 }
 
-#team-a-blank,
-#team-b-blank {
+.team-a-blank,
+.team-b-blank {
     position: relative;
     width: 602px;
     height: 100px;

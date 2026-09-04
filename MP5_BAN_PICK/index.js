@@ -237,6 +237,7 @@ socket.api_v1(async ({ menu, tourney }) => {
 
             if (!isAutoPick);
             else if (!cache.canAutoPick);
+            else if (!currentOperation); // 完成某步后 currentOperation 可能被清空，此时不自动 BP
             else {
                 // auto pick is possible, and map changed
                 doAutoPick(currentOperation.team == 'Red' ? TEAM_RED : TEAM_BLUE, menu.bm.id, currentOperation.type.toLowerCase());
@@ -282,11 +283,13 @@ async function doAutoPick(team, bid, type) {
 
     if (!isMapPicked) {
         console.log(beatmap);
-        applyOperationToDOM(team, beatmap.ID, type);
+        // 先打样式（此刻该图尚未写入 cache.pickedMaps，不会被 applyOperationStyles 早退跳过），
+        // 再同步占位记录，保证顺序稳定。
         applyOperationStyles(document.getElementById(beatmap.ID), {
             team: team === TEAM_RED ? "Red" : "Blue",
             type: type.charAt(0).toUpperCase() + type.slice(1),
         });
+        applyOperationToDOM(team, beatmap.ID, type);
         console.log('自动 BP 操作: ' + beatmap);
         toggleAllowAutoPick(false);
         // ban 操作不需要等打图，直接进入下一阶段
@@ -300,46 +303,68 @@ async function doAutoPick(team, bid, type) {
 /**
  * 将一次选图显示到 UI 上，并保存到 cache.pickedMaps 和 localStorage
  * @param {Number} team constant TEAM_RED or TEAM_BLUE
- * @param {Number|String} bid BID of said map
+ * @param {Number|String} bid BID of said map, or "team-a-blank-N" / "team-b-blank-N"
  * @param {String} type "pick", "ban" or "blank", lowercase
  * @param {Boolean} animate apply highlighting animation to the element, defaults to true
  * @returns the DOM element of the new operation
  */
-async function applyOperationToDOM(team, bid, type, animate = true) {
+function applyOperationToDOM(team, bid, type, animate = true) {
+    const bidStr = bid.toString();
+    const operationContainer = team === TEAM_RED ?
+        document.getElementById("team-a-operation") :
+        document.getElementById("team-b-operation");
+    const classPrefix = team === TEAM_RED ? "team-a" : "team-b";
 
-    // 检查图是否已经选过
-    if (!cache.pickedMaps.includes(bid.toString())) {
+    // 空操作不会预先 push 进 cache.pickedMaps（由其调用方在返回后 push），
+    // 因此走到这里时不存在"已经被选过"的问题；真图需要做去重判断。
+    if (type !== "blank" && cache.pickedMaps.includes(bidStr)) {
+        console.log(`图 ${bidStr} 已经被选过`);
+        return null;
+    }
 
+    const operation = document.createElement("div");
+    operation.id = bidStr;
 
-        let operationContainer = team === TEAM_RED ?
-            document.getElementById("team-a-operation") :
-            document.getElementById("team-b-operation");
-        let operation = document.createElement("div");
-        let beatmap = await getFullBeatmapFromBracketById(bid);
-        let mods = await getModNameAndIndexById(bid);
+    if (type === "blank") {
+        console.log(`添加空操作 ${bidStr}`);
+        animate && operation.classList.add("animated");
+        operation.classList.add(team === TEAM_RED ? "team-a-blank" : "team-b-blank");
+        operationContainer.appendChild(operation);
+        return operation;
+    }
 
-        if (type === "blank") {
-            operation.id = team === TEAM_RED ? "team-a-blank" : "team-b-blank";
-            animate && operation.classList.add('animated');
-            operationContainer.appendChild(operation);
-            return operation;
-        }
+    if (type === "pick") {
+        operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
+    }
+    else if (type === "ban") {
+        operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
+    }
 
-        operation.id = bid.toString();
+    // 先同步占位并记录，保证列表位置与 cache.pickedMaps 的 LIFO 撤销顺序
+    // 不依赖下方异步获取谱面数据的完成先后（修复刷新后空操作/真图错位、撤销乱序）。
+    operationContainer.appendChild(operation);
+    cache.pickedMaps.push(bidStr);
+    storeBeatmapSelection({
+        team: team === TEAM_RED ? "Red" : "Blue",
+        type: type.charAt(0).toUpperCase() + type.slice(1),
+        beatmapId: bidStr,
+    });
 
-        cache.pickedMaps.push(bid.toString());
-        if (type === "pick") {
-            operation.classList.add(team === TEAM_RED ? "team-a-pick" : "team-b-pick");
-        }
-        if (type === "ban") {
-            operation.classList.add(team === TEAM_RED ? "team-a-ban" : "team-b-ban");
-        }
-        const classPrefix = team === TEAM_RED ? "team-a" : "team-b"
-        // [FIXME] 这里 beatmap.BeatmapInfo.Covers["card@2x"] 可能需要考虑文件名带 # 时的转义问题
-        // 暂时还没测试
-        // 比较脏的办法是 URL.parse(...) 后取 path 和 hash 手动拼接
-        // 拼接后分段做 encodeURIComponent 再拼出完整的 URL
-        operation.innerHTML = `  
+    if (animate) {
+        operation.classList.add("animated");
+    }
+    else {
+        operation.classList.add("shown");
+    }
+
+    // 谱面数据就绪后再填充卡片内容，DOM 顺序已被同步的 appendChild 固定。
+    Promise.all([getFullBeatmapFromBracketById(bid), getModNameAndIndexById(bid)])
+        .then(([beatmap, mods]) => {
+            // [FIXME] 这里 beatmap.BeatmapInfo.Covers["card@2x"] 可能需要考虑文件名带 # 时的转义问题
+            // 暂时还没测试
+            // 比较脏的办法是 URL.parse(...) 后取 path 和 hash 手动拼接
+            // 拼接后分段做 encodeURIComponent 再拼出完整的 URL
+            operation.innerHTML = `  
     <div class="${classPrefix}-map-cover-border map-border-${mods.modName.toLocaleLowerCase()}">                      
         <img class="${classPrefix}-map-cover"
              src="${beatmap.BeatmapInfo.Covers["card@2x"]}">
@@ -351,30 +376,22 @@ async function applyOperationToDOM(team, bid, type, animate = true) {
     <span class="${classPrefix}-map-title">${beatmap.BeatmapInfo.Metadata.title_unicode} [${beatmap.BeatmapInfo.DifficultyName}]</span>
     <span class="${classPrefix}-map-artist"> - ${beatmap.BeatmapInfo.Metadata.artist_unicode}</span>
 `;
-
-        storeBeatmapSelection({
-            team: team === TEAM_RED ? "Red" : "Blue",
-            type: type.charAt(0).toUpperCase() + type.slice(1),
-            beatmapId: bid.toString(),
-        });
-        if (animate) {
-            setTimeout(function () {
+            if (animate) {
+                setTimeout(function () {
+                    operation.classList.add("shown");
+                }, 1000);
+            }
+            else {
                 operation.classList.add("shown");
-            }, 1000);
-            operation.classList.add("animated");
-        }
-        else {
+            }
+        })
+        .catch(e => {
+            // 谱面数据缺失等异常时至少保证该占位不会被永远藏起来
+            console.warn(`填充谱面数据失败 ${bidStr}:`, e);
             operation.classList.add("shown");
-        }
+        });
 
-        operationContainer.appendChild(operation);
-
-        return operation;
-    }
-    else {
-        console.log(`图 ${bid} 已经被选过`);
-        return null;
-    }
+    return operation;
 }
 
 
@@ -424,6 +441,7 @@ getAllRound().then(
 function tryAutoPick() {
     if (!isAutoPick) return;
     if (!cache.canAutoPick) return;
+    if (!currentOperation) return; // 当前没有待执行操作则不自动 BP
     if (cache.lastChangedMapBid === null) return;
     doAutoPick(currentOperation.team == 'Red' ? TEAM_RED : TEAM_BLUE, cache.lastChangedMapBid, currentOperation.type.toLowerCase());
     cache.lastChangedMapBid = null;
@@ -511,46 +529,50 @@ document
 document
     .getElementById("button-a-blank")
     .addEventListener("click", function () {
-        // 如果没有ID为team-a-blank的子元素则创建
-        if (!document.getElementById("team-a-blank")) {
-            this.classList.remove('button-active');
-            this.classList.add('button-inactive');
-
-            applyOperationToDOM(TEAM_RED, -1, "blank", true);
-            storeBeatmapSelection({
-                team: "Red",
-                type: "Blank",
-                beatmapId: "RED_BLANK",
-            });
-            currentOperation = {
-                team: "Red",
-                type: "Blank",
-            };
-            cache.pickedMaps.push("RED_BLANK");
-            handleMatchStageChange();
+        // 20260904 更新：允许多个空操作，复用撤销逻辑
+        
+        let i;
+        for(i = -1;; i--) {
+            if (!document.getElementById("team-a-blank" + i.toString())) {
+                break;
+            }
         }
+
+        console.log(`添加空操作 team-a-blank${i}`);
+        currentOperation = {
+            team: "Red",
+            type: "Blank",
+            beatmapId: "team-a-blank" + i.toString(),
+        };
+        applyOperationToDOM(TEAM_RED, currentOperation.beatmapId, "blank", true);
+        storeBeatmapSelection(currentOperation);
+        cache.pickedMaps.push(currentOperation.beatmapId);
+        handleMatchStageChange();
+        currentOperation = null;
     });
 document
     .getElementById("button-b-blank")
     .addEventListener("click", function () {
-        // 如果没有ID为team-b-blank的子元素则创建
-        if (!document.getElementById("team-b-blank")) {
-            this.classList.remove('button-active');
-            this.classList.add('button-inactive');
+        // 20260904 更新：允许多个空操作，复用撤销逻辑
 
-            applyOperationToDOM(TEAM_BLUE, -1, "blank", true);
-            storeBeatmapSelection({
-                team: "Blue",
-                type: "Blank",
-                beatmapId: "BLUE_BLANK",
-            });
-            currentOperation = {
-                team: "Blue",
-                type: "Blank",
-            };
-            cache.pickedMaps.push("BLUE_BLANK");
-            handleMatchStageChange();
+        let i;
+        for(i = -1;; i--) {
+            if (!document.getElementById("team-b-blank" + i.toString())) {
+                break;
+            }
         }
+
+        console.log(`添加空操作 team-b-blank${i}`);
+        currentOperation = {
+            team: "Blue",
+            type: "Blank",
+            beatmapId: "team-b-blank" + i.toString(),
+        };
+        applyOperationToDOM(TEAM_BLUE, currentOperation.beatmapId, "blank", true);
+        storeBeatmapSelection(currentOperation);
+        cache.pickedMaps.push(currentOperation.beatmapId);
+        handleMatchStageChange();
+        currentOperation = null;
     });
 
 let clearPickStatus = 0,
@@ -603,30 +625,6 @@ document
     });
 
 document
-    .getElementById("button-a-blank")
-    .addEventListener("contextmenu", function () {
-        let operationContainer = document.getElementById("team-a-operation");
-        //删除ID为team-a-blank的子元素
-        operationContainer.removeChild(document.getElementById("team-a-blank"));
-        // 从localstorage删除操作
-        deleteBeatmapSelectionById("RED_BLANK");
-
-        this.classList.remove('button-inactive');
-        this.classList.add('button-active');
-    });
-document
-    .getElementById("button-b-blank")
-    .addEventListener("contextmenu", function () {
-        let operationContainer = document.getElementById("team-b-operation");
-        //删除ID为team-b-blank的子元素
-        operationContainer.removeChild(document.getElementById("team-b-blank"));
-        // 从localstorage删除操作
-        deleteBeatmapSelectionById("BLUE_BLANK");
-
-        this.classList.remove('button-inactive');
-        this.classList.add('button-active');
-    });
-document
     .getElementById("button-auto-picks")
     .addEventListener("click", function () {
         isAutoPick = !isAutoPick;
@@ -665,11 +663,8 @@ function restoreBeatmapSelection() {
                 const { team, type, beatmapId } = operation;
 
                 if (type === 'Blank') {
-                    applyOperationToDOM(team, -1, "blank", false);
+                    applyOperationToDOM(team, beatmapId, "blank", false);
                     cache.pickedMaps.push(beatmapId);
-                    let el = document.getElementById(team === TEAM_RED ? 'button-a-blank' : 'button-b-blank');
-                    el.classList.remove('button-active');
-                    el.classList.add('button-inactive');
                     return;
                 }
 
@@ -765,14 +760,20 @@ function setupMapListeners(map) {
                 beatmapId: beatmapId,
             };
 
-            applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), true);
+            // 先打样式（此刻该图尚未写入 cache.pickedMaps，不会被 applyOperationStyles 早退跳过），
+            // 再同步占位记录，保证列表与撤销顺序稳定。
             applyOperationStyles(map, currentOperation);
+            applyOperationToDOM(currentOperation.team === "Red" ? TEAM_RED : TEAM_BLUE, beatmap.ID, currentOperation.type.toLocaleLowerCase(), true);
 
             if (currentOperation.type === 'Ban' || currentOperation.type === 'Blank') {
                 setIsMatchStageAdvancing(1);
             }
 
             setTimeout(handleMatchStageChange, 100);
+
+            // 这一步已通过点击图池完成，清空待执行操作，避免继续点击图池时
+            // 用同一个 team/type 重复应用产生奇怪逻辑（与空操作按钮一致）。
+            currentOperation = null;
         }
     });
 
@@ -857,6 +858,25 @@ function reloadOperationStyles() {
     });
 }
 
+/**
+ * 让一张操作卡片淡出后移除。
+ * 旧逻辑依赖 CSS 里的 .animated.fade-out 才能触发过渡，
+ * 而刷新/切轮次后 restore 出来的元素（animate=false）没有 .animated，
+ * 撤销时就会"直接消失、没有淡出动画"。这里改用内联过渡，保证无论元素
+ * 来自新增还是恢复，都能正常播放淡出。
+ * @param {HTMLElement} el
+ */
+function fadeOutAndRemove(el) {
+    // 先停掉闪烁动画并落到"完全可见"，否则过渡可能从不可见/闪烁态开始而看不出效果
+    el.classList.remove("animated");
+    el.style.transition = "none";
+    el.style.opacity = "1";
+    void el.offsetWidth; // 强制重排，让随后的 opacity 过渡能真正从 1 渐变到 0
+    el.style.transition = "opacity 0.5s ease";
+    el.style.opacity = "0";
+    setTimeout(() => el.remove(), 500);
+}
+
 function undoBeatmapSelection() {
     let beatmapId = cache.pickedMaps.pop();
     if (beatmapId) {
@@ -871,15 +891,19 @@ function undoBeatmapSelection() {
             element
                 .querySelectorAll(`div[id="${beatmapId}"]`)
                 .forEach((operation) => {
-                    operation.classList.add("fade-out");
-                    setTimeout(function () {
-                        operation.remove();
-                    }, 500);
+                    fadeOutAndRemove(operation);
                 });
         });
 
         // 清理 pickedMaps 中的条目
         cache.pickedMaps = cache.pickedMaps.filter((pickedBID) => pickedBID != beatmapId.toString());
+
+        if(beatmapId.startsWith('team-a-blank') || beatmapId.startsWith('team-b-blank')) {
+            // 如果是空操作，直接删除 localStorage 中的条目
+            deleteBeatmapSelectionById(beatmapId);
+            handleMatchStageUndone();
+            return;
+        }
 
         const map = document.getElementsByClassName('map-pool-button-base').namedItem(beatmapId);
         console.log(map);
