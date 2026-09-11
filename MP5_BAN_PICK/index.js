@@ -1161,37 +1161,23 @@ function onBPOrderBtnClick(ev) {
         BPOrderStoreInst.setFirstPickTeam('Blue');
     }
 
-    updateBPOrderBtnDisplay();
+    // updateBPOrderBtnDisplay();
 }
 
-function updateBPOrderBtnDisplay() {
-    const firstBanTeam = BPOrderStoreInst.getFirstBanTeam();
-    const firstPickTeam = BPOrderStoreInst.getFirstPickTeam();
-
+function updateBPOrderBtnDisplay(firstBanTeam) {
     if (firstBanTeam === 'Red') {
         activateButton('button-first-ban-red');
-        deactivateButtons('button-first-ban-blue');
+        activateButton('button-first-pick-blue');
+        deactivateButtons('button-first-ban-blue', 'button-first-pick-red');
     }
     else if (firstBanTeam === 'Blue') {
         activateButton('button-first-ban-blue');
-        deactivateButtons('button-first-ban-red');
-    }
-
-    if (firstPickTeam === 'Red') {
         activateButton('button-first-pick-red');
-        deactivateButtons('button-first-pick-blue');
-    }
-    else if (firstPickTeam === 'Blue') {
-        activateButton('button-first-pick-blue');
-        deactivateButtons('button-first-pick-red');
+        deactivateButtons('button-first-ban-red', 'button-first-pick-blue');
     }
 }
 
-// [TODO] 在双方队旗边上显示先 ban / 先 pick
-function onBPOrderChanged(firstBanTeam) {
-}
-
-BPOrderStoreInst.onFirstBanUpdate(onBPOrderChanged);
+BPOrderStoreInst.onFirstBanUpdate(updateBPOrderBtnDisplay);
 
 document.getElementById('button-first-ban-red').addEventListener('click', onBPOrderBtnClick);
 document.getElementById('button-first-ban-blue').addEventListener('click', onBPOrderBtnClick);

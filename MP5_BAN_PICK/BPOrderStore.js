@@ -41,6 +41,86 @@ export class BPOrderStore {
     }
 
     updateView() {
+        const viewRed = this.views.imgBPOrderRed;
+        const viewBlue = this.views.imgBPOrderBlue;
+
+        // With -Second icons we have many more different combinations to handle
+        // Display rule: don't care who operated first, as per MFA: "连世界第一电竞都不会区分"
+        // blue 1st ban === red 1st pick
+        // use only the "first" icons
+        const currentDispCount = this.states.firstBanTeam ? 1 : 0 + this.states.firstPickTeam ? 1 : 0;
+        if (currentDispCount === 0) {
+            // clear
+            viewRed.src = null;
+            viewBlue.src = null;
+            viewRed.style.display = 'none';
+            viewBlue.style.display = 'none';
+            return;
+        }
+        else if (currentDispCount === 1) {
+            // This is the "first" operation case
+            if (this.states.firstBanTeam) {
+                if (this.states.firstBanTeam === TEAM_RED) {
+                    viewRed.src = this.props.bpimages['RB-First'].src;
+                    viewBlue.src = this.props.bpimages['BP-First'].src;
+                }
+                else if (this.states.firstBanTeam === TEAM_BLUE) {
+                    viewRed.src = this.props.bpimages['RP-First'].src;
+                    viewBlue.src = this.props.bpimages['BB-First'].src;
+                }
+            }
+            else if (this.states.firstPickTeam) {
+                if (this.states.firstPickTeam === TEAM_RED) {
+                    viewRed.src = this.props.bpimages['RP-First'].src;
+                    viewBlue.src = this.props.bpimages['BB-First'].src;
+                }
+                else if (this.states.firstPickTeam === TEAM_BLUE) {
+                    viewRed.src = this.props.bpimages['RB-First'].src;
+                    viewBlue.src = this.props.bpimages['BP-First'].src;
+                }
+            }
+            viewRed.style.display = 'block';
+            viewBlue.style.display = 'block';
+
+            viewRed.classList.add(this.props.animationName);
+            viewBlue.classList.add(this.props.animationName);
+        }
+        else if (currentDispCount === 2) {
+            // Do not change
+        }
+
+        return;
+        
+
+        // handle first ban / first pick display for both teams
+        
+        if (this.states.firstBanTeam === TEAM_RED) {
+            viewRed.src = this.props.bpimages['RB'].src;
+            viewBlue.src = this.props.bpimages['BP'].src;
+            viewRed.style.display = 'block';
+            viewBlue.style.display = 'block';
+        }
+        else if (this.states.firstBanTeam === TEAM_BLUE) {
+            viewRed.src = this.props.bpimages['RP'].src;
+            viewBlue.src = this.props.bpimages['BB'].src;
+            viewRed.style.display = 'block';
+            viewBlue.style.display = 'block';
+        }
+        else {
+            // clear
+            viewRed.src = null;
+            viewBlue.src = null;
+            viewRed.style.display = 'none';
+            viewBlue.style.display = 'none';
+        }
+
+        viewRed.classList.remove(this.props.animationName);
+        viewBlue.classList.remove(this.props.animationName);
+        viewRed.classList.add(this.props.animationName);
+        viewBlue.classList.add(this.props.animationName);
+
+        viewRed.offsetWidth; // force reflow
+        viewBlue.offsetWidth;
         return;
         if (this.views.labelFirstBan) {
             this.views.labelFirstBan.innerHTML =
@@ -50,11 +130,14 @@ export class BPOrderStore {
     }
 
     setFirstBanTeam(team) {
+        console.log('[BPOrderStore] setFirstBanTeam called with:', team);
         if (team !== TEAM_RED && team !== TEAM_BLUE) return;
         const changed = this.states.firstBanTeam !== team;
         this.states.firstBanTeam = team;
         this.states.matchStageTeams.A = team;
         this.states.matchStageTeams.B = team === TEAM_RED ? TEAM_BLUE : TEAM_RED;
+        this.states.matchStageTeams.C = this.states.matchStageTeams.B
+        this.states.matchStageTeams.D = this.states.matchStageTeams.A
         this.storeFirstBanTeam(team);
         this.updateView();
         this.notifyFirstBanUpdate();
@@ -65,6 +148,11 @@ export class BPOrderStore {
     }
 
     setFirstPickTeam(team) {
+        this.setFirstBanTeam(team === TEAM_RED ? TEAM_BLUE : TEAM_RED);
+        this.states.firstPickTeam = team;
+        this.storeFirstPickTeam(team);
+        return;
+        console.log('[BPOrderStore] setFirstPickTeam called with:', team);
         if (team !== TEAM_RED && team !== TEAM_BLUE) return;
         const changed = this.states.firstPickTeam !== team;
         this.states.firstPickTeam = team;
